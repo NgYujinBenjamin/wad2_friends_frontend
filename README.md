@@ -1,0 +1,1 @@
+wad2_friends_frontend
