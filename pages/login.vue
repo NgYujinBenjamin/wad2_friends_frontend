@@ -8,8 +8,7 @@
         </p>
         <label for="LoginUsername" class="font-weight-bold" style="color:#616161;">Your username</label>
         <input type="username" v-model="username" id="LoginUsername" class="form-control" required />
-        <br />
-        <div>
+        <div class="mt-2">
           <label
             for="LoginPassword"
             class="grey-text font-weight-bold d-block"
@@ -22,21 +21,22 @@
               id="LoginPassword"
               class="form-control w-auto"
             />
-            <button class="btn btn-info" type="password" @click="switchVisibility">
-              <i :class="[passwordIcon?'far fa-eye':'far fa-eye-slash','fa']"></i>
+            <button class="btn" type="password" style="position:absolute;right:0px;" @click="switchVisibility">
+              <i class="far fa-eye"></i>
             </button>
           </div>
         </div>
-        <div class="text-center my-4">
+        <div class="text-center mt-4 mb-3">
           <button class="btn btn-info w-100">Login</button>
+          <p class="text-right mt-1"><a href="#">Forget password?</a></p>
         </div>
+
         <div style="height: 20px; border-bottom: 1px solid #616161; text-align: center">
           <span style="font-size: 20px; color:#616161; background-color: #F3F5F6; padding: 0 10px;">
             OR
-            <!--Padding is optional-->
           </span>
         </div>
-        <p class="text-center mt-5" style="color:#616161;">
+        <p class="text-center mt-4" style="color:#616161;">
           <strong>
             Need an account ?
             <a href="#">Sign up here</a>
@@ -59,7 +59,6 @@ export default {
       username: "",
       password: "",
       passwordFieldType: "password",
-      passwordIcon: true
       // showErrorMsg: localStorage.getItem("errormsg")
     };
   },
