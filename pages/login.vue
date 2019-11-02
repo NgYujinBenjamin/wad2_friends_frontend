@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     switchVisibility() {
-      this.passwordIcon = false;
       this.passwordFieldType =
         this.passwordFieldType === "password" ? "text" : "password";
     },
@@ -71,7 +70,7 @@ export default {
       if (this.validUsername()) {
         // axios
         //   .get(
-        //     "https://5d942f4da961920014e930c0.mockapi.io/sso/authorize/1/" +
+        //     "api" +
         //       this.username
         //   )
         //   .then(function(response) {
