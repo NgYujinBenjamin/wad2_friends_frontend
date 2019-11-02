@@ -28,13 +28,18 @@
           </div>
         </div>
         <div class="text-center my-4">
-          <button class="btn btn-primary">Login</button>
+          <button class="btn btn-info w-100">Login</button>
         </div>
-        <hr />
+        <div style="height: 20px; border-bottom: 1px solid #616161; text-align: center">
+          <span style="font-size: 20px; color:#616161; background-color: #F3F5F6; padding: 0 10px;">
+            OR
+            <!--Padding is optional-->
+          </span>
+        </div>
         <p class="text-center mt-5" style="color:#616161;">
           <strong>
-            Not a user?
-            <a href="#">Sign Up Now!</a>
+            Need an account ?
+            <a href="#">Sign up here</a>
           </strong>
         </p>
       </div>
