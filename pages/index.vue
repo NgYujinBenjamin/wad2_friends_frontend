@@ -1,20 +1,17 @@
 <template>
   <div class="container-fluid">
-    <logo class="d-block mx-auto logo" />
+    <logo class="d-block mx-auto logo"/>
     <!--  line 5 to 8 was commented out  -->
     <!--      <div class="links">-->
     <!--        <a href="https://nuxtjs.org/" target="_blank" class="button&#45;&#45;green">Documentation</a>-->
     <!--        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button&#45;&#45;grey">GitHub</a>-->
     <!--      </div>-->
     <h1 class="title text-center">Friends</h1>
-    <div
-      v-bind:class="{'d-none':errStatus}"
-      class="text-center"
-    >Please ensure the search field is filled up.</div>
+    <div v-bind:class="{'d-none':errStatus}" class="text-center">Please ensure the search field is filled up.</div>
     <div class="row">
       <div class="col"></div>
       <div class="col-md-7 text-center">
-        <b-form-input id="_search" size="lg" class="text-center" placeholder></b-form-input>
+        <b-form-input id="_search" size="lg" class="text-center" placeholder=""></b-form-input>
       </div>
       <div class="col"></div>
     </div>
@@ -30,134 +27,128 @@
 
     <div class="text-center">
       <p class="d-inline">Results offered in</p>
-      <button
-        v-for="(language,index) in languages"
-        :key="index"
-        v-on:click="changeBtnType(index)"
-        type="button"
-        class="btn-outline-info my-4 d-inline mx-1"
-        v-bind:class="{'active':language['isActive']}"
-        v-text="language['desc']"
-      ></button>
+      <button v-for="(language,index) in languages" :key="index"
+              v-on:click="changeBtnType(index)"
+              type="button"
+              class="btn-outline-info my-4 d-inline mx-1"
+              v-bind:class="{'active':language['isActive']}"
+              v-text="language['desc']">
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
+    import Logo from '~/components/Logo.vue'
 
-export default {
-  components: {
-    Logo
-  },
-  name: "landing",
-  data() {
-    return {
-      languages: [
-        { code: "en", desc: "English", isActive: false },
-        { code: "es", desc: "Spanish/español", isActive: false },
-        { code: "ar", desc: "Arabic/عربى", isActive: false },
-        { code: "zh", desc: "Chinese/中文", isActive: false }
-      ],
-      articles: [],
-      errStatus: true
-    };
-  },
-  methods: {
-    changeBtnType: function(index) {
-      this.clearFilter();
-      this.languages[index].isActive = !this.languages[index].isActive;
-    },
-    clearFilter: function() {
-      this.languages.forEach(function(lang) {
-        lang.isActive = false;
-      });
-    },
-    validate: function() {
-      // set default code to be english
-      let code = "en";
+    export default {
+        components: {
+            Logo
+        },
+        name: "landing",
+        data() {
+            return {
+                languages: [
+                    {code: "en", desc: "English", isActive: false},
+                    {code: "es", desc: "Spanish/español", isActive: false},
+                    {code: "ar", desc: "Arabic/عربى", isActive: false},
+                    {code: "zh", desc: "Chinese/中文", isActive: false}
+                ],
+                articles: [],
+                errStatus: true,
+            }
+        },
+        methods: {
+            changeBtnType: function (index) {
+                this.clearFilter();
+                this.languages[index].isActive = !this.languages[index].isActive;
+            },
+            clearFilter: function () {
+                this.languages.forEach(function (lang) {
+                    lang.isActive = false;
+                });
+            },
+            validate: function () {
+                // set default code to be english
+                let code = "en";
 
-      this.languages.forEach(function(lang) {
-        if (lang.isActive) {
-          code = lang.code;
-        }
-      });
+                this.languages.forEach(function (lang) {
+                    if (lang.isActive) {
+                        code = lang.code;
+                    }
+                });
 
-      let search = document.getElementById("_search");
-      let keyword = search.value;
+                let search = document.getElementById("_search");
+                let keyword = search.value;
 
-      if (keyword.length > 0) {
-        this.errStatus = true;
-        keyword = encodeURI(keyword);
-        let parameters = "q=" + keyword + "&language=" + code;
-        // let url = 'https://newsapi.org/v2/everything?apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&' + parameters;
-        // console.log(url);
-        // console.log(window.location.href+"feed?"+parameters);
-        window.location.href = window.location.href + "feed?" + parameters;
-        // this.fetchData(url);
-        // redirect("/feed?"+parameters)
-      } else {
-        this.errStatus = false;
-      }
+                if (keyword.length > 0) {
+                    this.errStatus = true;
+                    keyword = encodeURI(keyword);
+                    let parameters = "q=" + keyword + "&language=" + code;
+                    // let url = 'https://newsapi.org/v2/everything?apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&' + parameters;
+                    // console.log(url);
+                    // console.log(window.location.href+"feed?"+parameters);
+                    window.location.href = window.location.href+"feed?"+parameters;
+                    // this.fetchData(url);
+                    // redirect("/feed?"+parameters)
+                } else {
+                    this.errStatus = false;
+                }
+
+            }
+            // async fetchData(url) {
+            //     const res = await this.$axios.$get(url);
+            //     console.log(typeof res);
+            //     console.log(res.articles);
+            // }
+        },
     }
-    // async fetchData(url) {
-    //     const res = await this.$axios.$get(url);
-    //     console.log(typeof res);
-    //     console.log(res.articles);
-    // }
-  },
-  mounted: function() {
-    if (!localStorage.getItem("jwt")) {
-      this.$router.replace({ name: "login" });
-    }
-  }
-};
 </script>
 
 <style>
-.logo {
-  margin: 2%;
-}
+  .logo {
+    margin: 2%;
+  }
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  .title {
+    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    display: block;
+    font-weight: 300;
+    font-size: 100px;
+    color: #35495e;
+    letter-spacing: 1px;
+  }
 
-* {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #35495e;
-  letter-spacing: 1px;
-  font-weight: 300;
-}
+  * {
+    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #35495e;
+    letter-spacing: 1px;
+    font-weight: 300;
+  }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+  .subtitle {
+    font-weight: 300;
+    font-size: 42px;
+    color: #526488;
+    word-spacing: 5px;
+    padding-bottom: 15px;
+  }
 
-.links {
-  padding-top: 15px;
-}
+  .links {
+    padding-top: 15px;
+  }
 
-#_search {
-  width: 100%;
-  background: #fff;
-  display: flex;
-  border: 1px solid #dfe1e5;
-  box-shadow: none;
-  border-radius: 24px;
-  z-index: 3;
-  height: 44px;
-  margin: 0 auto;
-}
+  #_search {
+    width: 100%;
+    background: #fff;
+    display: flex;
+    border: 1px solid #dfe1e5;
+    box-shadow: none;
+    border-radius: 24px;
+    z-index: 3;
+    height: 44px;
+    margin: 0 auto;
+  }
 </style>

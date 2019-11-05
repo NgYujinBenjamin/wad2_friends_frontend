@@ -21,41 +21,36 @@
               id="LoginPassword"
               class="form-control w-auto"
             />
-            <button
-              class="btn"
-              type="password"
-              style="position:absolute;right:0px;"
-              @click="switchVisibility"
-            >
+            <button class="btn" type="password" style="position:absolute;right:0px;" @click="switchVisibility">
               <i class="far fa-eye"></i>
             </button>
           </div>
         </div>
         <div class="text-center mt-4 mb-3">
-          <button class="btn btn-info w-100" @click="login()">Login</button>
-          <p class="text-right mt-1">
-            <a href="#">Forget password?</a>
-          </p>
+          <button class="btn btn-info w-100">Login</button>
+          <p class="text-right mt-1"><a href="#">Forget password?</a></p>
         </div>
 
         <div style="height: 20px; border-bottom: 1px solid #616161; text-align: center">
-          <span
-            style="font-size: 20px; color:#616161; background-color: #F3F5F6; padding: 0 10px;"
-          >OR</span>
+          <span style="font-size: 20px; color:#616161; background-color: #F3F5F6; padding: 0 10px;">
+            OR
+          </span>
         </div>
         <p class="text-center mt-4" style="color:#616161;">
           <strong>
             Need an account ?
-            <a @click="this.$router.push('/signup')">Sign up here</a>
+            <a href="#">Sign up here</a>
           </strong>
         </p>
       </div>
     </div>
+    <!-- <p class="text-center mt-5 text-danger" v-if="showErrorMsg">Invalid username/password</p> -->
   </div>
 </template>
 <script>
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+// import VueJwtDecode from "vue-jwt-decode";
 
 export default {
   name: "Login",
@@ -63,7 +58,8 @@ export default {
     return {
       username: "",
       password: "",
-      passwordFieldType: "password"
+      passwordFieldType: "password",
+      // showErrorMsg: localStorage.getItem("errormsg")
     };
   },
   methods: {
@@ -71,31 +67,37 @@ export default {
       this.passwordFieldType =
         this.passwordFieldType === "password" ? "text" : "password";
     },
+    validUsername() {
+      return this.username == "" ? false : true;
+    },
     login() {
-      this.$axios
-        .post(process.env.baseUrl + "/auth/local", {
-          identifier: this.username,
-          password: this.password
-        })
-        .then(function(response) {
-          localStorage.setItem("jwt", response.data.jwt);
-          localStorage.removeItem("errormsg");
-        })
-        .catch(error => {
-          this.$toast.error("Invalid username/password", {
-            icon: { name: "exclamation-triangle" }
-          });
-        })
-        .finally(() => {
-          if (localStorage.getItem("jwt")) {
-            this.$router.push({ name: "index" });
-          }
-        });
-    }
-  },
-  mounted: function() {
-    if (localStorage.getItem("jwt")) {
-      this.$router.replace({ name: "index" });
+      if (this.validUsername()) {
+        // axios
+        //   .get(
+        //     "api" +
+        //       this.username
+        //   )
+        //   .then(function(response) {
+        //     var token = response.data.response;
+        //     var userInfo = JSON.stringify(VueJwtDecode.decode(token));
+        //     localStorage.setItem("user", userInfo);
+        //     localStorage.setItem("errormsg", "");
+        //   })
+        //   .catch(error => {
+        //     this.showErrorMsg = true;
+        //     //eslint-disable-next-line no-console
+        //     console.log(error);
+        //     localStorage.setItem("errormsg", true);
+        //     localStorage.setItem("user", false);
+        //   })
+        //   .finally(() => {
+        //     if (localStorage.getItem("errormsg") != "true") {
+        //       this.$router.push({ name: "home" });
+        //     }
+        //   });
+      } else {
+        this.showErrorMsg = true;
+      }
     }
   }
 };
