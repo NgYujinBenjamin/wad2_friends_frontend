@@ -1,7 +1,11 @@
 <template>
   <no-ssr>
-    <masonry :cols="4" :gutter="30">
+    <masonry
+      :cols="4"
+      :gutter="30"
+    >
       <div v-for="(article, index) in articles" :key="index">
+
         <b-card class="feed-card" :img-src="article.urlToImage" img-alt="Article Image" img-top :title="article.title">
           <b-card-text v-text="article.description" v-model="index"></b-card-text>
 
@@ -146,38 +150,11 @@
 
             }
         }
-      };
-
-      let url =
-        "https://api-apc.cognitive.microsofttranslator.com/translate?api-version=3.0&from=en&to=" +
-        language;
-      this.$axios
-        .post(url, [{ text: description }], config)
-        .then(response => {
-          let translated = response.data[0]["translations"];
-          alert(JSON.stringify(translated));
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-    async fetchData(url) {
-      const res = await this.$axios.$get(url);
-      // console.log(typeof res);
-      console.log(res.articles);
-      this.articles = res.articles;
     }
-  },
-  mounted: function() {
-    if (!localStorage.getItem("jwt")) {
-      this.$router.replace({ name: "login" });
-    }
-  }
-};
 </script>
 
 <style scoped>
-.feed-card {
-  margin-bottom: 10px;
-}
+  .feed-card {
+    margin-bottom: 10px;
+  }
 </style>
