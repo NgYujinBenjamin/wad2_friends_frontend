@@ -1,6 +1,6 @@
 <template>
   <no-ssr>
-    <masonry :cols="4" :gutter="30">
+    <masonry :cols="4" :gutter="20">
       <div v-for="(article, index) in articles" :key="index">
         <b-card
           class="feed-card"
@@ -10,34 +10,40 @@
           :title="article.title"
         >
           <b-card-text v-text="article.description" v-model="index"></b-card-text>
-
-          <div class="row mx-1">
+          <hr>
+          <div class="card-text">
             <a
               href="#"
               @click.prevent="redirect(article.url)"
-              class="card-link d-inline pull-left"
+              class="card-link d-inline"
             >Read Full Article</a>
-            <b-button
+            <a
+              href="#"
               v-b-modal="'myModal' + index"
-              class="card-link d-inline pull-right"
-              variant="success"
-              size="sm"
-            >Share</b-button>
+              class="card-link d-inline float-right"
+             ><i class="fas fa-share"></i> Share</a>
+             <a
+              href="#"
+              @click="savedNews"
+              class="card-link d-inline float-right"
+             ><i :class="[saved ? 'fas fa-bookmark' : 'far fa-bookmark']"></i> {{savedmsg}}</a>
           </div>
 
-          <b-modal v-bind:id="'myModal'+index" :title="'Article '+index">
+          <b-modal v-bind:id="'myModal'+index" :title="'Article '+index" header-bg-variant="primary" header-text-variant="light">
             <template v-slot:modal-header="{ close }">
               <!-- Emulate built in modal header close button action -->
-              <h6>{{article.title}}</h6>
+              <h5><i class="fab fa-facebook-square fa-lg"></i> Share on Facebook</h5>
+              <!-- <h6>{{article.title}}</h6> -->
             </template>
 
             <template>
-              <b-card-text v-text="article.description" v-model="index"></b-card-text>
+              <textarea style="width: 100%; min-height: 150px;" v-text="article.description"></textarea> 
+              <!-- <b-card-text v-text="article.description" v-model="index"></b-card-text> -->
               <img alt="Article Image" :src="article.urlToImage" class="w-100" />
             </template>
 
             <template v-slot:modal-footer="{ ok, cancel, hide }">
-              <b-dropdown id="dropdown-offset" offset="25" size="sm" text="Translate" class="m-2">
+              <b-dropdown id="dropdown-offset" variant="outline-info" offset="25" size="sm" text="Translate" class="m-2">
                 <b-dropdown-item
                   v-for="language in languages"
                   @click.prevent="translate(index,language.code)"
@@ -45,9 +51,9 @@
                 <!--                <option v-model="selected" v-for="language in languages" :value="language.code">{{language.desc}}</option>-->
               </b-dropdown>
 
-              <b-button size="sm" variant="danger" @click="cancel()">Cancel</b-button>
+              <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancel</b-button>
 
-              <b-button size="sm" variant="success" @click="ok()">Post</b-button>
+              <b-button size="sm" variant="primary" @click="ok()">Post to Facebook</b-button>
             </template>
           </b-modal>
 
@@ -63,11 +69,14 @@
 </template>
 
 <script>
+import "@fortawesome/fontawesome-free/css/all.css";
 export default {
   name: "feed",
   components: {},
   data() {
     return {
+      saved: false,
+      savedmsg: "Bookmark News",
       articles: [],
       languages: [
         { code: "en", desc: "English", isActive: false },
@@ -155,6 +164,15 @@ export default {
         // set the language property for each article for translation use later on
         this.articles[i].language = language;
       }
+    },
+    savedNews(){
+      if(!this.saved){
+        this.saved = true;
+        this.savedmsg = "Bookmarked";
+      } else{
+        this.saved = false;
+        this.savedmsg = "Bookmark News";
+      }
     }
   }
 };
@@ -162,6 +180,6 @@ export default {
 
 <style scoped>
 .feed-card {
-  margin-bottom: 10px;
+  margin: 20px 0px 0px 0px;
 }
 </style>
