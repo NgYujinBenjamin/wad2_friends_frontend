@@ -20,8 +20,9 @@
                 <i class="fas fa-search"></i>
               </div>
             </div>
-            <input type="text" class="form-control" style="height:100%;" aria-label="Text input with checkbox">
-            <b-button size="sm" class=" mx-2 my-2 my-sm-0" variant="outline-light" type="submit">Search</b-button>
+            <input type="text" id="navbarSearch" v-on:keyup="validateEnterkey" class="form-control" style="height:100%;" aria-label="Text input with checkbox">
+            <b-tooltip target="navbarSearch">Please ensure the search field is filled up!</b-tooltip>
+            <b-button size="sm" v-on:click="validate" class=" mx-2 my-2 my-sm-0" variant="outline-light" type="submit">Search</b-button>
           </div>
 
           <!-- <b-nav-form>
@@ -59,10 +60,38 @@
 import "@fortawesome/fontawesome-free/css/all.css";
 export default {
   name: "navbar",
+  data() {
+    return {
+      articles: [],
+      errStatus: true,
+      enterKey: false
+    };
+  },
   methods: {
     logout() {
       localStorage.removeItem("jwt");
       this.$router.replace({ name: "login" });
+    },
+    validate: function() {
+      // set default code to be english
+      let code = "en";
+
+      let search = document.getElementById("navbarSearch");
+      let keyword = search.value;
+
+      if (keyword.length > 0) {
+        this.errStatus = true;
+        keyword = encodeURI(keyword);
+        let parameters = "q=" + keyword + "&language=" + code;
+        window.location.href = "http://localhost:3000/feed?" + parameters;
+      } else {
+        this.errStatus = false;
+      }
+    },
+    validateEnterkey: function(e) {
+      if (e.keyCode === 13) {
+        this.validate();
+      } 
     }
   }
 };

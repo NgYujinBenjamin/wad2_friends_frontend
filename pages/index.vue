@@ -11,7 +11,9 @@
     <div
       v-bind:class="{'d-none':errStatus}"
       class="text-center"
-    >Please ensure the search field is filled up.</div>
+    >
+      <p><i style="color: red;">Please ensure the search field is filled up.</i></p>
+    </div>
     <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-7 text-center">
