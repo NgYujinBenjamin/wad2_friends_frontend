@@ -6,39 +6,35 @@
     <!--        <a href="https://nuxtjs.org/" target="_blank" class="button&#45;&#45;green">Documentation</a>-->
     <!--        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button&#45;&#45;grey">GitHub</a>-->
     <!--      </div>-->
-    <h1 class="title text-center">Friends</h1>
+    <h1 class="title text-center">FRIENDS</h1>
+    <p class="text-center">Searches for news articles across multiple platforms</p>
     <div
       v-bind:class="{'d-none':errStatus}"
       class="text-center"
     >Please ensure the search field is filled up.</div>
     <div class="row">
-      <div class="col"></div>
+      <div class="col-md-2"></div>
       <div class="col-md-7 text-center">
-        <b-form-input id="_search" size="lg" class="text-center" placeholder></b-form-input>
+        <b-form-input id="_search" size="lg" placeholder="Search for articles"></b-form-input>
+      </div>
+      <div class="col-md-3 text-left px-0">
+        <b-button v-on:click="validate" variant="info" class="searchStyle w-25">Search</b-button>
+        <b-button v-on:click="clearFilter" variant="outline-info" class="searchStyle">Clear Filter</b-button>
       </div>
       <div class="col"></div>
     </div>
 
-    <div class="row">
-      <div class="col"></div>
-      <div class="col text-center mx-1 my-2">
-        <b-button v-on:click="validate" variant="info" size="md">Topic Search</b-button>
-        <b-button v-on:click="clearFilter" variant="outline-info" size="md">Clear Filters</b-button>
-      </div>
-      <div class="col"></div>
-    </div>
-
-    <div class="text-center">
-      <p class="d-inline">Results offered in</p>
-      <button
+    <div id="language" class="text-center">
+      <p class="d-inline">Translation language</p>
+      <b-button
         v-for="(language,index) in languages"
         :key="index"
         v-on:click="changeBtnType(index)"
-        type="button"
-        class="btn-outline-info my-4 d-inline mx-1"
+        class="my-4 d-inline mx-1"
+        variant="outline-info"
         v-bind:class="{'active':language['isActive']}"
         v-text="language['desc']"
-      ></button>
+      ></b-button>
     </div>
   </div>
 </template>
@@ -120,18 +116,16 @@ export default {
 }
 
 .title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Open Sans"; 
   display: block;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 100px;
   color: #35495e;
   letter-spacing: 1px;
 }
 
 * {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: Roboto, "Open Sans", Arial, sans-serif;
   color: #35495e;
   letter-spacing: 1px;
   font-weight: 300;
@@ -155,9 +149,16 @@ export default {
   display: flex;
   border: 1px solid #dfe1e5;
   box-shadow: none;
-  border-radius: 24px;
+  border-radius: 7px;
   z-index: 3;
-  height: 44px;
   margin: 0 auto;
+}
+
+#language {
+  margin-right:130px;
+}
+
+.searchStyle{
+  height:100%;
 }
 </style>
