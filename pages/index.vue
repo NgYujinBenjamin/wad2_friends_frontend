@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-7 text-center">
-        <b-form-input id="_search" size="lg" placeholder="Search for articles"></b-form-input>
+        <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg" placeholder="Search for articles"></b-form-input>
       </div>
       <div class="col-md-3 text-left px-0">
         <b-button v-on:click="validate" variant="info" class="searchStyle w-25">Search</b-button>
@@ -97,6 +97,11 @@ export default {
       } else {
         this.errStatus = false;
       }
+    },
+    validateEnterkey: function(e) {
+      if (e.keyCode === 13) {
+        this.validate();
+      } 
     }
     // async fetchData(url) {
     //     const res = await this.$axios.$get(url);
