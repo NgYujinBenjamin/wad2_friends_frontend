@@ -20,15 +20,25 @@
                 <i class="fas fa-search"></i>
               </div>
             </div>
-            <input type="text" class="form-control" style="height:100%;" aria-label="Text input with checkbox">
-            <b-button size="sm" class=" mx-2 my-2 my-sm-0" variant="outline-light" type="submit">Search</b-button>
+            <input
+              type="text"
+              class="form-control"
+              style="height:100%;"
+              aria-label="Text input with checkbox"
+            />
+            <b-button
+              size="sm"
+              class="mx-2 my-2 my-sm-0"
+              variant="outline-light"
+              type="submit"
+            >Search</b-button>
           </div>
 
           <!-- <b-nav-form>
             <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
             <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-          </b-nav-form> -->
-        
+          </b-nav-form>-->
+
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
               <i class="fas fa-globe-americas fa-lg"></i>
@@ -47,7 +57,7 @@
               <span>User</span>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#" @click='logout()'>Sign Out</b-dropdown-item>
+            <b-dropdown-item href="#" @click="logout()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -62,6 +72,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem("jwt");
+      localStorage.removeItem("user");
       this.$router.replace({ name: "login" });
     }
   }

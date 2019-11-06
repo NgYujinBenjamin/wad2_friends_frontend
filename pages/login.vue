@@ -79,6 +79,7 @@ export default {
         })
         .then(function(response) {
           localStorage.setItem("jwt", response.data.jwt);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
           localStorage.removeItem("errormsg");
         })
         .catch(error => {
