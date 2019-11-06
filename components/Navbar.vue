@@ -28,8 +28,8 @@
           <!-- <b-nav-form>
             <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
             <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-          </b-nav-form> -->
-        
+          </b-nav-form>-->
+
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
               <i class="fas fa-globe-americas fa-lg"></i>
@@ -48,7 +48,7 @@
               <span>User</span>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#" @click='logout()'>Sign Out</b-dropdown-item>
+            <b-dropdown-item href="#" @click="logout()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -70,6 +70,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem("jwt");
+      localStorage.removeItem("user");
       this.$router.replace({ name: "login" });
     },
     validate: function() {
