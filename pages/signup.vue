@@ -31,7 +31,7 @@
         </div>
         <div style="height: 20px; border-bottom: 1px solid #616161; text-align: center">
           <span
-            style="font-size: 20px; color:#616161; background-color: #F3F5F6; padding: 0 10px;"
+            style="font-size: 20px; color:#616161; background-color: #FFFFFF; padding: 0 10px;"
           >OR</span>
         </div>
         <p class="text-center mt-4" style="color:#616161;">
