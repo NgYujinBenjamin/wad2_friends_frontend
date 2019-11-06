@@ -7,7 +7,7 @@
     <!--        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button&#45;&#45;grey">GitHub</a>-->
     <!--      </div>-->
     <h1 class="title text-center">FRIENDS</h1>
-    <p class="text-center">Searches for news articles across multiple platforms</p>
+    <p class="text-center">Retrieve news articles from multiple platforms</p>
     <div
       v-bind:class="{'d-none':errStatus}"
       class="text-center"
@@ -124,10 +124,9 @@ export default {
   letter-spacing: 1px;
 }
 
-* {
-  font-family: Roboto, "Open Sans", Arial, sans-serif;
-  color: #35495e;
-  letter-spacing: 1px;
+p {
+  font-family: "Roboto";
+  letter-spacing: 0.5px;
   font-weight: 300;
 }
 
