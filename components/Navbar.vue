@@ -9,6 +9,7 @@
         <b-navbar-nav id="headerStyle">
           <b-nav-item href="/">Home</b-nav-item>
           <b-nav-item href="/feed">News Feed</b-nav-item>
+          <b-nav-item href="/recommendations">Recommendation</b-nav-item>
           <!--<b-nav-item href="#" disabled>Disabled</b-nav-item>-->
         </b-navbar-nav>
 
