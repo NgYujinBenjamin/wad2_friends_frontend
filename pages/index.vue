@@ -106,6 +106,10 @@
 <style>
   @import url('https://fonts.googleapis.com/css?family=Open%20Sans');
 
+  body {
+    background-color: #272727;
+  }
+
   .box {
     margin-top: 10%;
   }
