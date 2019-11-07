@@ -1,6 +1,7 @@
 <template>
   <div>
-    <navbar></navbar>
+    <navbar-clear v-if="$route.path === '/' "></navbar-clear>
+    <navbar v-else></navbar>
     <nuxt/>
   </div>
 </template>
@@ -56,10 +57,12 @@
 </style>
 <script>
     import Navbar from "~/components/Navbar";
+    import NavbarClear from "~/components/Navbar-clear";
 
     export default {
         components: {
-            Navbar
+            Navbar,
+            NavbarClear
         }
     }
 </script>
