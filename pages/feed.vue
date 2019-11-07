@@ -20,21 +20,14 @@
             <b-card-text v-text="article.description" v-model="index" style="padding-top:7px;"></b-card-text>
             <hr>
             <div class="card-text">
-              <a
-                href="#"
-                @click.prevent="redirect(article.url)"
-                class="card-link d-inline"
-              >Read Full Article</a>
-              <a
-                href="#"
-                v-b-modal="'myModal' + index"
-                class="card-link d-inline float-right"
-              ><i class="fas fa-share"></i> Share</a>
-              <a
-                href="#"
-                @click="savedNews"
-                class="card-link d-inline float-right"
-              ><i :class="[saved ? 'fas fa-bookmark' : 'far fa-bookmark']"></i> {{savedmsg}}</a>
+              <a href="#" @click.prevent="redirect(article.url)" class="card-link d-inline">Read Full Article</a>
+              <a href="#" v-b-modal="'myModal' + index" class="card-link d-inline float-right"><i
+                class="fas fa-share"></i> Share</a>
+              <a href="#" @click="saveNews(index)" class="card-link d-inline float-right">
+                <i :class="article.saved ? 'fas fa-bookmark' : 'far fa-bookmark'"></i>
+                <span v-if="article.saved">Bookmarked</span>
+                <span v-else>Bookmark</span>
+              </a>
             </div>
 
             <b-modal v-bind:id="'myModal'+index" :title="'Article '+index" header-bg-variant="primary"
@@ -67,11 +60,6 @@
               </template>
             </b-modal>
 
-            <!--          <div v-for="language in languages">-->
-            <!--            <button class="btn-outline-success" @click="translate(article.description,language.code)">-->
-            <!--              <span v-text="language.desc"></span>-->
-            <!--            </button>-->
-            <!--          </div>-->
           </b-card>
         </div>
       </masonry>
@@ -102,7 +90,7 @@
                 saved: false,
                 pageLoader: true,
                 msg: "Loading...",
-                savedmsg: "Bookmark News",
+                savedMsg: "Bookmark News",
                 articles: [],
                 languages: [
                     {code: "en", desc: "English", isActive: false},
@@ -112,16 +100,6 @@
                 ]
             };
         },
-        // async asyncData({$axios}) {
-        // dont delete this asyncData first, it may be useful in the future
-        // asyncData is used to run function before a page is loaded
-        // let currURL = window.location.href;
-        // console.table(this.$route.query.page);
-        // console.log("Full path is " + params);
-        // console.log(currURL.split("?")[1]);
-        // const articles = await $axios.$get('https://newsapi.org/v2/top-headlines?country=sg&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&').then(res => res.articles)
-        // return {articles}
-        // },
         mounted: function () {
             // mounted will run functions after page is loaded
             if (!localStorage.getItem("jwt")) {
@@ -172,7 +150,6 @@
                     .then(response => {
                         let translated = response.data[0]["translations"];
                         this.articles[index].description = translated[0].text;
-                        this.articles[index].language = language;
                         // console.table(translated[0].text, language, currLanguage);
                     })
                     .catch(e => {
@@ -189,30 +166,36 @@
                 for (let i = 0; i < this.articles.length; i++) {
                     // set the language property for each article for translation use later on
                     this.articles[i].language = language;
+                    this.articles[i].saved = false;
+                    this.articles[i].saveMessage = "Bookmark News";
                 }
             },
-            savedNews() {
-                if (!this.saved) {
-                    this.saved = true;
-                    this.savedmsg = "Bookmarked";
+            saveNews(i) {
+                let article = this.articles[i];
+                article.saved = !article.saved;
+                this.$set(this.articles, i, article)
+
+                if (article.saved) {
+                    this.savedMsg = "Bookmarked";
+                    article.saveMessage = "Bookmarked";
                 } else {
-                    this.saved = false;
-                    this.savedmsg = "Bookmark News";
+                    this.savedMsg = "Bookmark";
+                    article.saveMessage = "Bookmark";
                 }
             },
             pageBuffer: function () {
                 var set = this;
                 setTimeout(function () {
-                    console.log("true");
+                    // console.log("true");
                     set.pageLoader = false;
                     set.msg = "No results found";
                 }, 2000);
             },
             postToBuffer: function (msg, link) {
-                let url = "https://graph.facebook.com/112606970182817/feed"
-                const token = "EAAHsGZAfkZA5MBAFQkVnEWb6bnS3lFRHMtLfvufQt9r2NJwAYspX6JBSZCA1WxZAMmh2QJZCJET4pZAA2kiDEsP8KM08jwAjnG26PZCdWNSybD75fO6dAGMZC7HX6yJSkVkgxr7uzYx1DmTUxWJzMsFLDPRElY8qZBy0QwdmfQFUYvdAWmE0LIBLovnThiLnPtmZBjGsb0MkaDFESkHgvc1mbZB"
-                let params = "?message=" + msg + "&link=" + link + "&access_token=" + token
-                url += params
+                let url = "https://graph.facebook.com/112606970182817/feed";
+                const token = "EAAHsGZAfkZA5MBAFQkVnEWb6bnS3lFRHMtLfvufQt9r2NJwAYspX6JBSZCA1WxZAMmh2QJZCJET4pZAA2kiDEsP8KM08jwAjnG26PZCdWNSybD75fO6dAGMZC7HX6yJSkVkgxr7uzYx1DmTUxWJzMsFLDPRElY8qZBy0QwdmfQFUYvdAWmE0LIBLovnThiLnPtmZBjGsb0MkaDFESkHgvc1mbZB";
+                let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
+                url += params;
 
                 this.$axios
                     .post(url, [])
