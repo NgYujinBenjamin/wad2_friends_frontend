@@ -33,9 +33,7 @@
         </div>
         <div class="text-center mt-4 mb-3">
           <button class="btn btn-info w-100" @click="login()">Login</button>
-          <p class="text-right mt-1">
-            <a href="#">Forget password?</a>
-          </p>
+
         </div>
 
         <div style="height: 20px; border-bottom: 1px solid #616161; text-align: center">
@@ -46,7 +44,7 @@
         <p class="text-center mt-4" style="color:#616161;">
           <strong>
             Need an account ?
-            <a @click="this.$router.push('/signup')">Sign up here</a>
+            <a href="/signup">Sign up here</a>
           </strong>
         </p>
       </div>
