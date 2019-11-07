@@ -1,7 +1,8 @@
 <template>
   <no-ssr>
     <div v-if="articles.length > 0">
-      <masonry :cols="4" :gutter="20">
+      <masonry :cols="{default: 4, 1000: 3, 700: 1, 400: 1}"
+               :gutter="{default: '30px', 700: '15px'}">
         <div v-for="(article, index) in articles" :key="index">
           <b-card
             class="feed-card"
@@ -12,7 +13,8 @@
           >
             <div>
               <em class="publisher">By </em>
-              <em class="publisher" v-text="article.url.split('//')[1].split('.co')[0].includes('www') ? article.url.split('//')[1].split('.co')[0].split('www.')[1] : article.url.split('//')[1].split('.co')[0]"></em>
+              <em class="publisher"
+                  v-text="article.url.split('//')[1].split('.co')[0].includes('www') ? article.url.split('//')[1].split('.co')[0].split('www.')[1] : article.url.split('//')[1].split('.co')[0]"></em>
             </div>
 
             <b-card-text v-text="article.description" v-model="index" style="padding-top:7px;"></b-card-text>
@@ -249,7 +251,7 @@
     font-size: 20em;
   }
 
-  .publisher{
+  .publisher {
     color: #bdbdbd;
     font-weight: 500;
     text-transform: uppercase;
