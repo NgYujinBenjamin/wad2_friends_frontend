@@ -8,9 +8,14 @@
             :img-src="article.urlToImage"
             img-alt="Article Image"
             img-top
-            :title="article.title"
+            :title="article.title.lastIndexOf(' - ') == -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"
           >
-            <b-card-text v-text="article.description" v-model="index"></b-card-text>
+            <div>
+              <em class="publisher">By </em>
+              <em class="publisher" v-text="article.url.split('//')[1].split('.co')[0].includes('www') ? article.url.split('//')[1].split('.co')[0].split('www.')[1] : article.url.split('//')[1].split('.co')[0]"></em>
+            </div>
+
+            <b-card-text v-text="article.description" v-model="index" style="padding-top:7px;"></b-card-text>
             <hr>
             <div class="card-text">
               <a
@@ -242,5 +247,11 @@
 
   .fa-10x {
     font-size: 20em;
+  }
+
+  .publisher{
+    color: #bdbdbd;
+    font-weight: 500;
+    text-transform: uppercase;
   }
 </style>
