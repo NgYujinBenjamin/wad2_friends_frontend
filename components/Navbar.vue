@@ -92,7 +92,7 @@ export default {
     validateEnterkey: function(e) {
       if (e.keyCode === 13) {
         this.validate();
-      } 
+      }
     }
   }
 };

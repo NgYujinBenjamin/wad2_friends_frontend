@@ -2,7 +2,6 @@
   <div class="container-fluid">
     <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>
     <div class="box">
-      <logo class="d-block mx-auto logo"/>
       <h1 class="title text-center">FRIENDS</h1>
       <p class="text-center">Retrieve news articles from multiple platforms</p>
       <div
@@ -13,28 +12,26 @@
       </div>
       <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-7 text-center">
+        <div class="col-md-7">
           <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
                         placeholder="Search for articles"></b-form-input>
         </div>
         <div class="col-md-3 text-left px-0">
           <b-button v-on:click="validate" variant="info" class="searchStyle w-25">Search</b-button>
-          <b-button v-on:click="clearFilter" variant="outline-info" class="searchStyle">Clear Filter</b-button>
         </div>
-        <div class="col"></div>
       </div>
-
-      <div id="language" class="text-center">
-        <p class="d-inline">Translation language</p>
-        <b-button
-          v-for="(language, index) in languages" :key="index"
-          v-on:click="changeBtnType(index)"
-          class="my-4 d-inline mx-1"
-          variant="outline-info"
-          v-bind:class="{'active':language['isActive']}"
-          v-text="language['desc']"
-        ></b-button>
-      </div>
+<!--      <div id="language" class="text-center pt-5">-->
+<!--        <p style="margin-bottom: -15px">Languages</p>-->
+<!--        <b-button-->
+<!--          v-for="(language, index) in languages" :key="index"-->
+<!--          v-on:click="changeBtnType(index)"-->
+<!--          class="my-4 d-inline mx-1"-->
+<!--          variant="info"-->
+<!--          v-bind:class="{'active':language['isActive']}"-->
+<!--          v-text="language['desc']"-->
+<!--          style="margin: 0"-->
+<!--        ></b-button>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -67,13 +64,7 @@
                 this.article = res.articles[0];
             },
             changeBtnType: function (index) {
-                this.clearFilter();
                 this.languages[index].isActive = !this.languages[index].isActive;
-            },
-            clearFilter: function () {
-                this.languages.forEach(function (lang) {
-                    lang.isActive = false;
-                });
             },
             validate: function () {
                 // set default code to be english
@@ -92,12 +83,7 @@
                     this.errStatus = true;
                     keyword = encodeURI(keyword);
                     let parameters = "q=" + keyword + "&language=" + code;
-                    // let url = 'https://newsapi.org/v2/everything?apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&' + parameters;
-                    // console.log(url);
-                    // console.log(window.location.href+"feed?"+parameters);
                     window.location.href = window.location.href + "feed?" + parameters;
-                    // this.fetchData(url);
-                    // redirect("/feed?"+parameters)
                 } else {
                     this.errStatus = false;
                 }
@@ -113,23 +99,21 @@
                 this.$router.replace({name: "login"});
             }
             this.fetchData()
-        },
-        computed: {
-            cssVars() {
-                return {
-                    '--bg-image': this.article.urlToImage
-                }
-
-            }
         }
     };
 </script>
 
 <style>
+  @import url('https://fonts.googleapis.com/css?family=Open%20Sans');
+
+  .box {
+    margin-top: 10%;
+  }
+
   .main-container {;
     content: "";
     position: fixed;
-    top: 0;
+    top: -20px;
     left: -20px;
     z-index: -1;
     display: block;
@@ -153,30 +137,19 @@
   }
 
   .title {
-    font-family: "Open Sans";
+    font-family: "Open Sans", serif;
     display: block;
     font-weight: 400;
     font-size: 100px;
-    color: #35495e;
+    color: whitesmoke;
     letter-spacing: 1px;
   }
 
   p {
-    font-family: "Roboto";
+    font-family: "Open Sans", serif;
     letter-spacing: 0.5px;
     font-weight: 300;
-  }
-
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
-
-  .links {
-    padding-top: 15px;
+    color: whitesmoke;
   }
 
   #_search {
