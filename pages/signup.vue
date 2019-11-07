@@ -37,7 +37,7 @@
         <p class="text-center mt-4" style="color:#616161;">
           <strong>
             Already have an account ?
-            <a @click="this.$router.push('/login')">Login here</a>
+            <a href="/login">Login here</a>
           </strong>
         </p>
       </div>
