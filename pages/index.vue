@@ -103,7 +103,7 @@
     };
 </script>
 
-<style>
+<style scoped>
   @import url('https://fonts.googleapis.com/css?family=Open%20Sans');
 
   body {
