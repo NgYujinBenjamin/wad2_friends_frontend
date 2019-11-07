@@ -29,8 +29,7 @@
     <div id="language" class="text-center">
       <p class="d-inline">Translation language</p>
       <b-button
-        v-for="(language,index) in languages"
-        :key="index"
+        v-for="(language, index) in languages" :key="index"
         v-on:click="changeBtnType(index)"
         class="my-4 d-inline mx-1"
         variant="outline-info"
@@ -101,7 +100,7 @@ export default {
     validateEnterkey: function(e) {
       if (e.keyCode === 13) {
         this.validate();
-      } 
+      }
     }
     // async fetchData(url) {
     //     const res = await this.$axios.$get(url);
@@ -123,7 +122,7 @@ export default {
 }
 
 .title {
-  font-family: "Open Sans"; 
+  font-family: "Open Sans";
   display: block;
   font-weight: 400;
   font-size: 100px;
