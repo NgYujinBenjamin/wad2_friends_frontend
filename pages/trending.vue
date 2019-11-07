@@ -125,21 +125,7 @@
             let params = currURL.split("?");
             // console.log("params", params, params.length);
             let language = "en";
-            let url = "";
-
-            // check if there is any parameters from index.vue
-            if (params.length > 1) {
-                language = params[1].split("language=")[1];
-                params = params[1];
-                url =
-                    "https://newsapi.org/v2/everything?apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&" +
-                    params;
-            } else {
-                // if feed page is visited directly without any parameters
-                // use the headlines url instead
-                url =
-                    "https://newsapi.org/v2/top-headlines?country=sg&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d";
-            }
+            let url = "https://newsapi.org/v2/top-headlines?country=sg&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=4";
 
             // console.log(params,language);
             this.pageBuffer();
