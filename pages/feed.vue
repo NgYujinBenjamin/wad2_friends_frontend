@@ -9,7 +9,7 @@
             :img-src="article.urlToImage"
             img-alt="Article Image"
             img-top
-            :title="article.title.lastIndexOf(' - ') == -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"
+            :title="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"
           >
             <div>
               <em class="publisher">By </em>
@@ -54,7 +54,7 @@
                   </b-dropdown-item>
                 </b-dropdown>
                 <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancel</b-button>
-                <b-button size="sm" variant="primary" @click="postToBuffer(article.description, article.url)">Post to
+                <b-button size="sm" variant="primary" @click="postToFB(article.description, article.url)">Post to
                   Facebook
                 </b-button>
               </template>
@@ -150,7 +150,6 @@
                     .then(response => {
                         let translated = response.data[0]["translations"];
                         this.articles[index].description = translated[0].text;
-                        // console.table(translated[0].text, language, currLanguage);
                     })
                     .catch(e => {
                         console.log(e);
@@ -160,25 +159,75 @@
                 window.open(url, "_blank");
             },
             async fetchData(url, language) {
+                let user = JSON.parse(localStorage.getItem("user"));
                 const res = await this.$axios.$get(url);
+
+                let jwt = localStorage.getItem("jwt");
+                const headers = {
+                    'Authorization': 'Bearer ' + jwt
+                }
+
+                const savedArticles = await this.$axios.$get("https://sa-api.eof.cx/savedarticles?user=" + user.id, {
+                    headers: headers
+                });
+
                 this.articles = res.articles;
 
                 for (let i = 0; i < this.articles.length; i++) {
-                    // set the language property for each article for translation use later on
                     this.articles[i].language = language;
+                    this.articles[i].uniqueid = user.id + "|" + this.articles[i].url
                     this.articles[i].saved = false;
-                    this.articles[i].saveMessage = "Bookmark News";
+                    this.articles[i].saveMessage = "Bookmark";
+                }
+
+                for (let y = 0; y < savedArticles.length; y++) {
+                    for (let i = 0; i < this.articles.length; i++) {
+                        if (this.articles[i].uniqueid === savedArticles[y].uniqueid) {
+                            this.articles[i].saved = true;
+                            this.articles[i].savedid = savedArticles[y].id
+                        }
+                    }
                 }
             },
             saveNews(i) {
+                let user = JSON.parse(localStorage.getItem("user"));
+                let jwt = localStorage.getItem("jwt");
+
                 let article = this.articles[i];
                 article.saved = !article.saved;
                 this.$set(this.articles, i, article)
 
+                const headers = {
+                    'Authorization': 'Bearer ' + jwt
+                }
+
                 if (article.saved) {
                     this.savedMsg = "Bookmarked";
                     article.saveMessage = "Bookmarked";
+
+                    let data = {
+                        "url": article.url,
+                        "urlToImage": article.urlToImage,
+                        "title": article.title,
+                        "description": article.description,
+                        "user": user.id,
+                        "display": true,
+                        "uniqueid": user.id + "|" + article.url
+                    }
+
+                    this.$axios
+                        .post(process.env.baseUrl + "/savedarticles",
+                            data,
+                            {
+                                headers: headers
+                            })
+
                 } else {
+                    this.$axios
+                        .delete(process.env.baseUrl + "/savedarticles/" + article.savedid,
+                            {
+                                headers: headers
+                            })
                     this.savedMsg = "Bookmark";
                     article.saveMessage = "Bookmark";
                 }
@@ -191,7 +240,7 @@
                     set.msg = "No results found";
                 }, 2000);
             },
-            postToBuffer: function (msg, link) {
+            postToFB: function (msg, link) {
                 let url = "https://graph.facebook.com/112606970182817/feed";
                 const token = "EAAHsGZAfkZA5MBAFQkVnEWb6bnS3lFRHMtLfvufQt9r2NJwAYspX6JBSZCA1WxZAMmh2QJZCJET4pZAA2kiDEsP8KM08jwAjnG26PZCdWNSybD75fO6dAGMZC7HX6yJSkVkgxr7uzYx1DmTUxWJzMsFLDPRElY8qZBy0QwdmfQFUYvdAWmE0LIBLovnThiLnPtmZBjGsb0MkaDFESkHgvc1mbZB";
                 let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
