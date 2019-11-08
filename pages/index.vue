@@ -12,12 +12,18 @@
       </div>
       <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-7">
+        <div class="col-md-7 px-2">
           <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
                         placeholder="Search for articles"></b-form-input>
         </div>
         <div class="col-md-3 text-left px-0">
-          <b-button v-on:click="validate" variant="info" class="searchStyle w-25">Search</b-button>
+          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">
+            <option disabled value="">Select Language</option>
+            <option v-for="(language, index) in languages" v-bind:value="language['desc']">
+              {{ language['desc'] }}
+            </option>
+          </select>
+          <b-button v-on:click="validate" variant="info" class="searchStyle w-25 align-top">Search</b-button>
         </div>
       </div>
 <!--      <div id="language" class="text-center pt-5">-->
@@ -46,6 +52,7 @@
         name: "landing",
         data() {
             return {
+                select: "",
                 languages: [
                     {code: "en", desc: "English", isActive: false},
                     {code: "es", desc: "Spanish/español", isActive: false},
@@ -63,16 +70,20 @@
                 const res = await this.$axios.$get(url);
                 this.article = res.articles[0];
             },
-            changeBtnType: function (index) {
-                this.languages[index].isActive = !this.languages[index].isActive;
-            },
+            // changeBtnType: function (index) {
+            //     this.languages[index].isActive = !this.languages[index].isActive;
+            // },
             validate: function () {
                 // set default code to be english
                 let code = "en";
-
+                let selected = this.select;
+                
                 this.languages.forEach(function (lang) {
-                    if (lang.isActive) {
-                        code = lang.code;
+                    // if (lang.isActive) {
+                    //     code = lang.code;
+                    // }
+                    if(lang.desc == selected){
+                      code = lang.code;
                     }
                 });
 
@@ -173,5 +184,9 @@
 
   .searchStyle {
     height: 100%;
+  }
+
+  select{
+    appearance: "caret";
   }
 </style>
