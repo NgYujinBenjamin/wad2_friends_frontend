@@ -150,6 +150,8 @@
                     .then(response => {
                         let translated = response.data[0]["translations"];
                         this.articles[index].description = translated[0].text;
+                        // do not delete the line below, it is for user to change translation multiple times
+                        this.articles[index].language = language;
                     })
                     .catch(e => {
                         console.log(e);
@@ -195,6 +197,7 @@
 
                 let article = this.articles[i];
                 article.saved = !article.saved;
+                // console.log(article);
                 this.$set(this.articles, i, article)
 
                 const headers = {
@@ -208,6 +211,7 @@
                     let data = {
                         "url": article.url,
                         "publisher": article.source.name,
+                        "language": article.language,
                         "urlToImage": article.urlToImage,
                         "title": article.title,
                         "description": article.description,
