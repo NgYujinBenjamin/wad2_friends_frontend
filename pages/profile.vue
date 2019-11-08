@@ -1,15 +1,13 @@
 <template>
   <div id="profile" class="row" style="height: 94vh;">
-    <div class="p-1">
-    </div>
-    <div class="col-3 p-2"
+    <div class="col-lg-3 p-2"
          style="background: #e9ecef; box-shadow:0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06)">
       <div class="h3 mt-5" style="color:rgb(33, 33, 33); padding-left: 38px;">
         <strong>Account Information</strong>
       </div>
 
       <v-card
-        class="v-sheet theme--dark mt-4 mx-auto"
+        class="v-sheet theme--dark mt-4 mb-4 mx-auto"
         supportingtext="true"
         color="#48C9B0"
         width="90%"
@@ -17,22 +15,26 @@
         <div class="v-card__title">Username</div>
         <div class="v-card__text content">{{username}}</div>
       </v-card>
-      <v-card class="v-sheet mt-4 mx-auto" supportingtext="true" width="90%">
+      <v-card class="v-sheet mb-4 mx-auto" supportingtext="true" width="90%">
         <div class="v-card__title">E-mail address</div>
         <div class="v-card__text content">
           {{email}}
           <button
             class="v-btn v-btn--contained v-btn--rounded theme--dark v-size--x-small float-right"
             size="x-small"
+            id="emailVerification"
             disabled
           >
-            <span class="v-btn__content">
+            <span class="v-btn__content text">
               <span>Verified</span>
+            </span>
+            <span class="v-btn__content icon">
+              <i class="fas fa-check-circle"></i>
             </span>
           </button>
         </div>
       </v-card>
-      <v-card class="v-sheet theme--light mt-4 mx-auto" supportingtext="true" width="90%">
+      <v-card class="v-sheet theme--light mb-4 mx-auto" supportingtext="true" width="90%">
         <div class="v-card__title">Password</div>
         <div class="v-card__text">
           <input class="form-control" style="width: 58%; display: initial;" disabled type="password"
@@ -55,7 +57,7 @@
       <div v-if="this.savedArticles.length > 0">
         <v-hover v-slot:default="{ hover }" v-for="(article,index) in this.savedArticles" :key="index">
 
-          <v-card class="ml-3 my-3 overallCard" max-width="440">
+          <v-card class="ml-3 my-3 overallCard" id="card-width">
             <!-- image -->
             <v-img :aspect-ratio="16/9" :src="article.urlToImage">
               <!-- hover effect -->
@@ -69,11 +71,11 @@
 
             <v-card-text style="position: relative;">
               <!-- Bookmark -->
-              <v-btn absolute style="right: 20%;" color="rgb(72, 201, 176)" fab large right top @click="deleteBookmark(index)" >
+              <v-btn absolute class="articleButton" color="rgb(72, 201, 176)" fab medium right top @click="deleteBookmark(index)" >
                 <i class="fas fa-bookmark fa-lg"></i>
               </v-btn>
               <!-- Share -->
-              <v-btn absolute color="rgb(72, 201, 176)" fab large right top v-b-modal="'myModal' + index">
+              <v-btn absolute color="rgb(72, 201, 176)" fab medium right top v-b-modal="'myModal' + index">
                 <i class="fas fa-share fa-lg"></i>
               </v-btn>
               <!-- Details -->
@@ -252,6 +254,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     font-size: 3vh;
+    height: 7vh;
   }
 
   .card-link{
@@ -286,5 +289,46 @@
   #noBookmark {
     color: #e0e0e0;
     margin-top: 50px;
+  }
+
+  #card-width{
+    max-width: 440px;
+  }
+
+  span.icon {
+    color: black;
+  }
+
+  span.text {
+      display: inline-block;
+    }
+  
+  .articleButton{
+    right: 20%;
+  }
+
+  @media only screen and (max-width: 450px) {
+    .articleButton{
+      right: 25%;
+    }
+  }
+
+  @media only screen and (max-width: 800px) {
+    #card-width{
+      max-width: 100%;
+      margin-right: 1rem;
+    }
+    .articleButton{
+      right: 12%;
+    }
+  }
+
+  @media only screen and (max-width: 1500px) {
+    span.text {
+      display: none;
+    }
+    span.icon {
+      color: white;
+    }
   }
 </style>
