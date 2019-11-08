@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="nav-design">
     <b-navbar toggleable="lg">
-      <b-navbar-brand href="#">FRIENDS</b-navbar-brand>
+      <b-navbar-brand href="#" class="navbar-brand">FRIENDS</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -11,8 +11,8 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
-              <i class="fas fa-user-circle fa-lg"></i>
-              <span>{{username}}</span>
+              <i class="fas fa-user-circle fa-lg" style="color:white;"></i>
+              <span style="color:white;">{{username}}</span>
             </template>
             <b-dropdown-item href="/profile">Profile</b-dropdown-item>
             <b-dropdown-item href="#" @click="logout()">Sign Out</b-dropdown-item>
@@ -75,4 +75,20 @@
 </script>
 
 <style scoped>
+
+.navbar-light .navbar-brand{
+  color: white;
+}
+
+#nav-design{
+  position: fixed; /* Sit on top of the page content */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(#00000094, #0000002e, transparent, transparent, transparent);
+}
+
 </style>

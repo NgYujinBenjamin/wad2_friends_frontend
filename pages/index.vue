@@ -1,43 +1,37 @@
 <template>
   <div class="container-fluid">
     <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>
+    <!-- content -->
     <div class="box">
       <h1 class="title text-center">FRIENDS</h1>
       <p class="text-center">Retrieve news articles from multiple platforms</p>
-      <div
-        v-bind:class="{'d-none':errStatus}"
-        class="text-center"
-      >
-        <p><i style="color: red;">Please ensure the search field is filled up.</i></p>
+
+      <!-- Error message -->
+      <div v-bind:class="{'d-none':errStatus}" class="text-center">
+        <i><b style="color: red;">Please enter your search term</b></i>
       </div>
+
       <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-7 px-2">
-          <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
-                        placeholder="Search for articles"></b-form-input>
-        </div>
-        <div class="col-md-3 text-left px-0">
-          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">
-            <option disabled value="">Select Language</option>
+        <div class="col-lg-2" id="bufferCol"></div>
+        <!-- Search input field -->
+        <div class="col-lg-8 px-2">
+          <select v-model="select" class="form-control d-inline align-top float-left" id="language">
+            <option disabled value="">Article Language</option>
             <option v-for="(language, index) in languages" v-bind:value="language['desc']">
               {{ language['desc'] }}
             </option>
           </select>
-          <b-button v-on:click="validate" variant="info" class="searchStyle w-25 align-top">Search</b-button>
+          <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg" placeholder="Search for articles"></b-form-input>
         </div>
       </div>
-<!--      <div id="language" class="text-center pt-5">-->
-<!--        <p style="margin-bottom: -15px">Languages</p>-->
-<!--        <b-button-->
-<!--          v-for="(language, index) in languages" :key="index"-->
-<!--          v-on:click="changeBtnType(index)"-->
-<!--          class="my-4 d-inline mx-1"-->
-<!--          variant="info"-->
-<!--          v-bind:class="{'active':language['isActive']}"-->
-<!--          v-text="language['desc']"-->
-<!--          style="margin: 0"-->
-<!--        ></b-button>-->
-<!--      </div>-->
+        <!-- Language & Search buttons -->
+      <!-- <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 px-2 text-center" id="buttons">
+          <b-button v-on:click="validate" variant="info" class="searchStyle">Search</b-button>
+        </div>
+      </div> -->
+
     </div>
   </div>
 </template>
@@ -122,7 +116,7 @@
   }
 
   .box {
-    margin-top: 10%;
+    margin-top: 13%;
   }
 
   .main-container {;
@@ -142,51 +136,70 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-
     box-shadow: 0 0 800px rgba(0, 0, 0, 1) inset;
-
   }
 
-  .logo {
-    margin: 2%;
-  }
-
-  .title {
+  * {
     font-family: "Open Sans", serif;
-    display: block;
+  }
+
+  .title {    
     font-weight: 400;
-    font-size: 100px;
-    color: whitesmoke;
+    font-size: 10vh;
+    color: white;
     letter-spacing: 1px;
+    z-index: 1;
   }
 
   p {
-    font-family: "Open Sans", serif;
     letter-spacing: 0.5px;
     font-weight: 300;
-    color: whitesmoke;
+    color: white;
   }
 
   #_search {
-    width: 100%;
+    width: 77%;
     background: #fff;
-    display: flex;
+    display: inline-block;
     border: 1px solid #dfe1e5;
     box-shadow: none;
     border-radius: 7px;
     z-index: 3;
-    margin: 0 auto;
+    margin-left: 5px;
   }
 
-  #language {
-    margin-right: 130px;
+  .form-control{
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    color: #7b838a;
   }
-
-  .searchStyle {
+  
+  #language{
+    width: auto;
     height: 100%;
   }
+  
+  @media only screen and (max-width: 800px) {
+    #bufferCol{
+      display: none;
+    }
+    
+    .box {
+      margin-top: 30%;
+    }
+  }
 
-  select{
-    appearance: "caret";
+  @media only screen and (max-width: 450px) {
+    #_search {
+      width: 99%;
+    }
+
+    #language{
+      width: auto;
+      height: 55%;
+      margin-left: 5px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
   }
 </style>
