@@ -33,15 +33,18 @@
 <!--        ></b-button>-->
 <!--      </div>-->
     </div>
+    <Carousel :articles="carouselArticles"></Carousel>
   </div>
 </template>
 
 <script>
     import Logo from "~/components/Logo.vue";
+    import Carousel from "~/components/Carousel/Carousel.vue";
 
     export default {
         components: {
-            Logo
+            Logo,
+            Carousel
         },
         name: "landing",
         data() {
@@ -53,6 +56,7 @@
                     {code: "zh", desc: "Chinese/中文", isActive: false}
                 ],
                 article: {},
+                carouselArticles: {},
                 errStatus: true,
             };
         },
@@ -62,6 +66,12 @@
 
                 const res = await this.$axios.$get(url);
                 this.article = res.articles[0];
+                
+                this.setNumOfCarousel(3)
+            },
+            setNumOfCarousel: async function(size){
+              let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=" + size + "&domains=channelnewsasia.com,Yahoo.com";
+              this.carouselArticles = await this.$axios.$get(url);
             },
             changeBtnType: function (index) {
                 this.languages[index].isActive = !this.languages[index].isActive;
