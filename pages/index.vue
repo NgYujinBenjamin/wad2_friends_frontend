@@ -1,7 +1,8 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" style="position: relative; z-index:1;">
+    <Carousel></Carousel>
     <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>
-    <div class="box">
+    <div class="box" style="position: relative; z-index:3;">
       <h1 class="title text-center">FRIENDS</h1>
       <p class="text-center">Retrieve news articles from multiple platforms</p>
       <div
@@ -33,7 +34,6 @@
 <!--        ></b-button>-->
 <!--      </div>-->
     </div>
-    <Carousel :articles="carouselArticles"></Carousel>
   </div>
 </template>
 
@@ -56,7 +56,6 @@
                     {code: "zh", desc: "Chinese/中文", isActive: false}
                 ],
                 article: {},
-                carouselArticles: {},
                 errStatus: true,
             };
         },
@@ -67,11 +66,6 @@
                 const res = await this.$axios.$get(url);
                 this.article = res.articles[0];
                 
-                this.setNumOfCarousel(3)
-            },
-            setNumOfCarousel: async function(size){
-              let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=" + size + "&domains=channelnewsasia.com,Yahoo.com";
-              this.carouselArticles = await this.$axios.$get(url);
             },
             changeBtnType: function (index) {
                 this.languages[index].isActive = !this.languages[index].isActive;
@@ -145,6 +139,7 @@
     box-shadow: 0 0 800px rgba(0, 0, 0, 1) inset;
 
   }
+
 
   .logo {
     margin: 2%;
