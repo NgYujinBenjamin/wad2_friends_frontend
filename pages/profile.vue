@@ -47,31 +47,74 @@
     <div class="p-1">
     </div>
 
-    <!-- Hardcoded for now, will work on functionality later -->
-    <!-- 4 cards per row -->
     <div class="col">
       <div class="h3 ml-3 mt-5" style="color:rgb(33, 33, 33);">
         <strong>Bookmarked News</strong>
       </div>
+      
       <div v-if="this.savedArticles.length > 0">
+        <v-hover v-slot:default="{ hover }" v-for="(article,index) in this.savedArticles" :key="index">
 
-        <b-card v-for="(article,index) in this.savedArticles" :key="index"
-                :title="article.title"
-                :img-src="article.urlToImage"
-                img-alt="Image"
-                img-top
-                tag="article"
-                style="max-width: 20rem; display:inline-block"
-                class="mb-2 ml-3 mt-3 card-img-top embed-responsive-item">
+          <v-card class="ml-3 my-3 overallCard" max-width="440">
+            <!-- image -->
+            <v-img :aspect-ratio="16/9" :src="article.urlToImage">
+              <!-- hover effect -->
+              <v-expand-transition>
+                <a v-if="hover" class="d-flex transition-fast-in-fast-out v-card--reveal card-link"
+                  :href="article.url" target="_blank">
+                  Read full article
+                </a>
+              </v-expand-transition>
+            </v-img>
 
-          <b-card-text v-text="article.description"></b-card-text>
+            <v-card-text style="position: relative;">
+              <!-- Bookmark -->
+              <v-btn absolute style="right: 20%;" color="rgb(72, 201, 176)" fab large right top @click="deleteBookmark(index)" >
+                <i class="fas fa-bookmark fa-lg"></i>
+              </v-btn>
+              <!-- Share -->
+              <v-btn absolute color="rgb(72, 201, 176)" fab large right top v-b-modal="'myModal' + index">
+                <i class="fas fa-share fa-lg"></i>
+              </v-btn>
+              <!-- Details -->
+              <em class="font-weight-normal title mb-2 publisher" v-text="article.publisher"></em>
+              <h3 class="mb-2 card-title" v-text="article.title"></h3>
+              <div class="font-weight-normal title mb-2 card-title card-desc" v-text="article.description"></div>
+            </v-card-text>
 
-          <b-button :href="article.url" variant="primary">Read Article</b-button>
+            <!-- Facebook Popup -->
+            <b-modal v-bind:id="'myModal'+ index" :title="'Article '+index" header-bg-variant="primary" header-text-variant="light">
+              <template v-slot:modal-header="{ close }">
+                <h5><i class="fab fa-facebook-square fa-lg"></i> Share on Facebook</h5>
+              </template>
 
-        </b-card>
+              <template>
+                <textarea style="width: 100%; min-height: 150px;" v-text="article.description"></textarea>
+                <img alt="Article Image" :src="article.urlToImage" class="w-100"/>
+              </template>
+
+              <template v-slot:modal-footer="{ ok, cancel, hide }">
+                <b-dropdown id="dropdown-offset" variant="outline-info" offset="25" size="sm" text="Translate" class="m-2">
+                  <b-dropdown-item v-for="(language, index_lang) in languages" :key="index_lang" @click.prevent="translate(index,language.code)">
+                    {{language.desc}}
+                  </b-dropdown-item>
+                </b-dropdown>
+                <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancel</b-button>
+                <b-button size="sm" variant="primary" @click="postToFB(article.description, article.url)">
+                  Post to Facebook
+                </b-button>
+              </template>
+            </b-modal>
+
+          </v-card>
+
+        </v-hover>
+      </div>
+
+      <div v-else>
+        <h4 id="noBookmark" class="ml-3 my-3">No news saved</h4>
       </div>
     </div>
-    <!-- End of hardcode -->
 
   </div>
 </template>
@@ -84,10 +127,17 @@
         name: "profile",
         data() {
             return {
+                maxLength: 100,
                 email: "Placeholder Email",
                 username: "Placeholder Name",
                 password: "88888888888888",
                 savedArticles: [],
+                languages: [
+                    {code: "en", desc: "English", isActive: false},
+                    {code: "es", desc: "Spanish/español", isActive: false},
+                    {code: "ar", desc: "Arabic/عربى", isActive: false},
+                    {code: "zh", desc: "Chinese/中文", isActive: false}
+                ]
             };
         },
         mounted: function () {
@@ -105,14 +155,75 @@
                 const headers = {
                     'Authorization': 'Bearer ' + jwt
                 };
-
-                console.log(userId);
                 this.savedArticles = await this.$axios.$get("https://sa-api.eof.cx/savedarticles?user=" + userId, {
                     headers: headers
                 });
-
-                console.log(this.savedArticles);
             },
+            translate: function (index, language) {
+                const config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Ocp-Apim-Subscription-Key": "d9e003958b7244daa92f6cd96ce39cdb"
+                    }
+                };
+
+                let currLanguage = this.savedArticles[index].language;
+                let url =
+                    "https://api-apc.cognitive.microsofttranslator.com/translate?api-version=3.0&from=" +
+                    currLanguage +
+                    "&to=" +
+                    language;
+                this.$axios
+                    .post(url, [{text: this.savedArticles[index].description}], config)
+                    .then(response => {
+                        let translated = response.data[0]["translations"];
+                        this.savedArticles[index].description = translated[0].text;
+                        // do not delete the line below, it is for user to change translation multiple times
+                        this.savedArticles[index].language = language;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            deleteBookmark(i) {
+                let user = JSON.parse(localStorage.getItem("user"));
+                let jwt = localStorage.getItem("jwt");
+
+                let article = this.savedArticles[i];
+                console.log(article);
+                article.isSaved = !article.isSaved;
+                this.$set(this.savedArticles, i, article)
+
+                const headers = {
+                    'Authorization': 'Bearer ' + jwt
+                }
+                this.$axios
+                    .delete(process.env.baseUrl + "/savedarticles/" + article.id,
+                        {
+                            headers: headers
+                        })
+                location.reload();
+            },
+            // Just FYI: Copied directly from feed without changing anything; assuming that it will work
+            postToFB: function (msg, link) {
+                let url = "https://graph.facebook.com/112606970182817/feed";
+                const token = "EAAHsGZAfkZA5MBAFQkVnEWb6bnS3lFRHMtLfvufQt9r2NJwAYspX6JBSZCA1WxZAMmh2QJZCJET4pZAA2kiDEsP8KM08jwAjnG26PZCdWNSybD75fO6dAGMZC7HX6yJSkVkgxr7uzYx1DmTUxWJzMsFLDPRElY8qZBy0QwdmfQFUYvdAWmE0LIBLovnThiLnPtmZBjGsb0MkaDFESkHgvc1mbZB";
+                let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
+                url += params;
+
+                this.$axios
+                    .post(url, [])
+                    .then(response => {
+                        this.$toast.success("Post Successfully Posted", {
+                            icon: {name: "check-circle"}
+                        });
+                    })
+                    .catch(e => {
+                        this.$toast.error("Error: " + e.message, {
+                            icon: {name: "exclamation-triangle"}
+                        });
+                    });
+            }
         }
     };
 </script>
@@ -129,7 +240,51 @@
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
   }
 
-  .v-card {
-    box-shadow: none;
+  .overallCard{
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06); 
+    display:inline-block; 
+    height: 100%;
+  }
+
+  .card-title{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 3vh;
+  }
+
+  .card-link{
+    height: 100%; 
+    background-color: 
+    rgb(72, 201, 176); 
+    color: black; 
+    font-size: 4vh; 
+    text-decoration: inherit;
+  }
+
+  .card-desc{
+    height: 150px;
+    font-size: 1.7vh;
+    line-height: 2.5vh;
+  }
+
+  .v-card--reveal {
+    align-items: center;
+    bottom: 0;
+    justify-content: center;
+    opacity: .7;
+    position: absolute;
+    width: 100%;
+  }
+
+  .publisher{
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  #noBookmark {
+    color: #e0e0e0;
+    margin-top: 50px;
   }
 </style>
