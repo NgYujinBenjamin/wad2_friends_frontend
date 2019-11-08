@@ -12,9 +12,9 @@
             :title="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"
           >
             <div>
-              <em class="publisher">By </em>
+              <em class="publisher"></em>
               <em class="publisher"
-                  v-text="article.url.split('//')[1].split('.co')[0].includes('www') ? article.url.split('//')[1].split('.co')[0].split('www.')[1] : article.url.split('//')[1].split('.co')[0]"></em>
+                  v-text="article.source.name"></em>
             </div>
 
             <b-card-text v-text="article.description" v-model="index" style="padding-top:7px;"></b-card-text>
@@ -207,6 +207,7 @@
 
                     let data = {
                         "url": article.url,
+                        "publisher": article.source.name,
                         "urlToImage": article.urlToImage,
                         "title": article.title,
                         "description": article.description,
