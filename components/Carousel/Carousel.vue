@@ -1,8 +1,8 @@
 <template>
   <div>
     <b-carousel
-      id="carousel-1"
-      :interval="4000"
+      :interval="3000"
+      fade
       controls
       indicators
       background="#ababab"
@@ -11,12 +11,14 @@
       style="text-shadow: 1px 1px 2px #333;"
     >
       <!-- Text slides with image -->
-      <b-carousel-slide
+      <b-carousel-slide 
+        class="image_sliders"
         v-for="(article,index) in carouselArticles"
         :key="index"
-        :caption="article.Title"
-        :text="article.description"
+        :caption="article.title"
         :img-src="article.urlToImage"
+        img-width="1024"
+        img-height="480"
       ></b-carousel-slide>
     </b-carousel>
   </div>
@@ -26,7 +28,10 @@
 export default {
     data() {
             return {
-                carouselArticles: {}
+                carouselArticles: {},
+                myWidth:0,
+                myHeight:0,
+                carouselImages: {}
             };
         },
     methods: {
@@ -34,16 +39,27 @@ export default {
             let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=3&domains=channelnewsasia.com,Yahoo.com";
             const res = await this.$axios.$get(url);
             this.carouselArticles = res.articles;
-        }
+        },
     },
     mounted: function () {
             this.fetchData()
+            
+            this.myWidth = document.documentElement.clientWidth;
+            this.myHeight = document.documentElement.clientHeight;
+            var imageSliders = document.getElementsByClassName("image_sliders");
+                
+            for (let imageSlider of imageSliders){
+                imageSlider.style["height"] = this.myHeight ? this.myHeight : '800';
+            }
+            
         }
 }
 </script>
 
 <style>
-    .carousel-inner img {
-        margin: auto;
+
+    .image_sliders{
+        width: 100%;
+        height: 1000px !important;
     }
 </style>

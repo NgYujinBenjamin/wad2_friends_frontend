@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid" style="position: relative; z-index:1;">
-    <Carousel></Carousel>
+    <Carousel class="test" style="position:absolute; z-index:2;"></Carousel>
     <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>
     <div class="box" style="position: relative; z-index:3;">
       <h1 class="title text-center">FRIENDS</h1>
@@ -140,6 +140,17 @@
 
   }
 
+  .test {
+    top: -200px;
+    
+    filter: brightness(70%) saturate(140%) blur(8px);
+    /* Add the blur effect */
+    -webkit-filter: brightness(70%) saturate(140%) blur(8px);
+    /* Full height */
+    width: 110%;
+    height: 110%;
+    box-shadow: 0 0 800px rgba(0, 0, 0, 1) inset;
+  }
 
   .logo {
     margin: 2%;
