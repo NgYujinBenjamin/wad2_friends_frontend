@@ -33,7 +33,7 @@
             </div>
             <input type="text" id="navbarSearch" v-on:keyup="validateEnterkey" class="form-control" style="height:100%;" aria-label="Text input with checkbox">
             <b-tooltip target="navbarSearch">Please ensure the search field is filled up!</b-tooltip>
-            <b-button size="sm" v-on:click="validate" class=" mx-2 my-2 my-sm-0" variant="outline-light" type="submit">Search</b-button>
+            <!-- <b-button size="sm" v-on:click="validate" class=" mx-2 my-2 my-sm-0" variant="outline-light" type="submit">Search</b-button> -->
           </div>
 
           <!-- Language; only show on "News Feed" & -->

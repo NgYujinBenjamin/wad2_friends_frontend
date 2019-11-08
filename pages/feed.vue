@@ -25,7 +25,7 @@
                 class="fas fa-share"></i> Share</a>
               <a href="#" @click="saveNews(index)" class="card-link d-inline float-right">
                 <i :class="article.saved ? 'fas fa-bookmark' : 'far fa-bookmark'"></i>
-                <span v-if="article.saved">Bookmarked</span>
+                <span v-if="article.saved">Saved</span>
                 <span v-else>Bookmark</span>
               </a>
             </div>
