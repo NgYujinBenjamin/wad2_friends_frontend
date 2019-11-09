@@ -205,7 +205,7 @@
             // Just FYI: Copied directly from feed without changing anything; assuming that it will work
             postToFB: function (msg, link) {
                 let url = "fb-api/112606970182817/feed";
-                const token = "EAAHsGZAfkZA5MBAFFlQeCJnZAuMiXJfQOnDCyuL3Yz02eAc6vZB8VJbY4FUCSm3ON3YlSyhJFsv3LiA1YiP0jmZBuEQVFSJkXPWZCN8zGJusTwJscuS8S8cudgDB7nH6rfCnLi4UpZC6CqdcpBrdSPcDX3MxEAi6wQm8qvZCqAhcQxPt6U8jqamQJwWJ99GZCgTsSkSFlMdWGgDgmVIZClv9JI";
+                const token = "EAAHsGZAfkZA5MBAF3uRKqNZCxRZAMnKZAnHnNCnG8oe1aVTBBzjph3k51ELG4ziQkxqIrJWauL5WA22mwNfpLg7IoYRjJOJSJ3wFZAv8DnCbaWwiGNU1yt9Hi4goRsgt9DCHicqdr7dYar1vCQThI1TAaHBfqcYndBZC0y7xevV5zIL8VnFZANh8rD3OQcwz0ngZD";
                 let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
                 url += params;
 
