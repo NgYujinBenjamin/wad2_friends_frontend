@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div id="nav-design">
     <b-navbar toggleable="lg">
-      <b-navbar-brand href="#" style="color: whitesmoke">FRIENDS</b-navbar-brand>
-
+      <b-navbar-brand href="#" class="navbar-brand">FRIENDS</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
@@ -75,4 +74,20 @@
 </script>
 
 <style scoped>
+
+.navbar-light .navbar-brand{
+  color: white;
+}
+
+#nav-design{
+  position: fixed; /* Sit on top of the page content */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(#00000094, #0000002e, transparent, transparent, transparent);
+}
+
 </style>
