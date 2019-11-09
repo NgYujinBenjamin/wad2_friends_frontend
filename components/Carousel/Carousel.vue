@@ -36,9 +36,18 @@ export default {
         },
     methods: {
         async fetchData() {
-            let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=3&domains=channelnewsasia.com,Yahoo.com";
+            let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=4&domains=channelnewsasia.com,Yahoo.com";
             const res = await this.$axios.$get(url);
-            this.carouselArticles = res.articles;
+            let to_append = [];
+            console.log(res.articles);
+            for (let article of res.articles){
+              if (article.urlToImage != null){
+                to_append.push(article);
+                console.log(to_append);
+              }
+            }
+            // this.carouselArticles = res.articles;
+            this.carouselArticles = to_append;
         },
     },
     mounted: function () {
