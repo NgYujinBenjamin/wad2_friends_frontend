@@ -1,7 +1,8 @@
 <template>
   <div class="container-fluid" style="position: relative; z-index:1;">
-    <Carousel class="test" style="position:absolute; z-index:2;"></Carousel>
-<!--    <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>-->
+    <!--    <Carousel class="test" style="position:absolute; z-index:2;"></Carousel>-->
+    <div class="main-container" v-if="Object.keys(this.article).length !== 0 && this.article.urlToImage != null"
+         v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>
     <div class="box" style="position: relative; z-index:3;"> <!-- style="padding-top: 80px" -->
       <h1 class="title text-center">FRIENDS</h1>
       <p class="text-center">Retrieve news articles from multiple platforms</p>
@@ -16,7 +17,8 @@
               {{ language['desc'] }}
             </option>
           </select>
-          <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg" placeholder="Search for articles"></b-form-input>
+          <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
+                        placeholder="Search for articles"></b-form-input>
         </div>
       </div>
       <div class="col-md-12" style="display: flex; justify-content: center;">
@@ -54,15 +56,18 @@
                     {code: "ar", desc: "Arabic/عربى", isActive: false},
                     {code: "zh", desc: "Chinese/中文", isActive: false}
                 ],
+                articles: [],
                 article: {},
                 errStatus: true,
+                articleIndex: 0
             };
         },
         methods: {
             async fetchData() {
-                let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=1&domains=channelnewsasia.com,Yahoo.com";
+                let url = "https://newsapi.org/v2/top-headlines?country=sg&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=3";
 
                 const res = await this.$axios.$get(url);
+                this.articles = res.articles;
                 this.article = res.articles[0];
             },
             changeBtnType: function (index) {
@@ -99,14 +104,14 @@
                     this.validate();
                 }
             },
-            changeCSS: function(){
-              document.querySelector('body').style.overflow="hidden";
-              document.querySelector('html').style.overflow="hidden";
-              document.querySelector('body').style.height="100%";
-              document.querySelector('html').style.height="100%";
-              document.querySelector('body').style.margin=0;
-              document.querySelector('html').style.margin=0;
-              document.querySelector('body').style['background-color']="black";
+            changeCSS: function () {
+                document.querySelector('body').style.overflow = "hidden";
+                document.querySelector('html').style.overflow = "hidden";
+                document.querySelector('body').style.height = "100%";
+                document.querySelector('html').style.height = "100%";
+                document.querySelector('body').style.margin = 0;
+                document.querySelector('html').style.margin = 0;
+                document.querySelector('body').style['background-color'] = "black";
             }
         },
         mounted: function () {
@@ -117,6 +122,25 @@
             // this.getTrendingTopics()
 
             this.changeCSS();
+
+            this.$nextTick(function () {
+                window.setInterval(() => {
+                    if (this.articles.length > 0) {
+                        if (this.articleIndex < 2) {
+                            this.articleIndex += 1
+                            this.article = this.articles[this.articleIndex]
+                        } else {
+                            this.articleIndex = 0
+                            this.article = this.articles[this.articleIndex]
+                        }
+                    }
+                }, 10000);
+            })
+        },
+        updated: function () {
+            if (this.article === null) {
+                this.fetchData()
+            }
         }
     };
 </script>
@@ -205,19 +229,19 @@
     margin-left: 5px;
   }
 
-  .form-control{
+  .form-control {
     border-radius: 0.4rem;
     font-size: 1rem;
     color: #7b838a;
   }
 
-  #language{
+  #language {
     width: auto;
     height: 100%;
   }
 
   @media only screen and (max-width: 800px) {
-    #bufferCol{
+    #bufferCol {
       display: none;
     }
 
@@ -231,7 +255,7 @@
       width: 99%;
     }
 
-    #language{
+    #language {
       width: auto;
       height: 55%;
       margin-left: 5px;

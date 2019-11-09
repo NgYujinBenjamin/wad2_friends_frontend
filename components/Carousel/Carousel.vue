@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-carousel
-      :interval="3000"
+      :interval="6000"
       fade
       controls
       indicators
@@ -11,7 +11,7 @@
       style="text-shadow: 1px 1px 2px #333;"
     >
       <!-- Text slides with image -->
-      <b-carousel-slide 
+      <b-carousel-slide
         class="image_sliders"
         v-for="(article,index) in carouselArticles"
         :key="index"
@@ -52,15 +52,15 @@ export default {
     },
     mounted: function () {
             this.fetchData()
-            
+
             this.myWidth = document.documentElement.clientWidth;
             this.myHeight = document.documentElement.clientHeight;
             var imageSliders = document.getElementsByClassName("image_sliders");
-                
+
             for (let imageSlider of imageSliders){
                 imageSlider.style["height"] = this.myHeight ? this.myHeight : '800';
             }
-            
+
         }
 }
 </script>
