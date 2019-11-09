@@ -57,7 +57,6 @@ export default {
 </script>
 
 <style>
-
     .image_sliders{
         width: 100%;
         height: 1000px !important;

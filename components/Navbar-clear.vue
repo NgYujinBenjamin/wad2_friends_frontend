@@ -1,5 +1,5 @@
 <template>
-  <div id="nav-design">
+  <div id="nav-design" style="z-index:10;">
     <b-navbar toggleable="lg">
       <b-navbar-brand href="#" class="navbar-brand">FRIENDS</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
