@@ -4,7 +4,7 @@
       <b-navbar-brand href="#" class="navbar-brand">FRIENDS</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-      <b-collapse id="nav-collapse" is-nav>
+      <b-collapse id="nav-collapse" is-nav v-if="username !== ''">
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
@@ -36,11 +36,13 @@
             };
         },
         mounted: function () {
-            if (!localStorage.getItem("jwt")) {
-                this.$router.replace({name: "login"});
+            // if (!localStorage.getItem("jwt")) {
+            //     this.$router.replace({name: "login"});
+            // }
+            if (JSON.parse(localStorage.getItem("user"))) {
+                let user = JSON.parse(localStorage.getItem("user"));
+                this.username = user.username;
             }
-            var user = JSON.parse(localStorage.getItem("user"));
-            this.username = user.username;
         },
         methods: {
             logout() {
@@ -75,19 +77,19 @@
 
 <style scoped>
 
-.navbar-light .navbar-brand{
-  color: white;
-}
+  .navbar-light .navbar-brand {
+    color: white;
+  }
 
-#nav-design{
-  position: fixed; /* Sit on top of the page content */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 10%; 
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: linear-gradient(#00000094, #0000002e, transparent, transparent, transparent);
-}
+  #nav-design {
+    position: fixed; /* Sit on top of the page content */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 10%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(#00000094, #0000002e, transparent, transparent, transparent);
+  }
 
 </style>

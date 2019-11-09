@@ -91,7 +91,7 @@ export default {
       }
     },
     checkForm() {
-      if (this.password != this.cfmPassword) {
+      if (this.password !== this.cfmPassword) {
         return false;
       }
       return true;
@@ -106,4 +106,7 @@ export default {
 </script>
 
 <style scoped>
+  body {
+    background-color: white !important;
+  }
 </style>

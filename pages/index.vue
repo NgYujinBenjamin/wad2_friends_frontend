@@ -39,12 +39,12 @@
 
 <script>
     import Logo from "~/components/Logo.vue";
-    import Carousel from "~/components/Carousel/Carousel.vue";
+    // import Carousel from "~/components/Carousel/Carousel.vue";
 
     export default {
         components: {
             Logo,
-            Carousel
+           // Carousel
         },
         name: "landing",
         data() {
