@@ -1,12 +1,13 @@
 <template>
   <div style="height: 72px; border-bottom: 1px solid #efefef; z-index: 9999">
     <div class="container">
-      <b-navbar toggleable="lg">
+      <b-navbar id="navbar" toggleable="lg" style="background: white !important;" variant="light" type="light">
         <b-navbar-brand href="/">FRIENDS</b-navbar-brand>
 
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <input type="text" width="200px" id="navbarSearch" v-on:keyup="validateEnterkey" placeholder="Search"
+               v-if="username !== ''">
 
-        <input type="text" id="navbarSearch" width="200px" v-on:keyup="validateEnterkey" placeholder="Search" v-if="username !== ''">
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <!-- Right aligned nav items -->
         <b-collapse id="nav-collapse" is-nav v-if="username !== ''">
@@ -15,6 +16,7 @@
               <b-nav-item href="/feed">Feed</b-nav-item>
               <b-nav-item href="/recommendations">Recommendation</b-nav-item>
             </b-navbar-nav>
+
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
               <template v-slot:button-content>
@@ -85,15 +87,24 @@
 </script>
 
 <style scoped>
+  *{
+    position: relative;
+  }
+
+  #navbar{
+    position: relative;
+    top: -11px;
+  }
+
   #navbarSearch {
     border: 1px solid rgba(0, 0, 0, .06);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .07);
     height: 42px;
-
     border-radius: 4px;
     font-size: 17px;
     padding: 0 16px;
     line-height: 2;
     color: rgba(0, 0, 0, .6);
   }
+
 </style>
