@@ -7,33 +7,32 @@
       <p class="text-center">Retrieve news articles from multiple platforms</p>
 
       <!-- Error message -->
-      <div v-bind:class="{'d-none':errStatus}" class="text-center">
-        <i><b style="color: red;">Please enter your search term</b></i>
-      </div>
+<!--      <div v-bind:class="{'d-none':errStatus}" class="text-center">-->
+<!--        <i><b style="color: red;">Please enter your search term</b></i>-->
+<!--      </div>-->
 
-      <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-7 px-2">
+<!--      <div class="row">-->
+        <div class="col-md-12" style="display: flex; justify-content: center;">
           <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
                         placeholder="Search for articles"></b-form-input>
         </div>
-        <div class="col-md-2 text-left px-0">
-          <b-button v-on:click="validate" variant="info" class="searchStyle">Search</b-button>
-          <!--          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">-->
-          <!--            <option disabled value="">Language</option>-->
-          <!--            <option v-for="(language, index) in languages" v-bind:value="language['desc']">-->
-          <!--              {{ language['desc'] }}-->
-          <!--            </option>-->
-          <!--          </select>-->
-        </div>
-        <div class="col-md-12" style="display: flex; justify-content: center;">
-          <b-button class="align-self-center" variant="outline-info" style="width: 20%" href="/feed"><b>Latest News</b></b-button>
-        </div>
+<!--        <div class="col-md-2 px-0">-->
+<!--          <b-button v-on:click="validate" variant="info" class="searchStyle">Search</b-button>-->
+<!--          &lt;!&ndash;          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">&ndash;&gt;-->
+<!--          &lt;!&ndash;            <option disabled value="">Language</option>&ndash;&gt;-->
+<!--          &lt;!&ndash;            <option v-for="(language, index) in languages" v-bind:value="language['desc']">&ndash;&gt;-->
+<!--          &lt;!&ndash;              {{ language['desc'] }}&ndash;&gt;-->
+<!--          &lt;!&ndash;            </option>&ndash;&gt;-->
+<!--          &lt;!&ndash;          </select>&ndash;&gt;-->
+<!--        </div>-->
+<!--      </div>-->
+      <div class="col-md-12" style="display: flex; justify-content: center;">
+        <b-button class="align-self-center" variant="outline-info" style="width: 20%" href="/feed"><b>Latest News</b></b-button>
       </div>
 
       <div class="news-info" v-if="Object.keys(this.article).length !== 0">
         <p style="color: whitesmoke">Latest Article</p>
-        <a :href="this.article.url"><p style="color: whitesmoke; font-weight: 700">{{this.article.title.lastIndexOf('-')
+        <a :href="this.article.url" target="_blank"><p style="color: whitesmoke; font-weight: 700">{{this.article.title.lastIndexOf('-')
           === -1 ? this.article.title : this.article.title.substring(0, this.article.title.lastIndexOf(' - '))}}</p>
         </a>
       </div>
@@ -199,7 +198,7 @@
     font-size: 1rem;
     color: #7b838a;
   }
-  
+
   #language{
     width: auto;
     height: 100%;
