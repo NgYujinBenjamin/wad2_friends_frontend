@@ -26,18 +26,18 @@
           <b-button v-on:click="validate" variant="info" class="searchStyle w-25 align-top">Search</b-button>
         </div>
       </div>
-<!--      <div id="language" class="text-center pt-5">-->
-<!--        <p style="margin-bottom: -15px">Languages</p>-->
-<!--        <b-button-->
-<!--          v-for="(language, index) in languages" :key="index"-->
-<!--          v-on:click="changeBtnType(index)"-->
-<!--          class="my-4 d-inline mx-1"-->
-<!--          variant="info"-->
-<!--          v-bind:class="{'active':language['isActive']}"-->
-<!--          v-text="language['desc']"-->
-<!--          style="margin: 0"-->
-<!--        ></b-button>-->
-<!--      </div>-->
+      <!--      <div id="language" class="text-center pt-5">-->
+      <!--        <p style="margin-bottom: -15px">Languages</p>-->
+      <!--        <b-button-->
+      <!--          v-for="(language, index) in languages" :key="index"-->
+      <!--          v-on:click="changeBtnType(index)"-->
+      <!--          class="my-4 d-inline mx-1"-->
+      <!--          variant="info"-->
+      <!--          v-bind:class="{'active':language['isActive']}"-->
+      <!--          v-text="language['desc']"-->
+      <!--          style="margin: 0"-->
+      <!--        ></b-button>-->
+      <!--      </div>-->
     </div>
   </div>
 </template>
@@ -77,7 +77,7 @@
                 // set default code to be english
                 let code = "en";
                 let selected = this.select;
-                
+
                 this.languages.forEach(function (lang) {
                     // if (lang.isActive) {
                     //     code = lang.code;
@@ -132,9 +132,9 @@
     left: -20px;
     z-index: -1;
     display: block;
-    filter: brightness(70%) saturate(140%) blur(8px);
+    filter: brightness(40%) saturate(140%) blur(8px);
     /* Add the blur effect */
-    -webkit-filter: brightness(70%) saturate(140%) blur(8px);
+    -webkit-filter: brightness(40%) saturate(140%) blur(8px);
     /* Full height */
     width: 110%;
     height: 110%;
