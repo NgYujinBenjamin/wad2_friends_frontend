@@ -3,10 +3,10 @@
     <div v-if="articles.length > 0">
       <h1 class="f-h1" v-if="this.$route.fullPath === '/feed'">Top Stories</h1>
       <h1 class="f-h1" v-else v-text="this.$route.query.q"></h1>
-      <masonry :cols="{default: 3, 1000: 2, 700: 1, 400: 1}"
-               :gutter="{default: '30px', 700: '15px'}">
+      <div>
         <article-card v-for="article in articles" v-bind:article="article" v-bind:key="article.url"></article-card>
-      </masonry>
+      </div>
+
       <div style="display: flex; justify-content: center;">
         <b-button class="align-self-center" variant="outline-primary" @click="loadMore()"><b>Load More</b></b-button>
       </div>

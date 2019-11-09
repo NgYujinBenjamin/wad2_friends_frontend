@@ -1,52 +1,60 @@
 <template>
-  <div>
-    <b-card
-      class="feed-card"
-      :img-src="article.urlToImage"
-      img-alt="Article Image"
-      img-top
-      :title="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"
-    >
-      <em class="publisher"
-          v-text="article.source.name"></em>
+  <v-hover v-slot:default="{ hover }">
+    <v-card class="ml-3 my-3 overallCard">
+      <!-- image -->
+      <v-img :aspect-ratio="16/9" :src="article.urlToImage == null ? imgSet : article.urlToImage">
+        <!-- hover effect -->
+        <v-expand-transition>
+          <a v-if="hover" class="d-flex transition-fast-in-fast-out v-card--reveal card-link"
+             :href="article.url" target="_blank">
+            Read Full Article
+          </a>
+        </v-expand-transition>
+      </v-img>
 
-      <div class="f-card-footer">
-        <hr>
-        <a href="#" @click.prevent="redirect(article.url)" class="card-link d-inline">Read Full Article</a>
-        <a href="#" v-b-modal="article.url" class="card-link d-inline float-right"><i
-          class="fas fa-share-alt"></i></a>
-        <a href="#" class="card-link d-inline float-right" @click.prevent="saveNews()">
-          <i :class="this.saved ? 'fas fa-heart' : 'far fa-heart'"></i>
-        </a>
-      </div>
-    </b-card>
-    <b-modal v-bind:id="article.url" header-bg-variant="primary"
-             header-text-variant="light">
-      <template v-slot:modal-header="{ close }">
-        <h5><i class="fab fa-facebook-square fa-lg"></i> Share on Facebook</h5>
-      </template>
+      <v-card-text style="position: relative;">
+        <!-- Bookmark -->
+        <v-btn absolute class="articleButton mr-2" color="whitesmoke" fab medium right top
+               @click="saveNews()">
+          <i :class="saved ? 'fas fa-heart fa-lg' : 'far fa-heart fa-lg'"></i>
+        </v-btn>
+        <!-- Share -->
+        <v-btn absolute color="whitesmoke" fab medium right top v-b-modal="article.url">
+          <i class="fas fa-share-alt fa-lg"></i>
+        </v-btn>
+        <!-- Details -->
+        <em class="font-weight-normal title mb-2 publisher" v-text="article.source.name"></em>
+        <h3 class="mb-2 card-title" v-text="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"></h3>
+<!--        <div class="font-weight-normal title mb-2 card-title card-desc" v-text="article.description"></div>-->
+      </v-card-text>
 
-      <template>
-        <textarea style="width: 100%; min-height: 150px;" v-text="article.description"></textarea>
-        <img alt="Article Image" class="img-fluid" :src="article.urlToImage"/>
-      </template>
+      <!-- Facebook Popup -->
+      <b-modal v-bind:id="article.url" header-bg-variant="primary"
+               header-text-variant="light">
+        <template v-slot:modal-header="{ close }">
+          <h5><i class="fab fa-facebook-square fa-lg"></i> Share on Facebook</h5>
+        </template>
 
-      <template v-slot:modal-footer="{ ok, cancel, hide }">
-        <b-dropdown id="dropdown-offset" variant="outline-info" offset="25" size="sm" text="Translate"
-                    class="m-2">
-          <b-dropdown-item
-            v-for="(language, index_lang) in languages" :key="index_lang"
-            @click.prevent="translate(language.code)"
-          >{{language.desc}}
-          </b-dropdown-item>
-        </b-dropdown>
-        <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancel</b-button>
-        <b-button size="sm" variant="primary" @click="ok(), postToFB(article.description, article.url)">Post to
-          Facebook
-        </b-button>
-      </template>
-    </b-modal>
-  </div>
+        <template>
+          <textarea style="width: 100%; min-height: 150px;" v-text="article.description"></textarea>
+          <img alt="Article Image" :src="article.urlToImage" class="w-100"/>
+        </template>
+
+        <template v-slot:modal-footer="{ ok, cancel, hide }">
+          <b-dropdown id="dropdown-offset" variant="outline-info" offset="25" size="sm" text="Translate" class="m-2">
+            <b-dropdown-item v-for="(language, index_lang) in languages" :key="index_lang"
+                             @click.prevent="translate(language.code)">
+              {{language.desc}}
+            </b-dropdown-item>
+          </b-dropdown>
+          <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancel</b-button>
+          <b-button size="sm" variant="primary" @click="ok(), postToFB(article.description, article.url)">
+            Post to Facebook
+          </b-button>
+        </template>
+      </b-modal>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -89,6 +97,7 @@
                         console.log(e);
                     });
             },
+
             redirect(url) {
                 window.open(url, "_blank");
             },
@@ -134,7 +143,7 @@
             },
             postToFB: function (msg, link) {
                 let url = "fb-api/112606970182817/feed";
-                const token = "EAAHsGZAfkZA5MBACZB0yMEOj9Cuk8KQYVwzrxl9CERAxbmridPKepZBW3NC5VKv6WkvFWRHy9JIGTaJBmkfZAWuB76CqcVZAWEzHa53aPWP8ZCPdEJyBmcd7nIZCYAMi1MMZB55A65mBoqAOObuodZCZAMcR8uZAylSIPXUfvXjPwYJlGXzsq5OAYiWUPIZC1vOg52bAaod8nMWsp7ILHGFwCK1Hj";
+                const token = "EAAHsGZAfkZA5MBAFFlQeCJnZAuMiXJfQOnDCyuL3Yz02eAc6vZB8VJbY4FUCSm3ON3YlSyhJFsv3LiA1YiP0jmZBuEQVFSJkXPWZCN8zGJusTwJscuS8S8cudgDB7nH6rfCnLi4UpZC6CqdcpBrdSPcDX3MxEAi6wQm8qvZCqAhcQxPt6U8jqamQJwWJ99GZCgTsSkSFlMdWGgDgmVIZClv9JI";
                 let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
                 url += params;
 
@@ -156,50 +165,98 @@
 </script>
 
 <style scoped>
-
-  .feed-card {
-    height: 440px;
-    margin-bottom: 20px;
-
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-    transition: 0.3s;
+  .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+    background-color: #48c9b0;
+    color: black;
+    font-weight: 700;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
   }
 
-  .feed-card:hover {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  .overallCard {
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
+    display: inline-block;
+    height: 400px;
+    max-width: 30%;
   }
 
   .card-title {
+    margin-top: 5px;
     font-weight: 700;
     font-size: 22px;
-    height: 120px;
-  }
-
-  .card-text {
-    max-height: 100px;
+    height: 140px;
     overflow: hidden;
-    overflow-wrap: break-word;
-    text-overflow: ellipsis;
+    color: black;
   }
 
-  .card-img-top {
-    height: 200px;
-    width: auto;
-    object-fit: cover;
+  .card-link {
+    height: 100%;
+    background-color: whitesmoke;
+    color: black;
+    font-size: 4vh;
+    text-decoration: inherit;
   }
 
-  .f-card-footer {
-    position: absolute;
+  .card-desc {
+    height: 150px;
+    font-size: 1.7vh;
+    line-height: 2.5vh;
+  }
+
+  .v-card--reveal {
+    align-items: center;
     bottom: 0;
-    left: 0;
+    justify-content: center;
+    opacity: .7;
+    position: absolute;
     width: 100%;
-    padding: 20px;
   }
 
   .publisher {
-    color: #bdbdbd;
     font-weight: 500;
-    font-size: 12px;
     text-transform: uppercase;
+  }
+
+  #noBookmark {
+    color: #e0e0e0;
+    margin-top: 50px;
+  }
+
+  span.icon {
+    color: black;
+  }
+
+  span.text {
+    display: inline-block;
+  }
+
+  .articleButton {
+    right: 20%;
+  }
+
+  @media only screen and (max-width: 450px) {
+    .articleButton {
+      right: 25%;
+    }
+  }
+
+  @media only screen and (max-width: 800px) {
+    #card-width {
+      max-width: 100%;
+      margin-right: 1rem;
+    }
+
+    .articleButton {
+      right: 12%;
+    }
+  }
+
+  @media only screen and (max-width: 1500px) {
+    span.text {
+      display: none;
+    }
+
+    span.icon {
+      color: white;
+    }
   }
 </style>
