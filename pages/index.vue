@@ -106,6 +106,7 @@
               document.querySelector('html').style.height="100%";
               document.querySelector('body').style.margin=0;
               document.querySelector('html').style.margin=0;
+              document.querySelector('body').style['background-color']="black";
             }
         },
         mounted: function () {
@@ -115,7 +116,7 @@
             this.fetchData()
             // this.getTrendingTopics()
 
-            // this.changeCSS();
+            this.changeCSS();
         }
     };
 </script>
@@ -141,7 +142,7 @@
     margin-top: 13%;
   }
 
-  .main-container {;
+  .main-container {
     content: "";
     position: fixed;
     top: -20px;
@@ -163,11 +164,11 @@
   }
 
   .test {
-    top: -225px;
-    left: -20px;
-    filter: brightness(70%) saturate(140%) blur(8px);
+    top: -300px;
+    left: -40px;
+    filter: brightness(60%) saturate(140%) blur(8px);
     /* Add the blur effect */
-    -webkit-filter: brightness(70%) saturate(140%) blur(8px);
+    -webkit-filter: brightness(60%) saturate(140%) blur(8px);
     /* Full height */
     width: 110%;
     height: 110%;

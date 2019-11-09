@@ -2,9 +2,10 @@
   <div>
     <navbar-clear v-if="this.$route.fullPath === '/'"></navbar-clear>
     <navbar style="margin-bottom: 20px" v-else></navbar>
-    <div class="container">
+    <div v-if="this.$route.fullPath !== '/'" class="container">
       <nuxt/>
     </div>
+    <nuxt v-else/>
     <f-footer v-if="this.$route.fullPath !== '/'"></f-footer>
   </div>
 </template>
