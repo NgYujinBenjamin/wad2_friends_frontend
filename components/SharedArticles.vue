@@ -1,39 +1,137 @@
 <template>
   <div>
     <b-carousel
-      id="carousel-1"
+      :interval="100000"
+      controls
+      indicators
+      background="#eceff1"
+      style="text-shadow: 1px 1px 2px #333;"
+      v-if="articles.length > 0"
+      id="fullscreen"
+    >
+      <span v-for="(article,index) in articles" :key="article.id">
+        <b-carousel-slide
+          img-src="~/assets/grey_bg.png"
+          class="image_sliders"
+          v-if="index%3 === 0"
+        >
+          <div class="row">
+            <b-card
+              class="card-shared d-inline"
+              :img-src="article.urlToImage"
+              img-alt="Article Image"
+              img-height="100%"
+              overlay
+            >
+            <b-card-body v-text="article.title"></b-card-body>
+          </b-card>
+
+            <b-card
+              class="card-shared d-inline"
+              :img-src="articles[index+1].urlToImage"
+              img-alt="Article Image"
+              img-height="100%"
+              overlay
+            >
+            <b-card-body v-text="articles[index+1].title"></b-card-body>
+          </b-card>
+
+            <b-card
+              class="card-shared d-inline"
+              :img-src="articles[index+2].urlToImage"
+              img-alt="Article Image"
+              img-height="100%"
+              overlay
+            >
+            <b-card-body v-text="articles[index+2].title"></b-card-body>
+          </b-card>
+          </div>
+        </b-carousel-slide>
+      </span>
+    </b-carousel>
+
+    <b-carousel
       :interval="4000"
       controls
       indicators
-      background="#ababab"
-      img-width="1024"
-      img-height="480"
+      background="#eceff1"
       style="text-shadow: 1px 1px 2px #333;"
+      v-if="articles.length > 0"
+      id="halfscreen"
     >
-      <!-- Text slides with image -->
-      <b-carousel-slide
-        v-for="article in articles"
-        :key="article.id"
-        :caption="article.title"
-        :text="article.description"
-        :img-src="article.urlToImage"
-        class="image_sliders"
-      ></b-carousel-slide>
+      <span v-for="(article,index) in articles" :key="article.id">
+        <b-carousel-slide
+          img-src="~/assets/grey_bg.png"
+          class="image_sliders"
+          v-if="index%2 === 0"
+        >
+          <div class="row">
+            <b-card
+              class="card-shared d-inline"
+              :img-src="article.urlToImage"
+              img-alt="Article Image"
+              img-height="100%"
+              overlay
+            >
+            <b-card-body v-text="article.title"></b-card-body>
+          </b-card>
 
+            <b-card
+              class="card-shared d-inline"
+              :img-src="articles[index+1].urlToImage"
+              img-alt="Article Image"
+              img-height="100%"
+              overlay
+            >
+            <b-card-body v-text="articles[index+1].title"></b-card-body>
+          </b-card>
+
+          </div>
+        </b-carousel-slide>
+      </span>
     </b-carousel>
-<!--    {{articles}}-->
+
+    <b-carousel
+      :interval="4000"
+      controls
+      indicators
+      background="#eceff1"
+      style="text-shadow: 1px 1px 2px #333;"
+      v-if="articles.length > 0"
+      id="mobile"
+    >
+      <b-carousel-slide
+        img-src="~/assets/grey_bg.png"
+        class="image_sliders"
+        v-for="(article,index) in articles"
+        :key="index"
+      >
+        <div class="row">
+          <b-card
+            class="card-shared d-inline"
+            :img-src="article.urlToImage"
+            img-alt="Article Image"
+            img-height="100%"
+            overlay
+          >
+            <br/><br/><br/><br/>
+            <b-card-header v-text="article.title"></b-card-header>
+          </b-card>
+        </div>
+      </b-carousel-slide>
+    </b-carousel>
   </div>
 </template>
 
 <script>
     export default {
-        name:"sharedArticles",
+        name: "sharedArticles",
         data: function () {
             return {
                 slides: 3,
                 articles: [],
-                // get latest set of 9 articles shared
-                latest_shared_limit: 9,
+                // get latest set of 12 articles shared
+                latest_shared_limit: 12,
                 savedMsg: "Bookmark news",
                 latest_sort_col: "id",
                 latest_sort_order: "DESC", // descending order;
@@ -77,6 +175,7 @@
                 console.table(url, config);
                 await this.$axios.$get(url, config)
                     .then((response) => {
+                        let user = JSON.parse(localStorage.getItem("user"));
                         console.log(response);
                         this.articles = response;
 
@@ -147,10 +246,89 @@
 </script>
 
 <style scoped>
-  .image_sliders{
-    width: auto;
+  .image_sliders {
+    width: 100%;
     /*display: block;*/
-    margin: 0 auto;
-    max-height: 200px !important;
+    /*margin: 0 auto;*/
+    height: 350px;
+    max-height: 350px !important;
   }
+
+  #fullscreen .card-shared {
+    width: 31%;
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+
+  #fullscreen img.card-img {
+    width: 100%;
+    height: 211.19px;
+  }
+
+  #halfscreen .card-shared {
+    width: 48%;
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+
+  #halfscreen img.card-img {
+    width: 100%;
+    height: 211.19px;
+  }
+
+  #mobile .card-shared {
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+
+  #mobile img.card-img {
+    width: 100%;
+    height: 211.19px;
+  }
+
+  @media only screen and (max-width: 4096px) {
+    #fullscreen {
+      display: block !important;
+    }
+
+    #halfscreen {
+      display: none !important;
+    }
+
+    #mobile {
+      display: none !important;
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    #fullscreen {
+      display: none !important;
+    }
+
+    #halfscreen {
+      display: block !important;
+    }
+
+    #mobile {
+      display: none !important;
+    }
+  }
+
+
+  @media only screen and (max-width: 700px) {
+    #fullscreen {
+      display: none !important;
+    }
+
+    #halfscreen {
+      display: none !important;
+    }
+
+    #mobile {
+      display: block !important;
+    }
+  }
+
+
 </style>
