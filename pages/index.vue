@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid" style="position: relative; z-index:1;">
     <Carousel class="test" style="position:absolute; z-index:2;"></Carousel>
-    <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>
+<!--    <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>-->
     <div class="box" style="position: relative; z-index:3;">
       <h1 class="title text-center">FRIENDS</h1>
       <p class="text-center">Retrieve news articles from multiple platforms</p>
@@ -21,18 +21,6 @@
           <b-button v-on:click="validate" variant="info" class="searchStyle w-25">Search</b-button>
         </div>
       </div>
-<!--      <div id="language" class="text-center pt-5">-->
-<!--        <p style="margin-bottom: -15px">Languages</p>-->
-<!--        <b-button-->
-<!--          v-for="(language, index) in languages" :key="index"-->
-<!--          v-on:click="changeBtnType(index)"-->
-<!--          class="my-4 d-inline mx-1"-->
-<!--          variant="info"-->
-<!--          v-bind:class="{'active':language['isActive']}"-->
-<!--          v-text="language['desc']"-->
-<!--          style="margin: 0"-->
-<!--        ></b-button>-->
-<!--      </div>-->
     </div>
   </div>
 </template>
@@ -60,13 +48,13 @@
             };
         },
         methods: {
-            async fetchData() {
-                let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=1&domains=channelnewsasia.com,Yahoo.com";
-
-                const res = await this.$axios.$get(url);
-                this.article = res.articles[0];
-                
-            },
+            // async fetchData() {
+            //     let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=1&domains=channelnewsasia.com,Yahoo.com";
+            //
+            //     const res = await this.$axios.$get(url);
+            //     this.article = res.articles[0];
+            //
+            // },
             changeBtnType: function (index) {
                 this.languages[index].isActive = !this.languages[index].isActive;
             },
@@ -110,9 +98,9 @@
             if (!localStorage.getItem("jwt")) {
                 this.$router.replace({name: "login"});
             }
-            this.fetchData()
+            // this.fetchData()
 
-            this.changeCSS();
+            // this.changeCSS();
         }
     };
 </script>
@@ -152,7 +140,7 @@
   }
 
   .test {
-    top: -200px;
+    top: -225px;
     left: -20px;
     filter: brightness(70%) saturate(140%) blur(8px);
     /* Add the blur effect */
