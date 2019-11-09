@@ -96,6 +96,14 @@
                 if (e.keyCode === 13) {
                     this.validate();
                 }
+            },
+            changeCSS: function(){
+              document.querySelector('body').style.overflow="hidden";
+              document.querySelector('html').style.overflow="hidden";
+              document.querySelector('body').style.height="100%";
+              document.querySelector('html').style.height="100%";
+              document.querySelector('body').style.margin=0;
+              document.querySelector('html').style.margin=0;
             }
         },
         mounted: function () {
@@ -103,6 +111,8 @@
                 this.$router.replace({name: "login"});
             }
             this.fetchData()
+
+            this.changeCSS();
         }
     };
 </script>
@@ -112,6 +122,7 @@
 
   body {
     background-color: #272727;
+    overflow:hidden;
   }
 
   .box {
@@ -142,7 +153,7 @@
 
   .test {
     top: -200px;
-    
+    left: -20px;
     filter: brightness(70%) saturate(140%) blur(8px);
     /* Add the blur effect */
     -webkit-filter: brightness(70%) saturate(140%) blur(8px);
@@ -155,6 +166,7 @@
   .logo {
     margin: 2%;
   }
+
 
   .title {
     font-family: "Open Sans", serif;
