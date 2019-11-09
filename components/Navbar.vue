@@ -47,7 +47,7 @@
             };
         },
         mounted: function () {
-            if (!localStorage.getItem("jwt")) {
+            if (!localStorage.getItem("jwt") && this.$route.fullPath !== "/signup") {
                 this.$router.replace({name: "login"});
             }
             if (localStorage.getItem("user")) {

@@ -139,9 +139,6 @@
             };
         },
         mounted: function () {
-            if (!localStorage.getItem("jwt")) {
-                this.$router.replace({name: "login"});
-            }
             var user = JSON.parse(localStorage.getItem("user"));
             this.username = user.username;
             this.email = user.email;

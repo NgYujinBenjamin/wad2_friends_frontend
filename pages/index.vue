@@ -115,9 +115,6 @@
             }
         },
         mounted: function () {
-            if (!localStorage.getItem("jwt")) {
-                this.$router.replace({name: "login"});
-            }
             this.fetchData()
             // this.getTrendingTopics()
 

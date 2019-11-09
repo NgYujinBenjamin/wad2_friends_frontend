@@ -117,10 +117,6 @@
         // },
         mounted: function () {
             // mounted will run functions after page is loaded
-            if (!localStorage.getItem("jwt")) {
-                this.$router.replace({name: "login"});
-            }
-
             let currURL = document.location.href;
             let params = currURL.split("?");
             // console.log("params", params, params.length);
