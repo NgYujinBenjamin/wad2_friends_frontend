@@ -2,7 +2,7 @@
   <div>
     <navbar-clear v-if="$route.path === '/' "></navbar-clear>
     <navbar v-else></navbar>
-    <div class="container-fluid">
+    <div class="container">
       <nuxt/>
     </div>
   </div>

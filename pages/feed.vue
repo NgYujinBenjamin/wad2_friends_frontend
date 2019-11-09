@@ -1,7 +1,9 @@
 <template>
   <no-ssr>
     <div v-if="articles.length > 0">
-      <masonry :cols="{default: 4, 1000: 3, 700: 1, 400: 1}"
+      <h1 class="f-h1" v-if="this.$route.fullPath === '/feed'">Top Stories</h1>
+      <h1 class="f-h1" v-else v-text="this.$route.query.q"></h1>
+      <masonry :cols="{default: 3, 1000: 3, 700: 1, 400: 1}"
                :gutter="{default: '30px', 700: '15px'}">
         <article-card v-for="article in articles" v-bind:article="article" v-bind:key="article.url"></article-card>
       </masonry>
@@ -33,13 +35,7 @@
                 pageLoader: true,
                 msg: "Loading...",
                 savedMsg: "Bookmark News",
-                articles: [],
-                languages: [
-                    {code: "en", desc: "English", isActive: false},
-                    {code: "es", desc: "Spanish/español", isActive: false},
-                    {code: "ar", desc: "Arabic/عربى", isActive: false},
-                    {code: "zh", desc: "Chinese/中文", isActive: false}
-                ]
+                articles: []
             };
         },
         mounted: function () {
@@ -113,8 +109,9 @@
 </script>
 
 <style scoped>
-  .feed-card {
-    margin: 20px 0 0 0;
+  .f-h1 {
+    font-weight: 800;
+    padding-bottom: 10px;
   }
 
   #errorsearch {

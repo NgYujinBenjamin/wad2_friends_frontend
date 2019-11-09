@@ -17,27 +17,21 @@
                         placeholder="Search for articles"></b-form-input>
         </div>
         <div class="col-md-3 text-left px-0">
-          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">
-            <option disabled value="">Select Language</option>
-            <option v-for="(language, index) in languages" v-bind:value="language['desc']">
-              {{ language['desc'] }}
-            </option>
-          </select>
           <b-button v-on:click="validate" variant="info" class="searchStyle w-25 align-top">Search</b-button>
+          <!--          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">-->
+          <!--            <option disabled value="">Language</option>-->
+          <!--            <option v-for="(language, index) in languages" v-bind:value="language['desc']">-->
+          <!--              {{ language['desc'] }}-->
+          <!--            </option>-->
+          <!--          </select>-->
         </div>
       </div>
-      <!--      <div id="language" class="text-center pt-5">-->
-      <!--        <p style="margin-bottom: -15px">Languages</p>-->
-      <!--        <b-button-->
-      <!--          v-for="(language, index) in languages" :key="index"-->
-      <!--          v-on:click="changeBtnType(index)"-->
-      <!--          class="my-4 d-inline mx-1"-->
-      <!--          variant="info"-->
-      <!--          v-bind:class="{'active':language['isActive']}"-->
-      <!--          v-text="language['desc']"-->
-      <!--          style="margin: 0"-->
-      <!--        ></b-button>-->
-      <!--      </div>-->
+      <div class="news-info" v-if="Object.keys(this.article).length !== 0">
+        <p style="color: whitesmoke">Latest Article</p>
+        <a :href="this.article.url"><p style="color: whitesmoke; font-weight: 700">{{this.article.title.lastIndexOf('-')
+          === -1 ? this.article.title : this.article.title.substring(0, this.article.title.lastIndexOf(' - '))}}</p>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -70,9 +64,21 @@
                 const res = await this.$axios.$get(url);
                 this.article = res.articles[0];
             },
-            // changeBtnType: function (index) {
-            //     this.languages[index].isActive = !this.languages[index].isActive;
-            // },
+            async getTrendingTopics() {
+                const headers = {
+                    'Authorization': 'OAuth oauth_consumer_key="WTS3meCTV0yuYVDGjXIO2Niaa",oauth_token="1168783151339933697-xgbQiWUTEZZ76k85aNNHaaYdGknuzl",oauth_signature_method="HMAC-SHA1",oauth_version="1.0"',
+                }
+
+                let topics = await this.$axios.$get('/twitter-api/1.1/trends/place.json?id=1', {
+                    headers: headers
+                }).catch(e => {
+                    this.$toast.error("Error: " + e.message, {
+                        icon: {name: "exclamation-triangle"}
+                    });
+                });
+
+                console.log(topics)
+            },
             validate: function () {
                 // set default code to be english
                 let code = "en";
@@ -82,8 +88,8 @@
                     // if (lang.isActive) {
                     //     code = lang.code;
                     // }
-                    if(lang.desc == selected){
-                      code = lang.code;
+                    if (lang.desc === selected) {
+                        code = lang.code;
                     }
                 });
 
@@ -110,6 +116,7 @@
                 this.$router.replace({name: "login"});
             }
             this.fetchData()
+            this.getTrendingTopics()
         }
     };
 </script>
@@ -118,7 +125,18 @@
   @import url('https://fonts.googleapis.com/css?family=Open%20Sans');
 
   body {
+    font-family: "Open Sans", serif;
     background-color: #272727;
+  }
+
+  .news-info {
+    background-color: rgba(39, 39, 39, 0.5);
+    border-radius: 5px;
+    padding: 20px 20px;
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    width: 500px;
   }
 
   .box {
@@ -186,7 +204,7 @@
     height: 100%;
   }
 
-  select{
+  select {
     appearance: "caret";
   }
 </style>

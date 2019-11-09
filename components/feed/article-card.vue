@@ -1,29 +1,29 @@
 <template>
-  <b-card
-    class="feed-card"
-    :img-src="article.urlToImage"
-    img-alt="Article Image"
-    img-top
-    :title="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"
-  >
-    <div>
-      <em class="publisher"></em>
-      <em class="publisher"
-          v-text="article.source.name"></em>
-    </div>
+  <div>
+    <b-card
+      class="feed-card"
+      :img-src="article.urlToImage"
+      img-alt="Article Image"
+      img-top
+      :title="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"
+    >
+      <div>
+        <em class="publisher"></em>
+        <em class="publisher"
+            v-text="article.source.name"></em>
+      </div>
 
-    <b-card-text v-text="article.description" style="padding-top:7px;"></b-card-text>
-    <hr>
-    <div class="card-text">
-      <a href="#" @click.prevent="redirect(article.url)" class="card-link d-inline">Read Full Article</a>
-      <a href="#" v-b-modal="'myModal' + index" class="card-link d-inline float-right"><i
-        class="fas fa-share"></i></a>
-      <a href="#" class="card-link d-inline float-right" @click.prevent="saveNews()">
-        <i :class="this.saved ? 'fas fa-bookmark' : 'far fa-bookmark'"></i>
-      </a>
-    </div>
-
-    <b-modal v-bind:id="'myModal'+index" :title="'Article '+index" header-bg-variant="primary"
+      <div class="f-card-footer">
+        <hr>
+        <a href="#" @click.prevent="redirect(article.url)" class="card-link d-inline">Read Full Article</a>
+        <a href="#" v-b-modal="article.url" class="card-link d-inline float-right"><i
+          class="fas fa-share-alt"></i></a>
+        <a href="#" class="card-link d-inline float-right" @click.prevent="saveNews()">
+          <i :class="this.saved ? 'fas fa-heart' : 'far fa-heart'"></i>
+        </a>
+      </div>
+    </b-card>
+    <b-modal v-bind:id="article.url" header-bg-variant="primary"
              header-text-variant="light">
       <template v-slot:modal-header="{ close }">
         <h5><i class="fab fa-facebook-square fa-lg"></i> Share on Facebook</h5>
@@ -31,7 +31,7 @@
 
       <template>
         <textarea style="width: 100%; min-height: 150px;" v-text="article.description"></textarea>
-        <img alt="Article Image" :src="article.urlToImage" class="w-100"/>
+        <img alt="Article Image" class="img-fluid" :src="article.urlToImage"/>
       </template>
 
       <template v-slot:modal-footer="{ ok, cancel, hide }">
@@ -39,18 +39,17 @@
                     class="m-2">
           <b-dropdown-item
             v-for="(language, index_lang) in languages" :key="index_lang"
-            @click.prevent="translate(index,language.code)"
+            @click.prevent="translate(language.code)"
           >{{language.desc}}
           </b-dropdown-item>
         </b-dropdown>
         <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancel</b-button>
-        <b-button size="sm" variant="primary" @click="postToFB(article.description, article.url)">Post to
+        <b-button size="sm" variant="primary" @click="ok(), postToFB(article.description, article.url)">Post to
           Facebook
         </b-button>
       </template>
     </b-modal>
-
-  </b-card>
+  </div>
 </template>
 
 <script>
@@ -59,11 +58,17 @@
         props: ['article', 'index'],
         data() {
             return {
-                saved: this.article.saved
+                saved: this.article.saved,
+                languages: [
+                    {code: "en", desc: "English", isActive: false},
+                    {code: "es", desc: "Spanish/español", isActive: false},
+                    {code: "ar", desc: "Arabic/عربى", isActive: false},
+                    {code: "zh", desc: "Chinese/中文", isActive: false}
+                ]
             }
         },
         methods: {
-            translate: function (index, language) {
+            translate: function (language) {
                 const config = {
                     headers: {
                         "Content-Type": "application/json",
@@ -71,17 +76,17 @@
                     }
                 };
 
-                let currLanguage = this.articles[index].language;
+                let currLanguage = this.article.language;
                 let url =
                     "https://api-apc.cognitive.microsofttranslator.com/translate?api-version=3.0&from=" +
                     currLanguage +
                     "&to=" +
                     language;
                 this.$axios
-                    .post(url, [{text: this.articles[index].description}], config)
+                    .post(url, [{text: this.article.description}], config)
                     .then(response => {
                         let translated = response.data[0]["translations"];
-                        this.articles[index].description = translated[0].text;
+                        this.$set(this.article, 'description', translated[0].text)
                     })
                     .catch(e => {
                         console.log(e);
@@ -131,8 +136,8 @@
                 }
             },
             postToFB: function (msg, link) {
-                let url = "https://graph.facebook.com/112606970182817/feed";
-                const token = "EAAHsGZAfkZA5MBAFQkVnEWb6bnS3lFRHMtLfvufQt9r2NJwAYspX6JBSZCA1WxZAMmh2QJZCJET4pZAA2kiDEsP8KM08jwAjnG26PZCdWNSybD75fO6dAGMZC7HX6yJSkVkgxr7uzYx1DmTUxWJzMsFLDPRElY8qZBy0QwdmfQFUYvdAWmE0LIBLovnThiLnPtmZBjGsb0MkaDFESkHgvc1mbZB";
+                let url = "fb-api/112606970182817/feed";
+                const token = "EAAHsGZAfkZA5MBACZB0yMEOj9Cuk8KQYVwzrxl9CERAxbmridPKepZBW3NC5VKv6WkvFWRHy9JIGTaJBmkfZAWuB76CqcVZAWEzHa53aPWP8ZCPdEJyBmcd7nIZCYAMi1MMZB55A65mBoqAOObuodZCZAMcR8uZAylSIPXUfvXjPwYJlGXzsq5OAYiWUPIZC1vOg52bAaod8nMWsp7ILHGFwCK1Hj";
                 let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
                 url += params;
 
@@ -154,9 +159,47 @@
 </script>
 
 <style scoped>
+  .feed-card {
+    height: 440px;
+    margin-bottom: 20px;
+
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+  }
+
+  .feed-card:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .card-title {
+    font-weight: 700;
+  }
+
+  .card-text {
+    max-height: 100px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+  }
+
+  .card-img-top {
+    height: 200px;
+    width: auto;
+    object-fit: cover;
+  }
+
+  .f-card-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+  }
+
   .publisher {
     color: #bdbdbd;
     font-weight: 500;
+    font-size: 12px;
     text-transform: uppercase;
   }
 </style>

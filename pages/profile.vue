@@ -54,7 +54,6 @@
         <strong>Bookmarked News</strong>
       </div>
       <div v-if="this.savedArticles.length > 0">
-
         <b-card v-for="(article,index) in this.savedArticles" :key="index"
                 :title="article.title"
                 :img-src="article.urlToImage"
@@ -65,9 +64,7 @@
                 class="mb-2 ml-3 mt-3 card-img-top embed-responsive-item">
 
           <b-card-text v-text="article.description"></b-card-text>
-
           <b-button :href="article.url" variant="primary">Read Article</b-button>
-
         </b-card>
       </div>
     </div>
@@ -106,12 +103,9 @@
                     'Authorization': 'Bearer ' + jwt
                 };
 
-                console.log(userId);
                 this.savedArticles = await this.$axios.$get("https://sa-api.eof.cx/savedarticles?user=" + userId, {
                     headers: headers
                 });
-
-                console.log(this.savedArticles);
             },
         }
     };
