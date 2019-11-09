@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid">
-    <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>
-    <!-- content -->
-    <div class="box" style="padding-top: 80px">
+  <div class="container-fluid" style="position: relative; z-index:1;">
+    <Carousel class="test" style="position:absolute; z-index:2;"></Carousel>
+<!--    <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>-->
+    <div class="box" style="position: relative; z-index:3;"> <!-- style="padding-top: 80px" -->
       <h1 class="title text-center">FRIENDS</h1>
       <p class="text-center">Retrieve news articles from multiple platforms</p>
 
@@ -37,10 +37,12 @@
 
 <script>
     import Logo from "~/components/Logo.vue";
+    import Carousel from "~/components/Carousel/Carousel.vue";
 
     export default {
         components: {
-            Logo
+            Logo,
+            Carousel
         },
         name: "landing",
         data() {
@@ -62,6 +64,9 @@
 
                 const res = await this.$axios.$get(url);
                 this.article = res.articles[0];
+            },
+            changeBtnType: function (index) {
+                this.languages[index].isActive = !this.languages[index].isActive;
             },
             validate: function () {
                 // set default code to be english
@@ -93,6 +98,14 @@
                 if (e.keyCode === 13) {
                     this.validate();
                 }
+            },
+            changeCSS: function(){
+              document.querySelector('body').style.overflow="hidden";
+              document.querySelector('html').style.overflow="hidden";
+              document.querySelector('body').style.height="100%";
+              document.querySelector('html').style.height="100%";
+              document.querySelector('body').style.margin=0;
+              document.querySelector('html').style.margin=0;
             }
         },
         mounted: function () {
@@ -101,6 +114,8 @@
             }
             this.fetchData()
             // this.getTrendingTopics()
+
+            // this.changeCSS();
         }
     };
 </script>
@@ -144,7 +159,25 @@
     background-repeat: no-repeat;
     background-size: cover;
     box-shadow: 0 0 800px rgba(0, 0, 0, 1) inset;
+
   }
+
+  .test {
+    top: -225px;
+    left: -20px;
+    filter: brightness(70%) saturate(140%) blur(8px);
+    /* Add the blur effect */
+    -webkit-filter: brightness(70%) saturate(140%) blur(8px);
+    /* Full height */
+    width: 110%;
+    height: 110%;
+    box-shadow: 0 0 800px rgba(0, 0, 0, 1) inset;
+  }
+
+  .logo {
+    margin: 2%;
+  }
+
 
   .title {
     font-weight: 400;
