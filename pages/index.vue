@@ -16,7 +16,7 @@
           <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
                         placeholder="Search for articles"></b-form-input>
         </div>
-        <div class="col-md-3 text-left px-0">
+        <div class="col-md-2 text-left px-0">
           <b-button v-on:click="validate" variant="info" class="searchStyle">Search</b-button>
           <!--          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">-->
           <!--            <option disabled value="">Language</option>-->
@@ -25,7 +25,11 @@
           <!--            </option>-->
           <!--          </select>-->
         </div>
+        <div class="col-md-12" style="display: flex; justify-content: center;">
+          <b-button class="align-self-center" variant="outline-info" style="width: 20%" href="/feed"><b>Latest News</b></b-button>
+        </div>
       </div>
+
       <div class="news-info" v-if="Object.keys(this.article).length !== 0">
         <p style="color: whitesmoke">Latest Article</p>
         <a :href="this.article.url"><p style="color: whitesmoke; font-weight: 700">{{this.article.title.lastIndexOf('-')

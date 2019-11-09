@@ -5,6 +5,7 @@
     <div class="container">
       <nuxt/>
     </div>
+    <f-footer v-if="this.$route.fullPath !== '/'"></f-footer>
   </div>
 </template>
 
@@ -60,11 +61,13 @@
 <script>
     import Navbar from "~/components/Navbar";
     import NavbarClear from "~/components/Navbar-clear";
+    import FFooter from "~/components/Footer";
 
     export default {
         components: {
             Navbar,
-            NavbarClear
+            NavbarClear,
+            FFooter
         }
     }
 </script>

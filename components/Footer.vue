@@ -1,34 +1,30 @@
 <template>
-  <div style="height: 72px; border-bottom: 1px solid #efefef; z-index: 9999">
-    <div class="container">
-      <b-navbar toggleable="lg">
-        <b-navbar-brand href="/">FRIENDS</b-navbar-brand>
-
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-        <input type="text" id="navbarSearch" width="200px" v-on:keyup="validateEnterkey" placeholder="Search">
-
-        <!-- Right aligned nav items -->
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <b-navbar-nav id="headerStyle">
-              <b-nav-item href="/feed">Feed</b-nav-item>
-              <b-nav-item href="/recommendations">Recommendation</b-nav-item>
-            </b-navbar-nav>
-            <b-nav-item-dropdown right>
-              <!-- Using 'button-content' slot -->
-              <template v-slot:button-content>
-                <i class="fas fa-user-circle fa-lg"></i>
-                <span>{{username}}</span>
-              </template>
-              <b-dropdown-item href="/profile">Profile</b-dropdown-item>
-              <b-dropdown-item href="#" @click="logout()">Sign Out</b-dropdown-item>
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
+  <footer style="border-top: 1px solid #efefef; margin-top: 60px">
+    <div class="container text-center text-md-left">
+      <div class="row">
+        <div class="col-md-6 mt-md-0 mt-3">
+          <h5 class="text-uppercase">Friends</h5>
+        </div>
+        <hr class="clearfix w-100 d-md-none pb-3">
+        <div class="col-md-3 mb-md-0 mb-3">
+        </div>
+        <div class="col-md-3 mb-md-0 mb-3">
+          <h5>Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="/feed">Feed</a>
+            </li>
+            <li>
+              <a href="/recommendations">Recommendations</a>
+            </li>
+            <li>
+              <a href="/profile">Profile</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -83,17 +79,7 @@
 </script>
 
 <style scoped>
-  #navbarSearch {
-    border: 1px solid
-    rgba(0,0,0,.06);
-    box-shadow: 0 1px 3px
-    rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.07);
-    height: 42px;
-
-    border-radius: 4px;
-    font-size: 17px;
-    padding: 0 16px;
-    line-height: 2;
-    color: rgba(0, 0, 0, .6);
+  .footer {
+    margin-top: 80px;
   }
 </style>
