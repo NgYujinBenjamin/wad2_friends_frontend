@@ -12,26 +12,31 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-2" id="bufferCol"></div>
-        <!-- Search input field -->
-        <div class="col-lg-8 px-2">
-          <select v-model="select" class="form-control d-inline align-top float-left" id="language">
-            <option disabled value="">Article Language</option>
-            <option v-for="(language, index) in languages" v-bind:value="language['desc']">
-              {{ language['desc'] }}
-            </option>
-          </select>
-          <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg" placeholder="Search for articles"></b-form-input>
+        <div class="col-md-2"></div>
+        <div class="col-md-7 px-2">
+          <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
+                        placeholder="Search for articles"></b-form-input>
+        </div>
+        <div class="col-md-2 text-left px-0">
+          <b-button v-on:click="validate" variant="info" class="searchStyle">Search</b-button>
+          <!--          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">-->
+          <!--            <option disabled value="">Language</option>-->
+          <!--            <option v-for="(language, index) in languages" v-bind:value="language['desc']">-->
+          <!--              {{ language['desc'] }}-->
+          <!--            </option>-->
+          <!--          </select>-->
+        </div>
+        <div class="col-md-12" style="display: flex; justify-content: center;">
+          <b-button class="align-self-center" variant="outline-info" style="width: 20%" href="/feed"><b>Latest News</b></b-button>
         </div>
       </div>
-        <!-- Language & Search buttons -->
-      <!-- <div class="row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8 px-2 text-center" id="buttons">
-          <b-button v-on:click="validate" variant="info" class="searchStyle">Search</b-button>
-        </div>
-      </div> -->
 
+      <div class="news-info" v-if="Object.keys(this.article).length !== 0">
+        <p style="color: whitesmoke">Latest Article</p>
+        <a :href="this.article.url"><p style="color: whitesmoke; font-weight: 700">{{this.article.title.lastIndexOf('-')
+          === -1 ? this.article.title : this.article.title.substring(0, this.article.title.lastIndexOf(' - '))}}</p>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -64,20 +69,32 @@
                 const res = await this.$axios.$get(url);
                 this.article = res.articles[0];
             },
-            // changeBtnType: function (index) {
-            //     this.languages[index].isActive = !this.languages[index].isActive;
+            // async getTrendingTopics() {
+            //     const headers = {
+            //         'Authorization': 'OAuth oauth_consumer_key="WTS3meCTV0yuYVDGjXIO2Niaa",oauth_token="1168783151339933697-xgbQiWUTEZZ76k85aNNHaaYdGknuzl",oauth_signature_method="HMAC-SHA1",oauth_version="1.0"',
+            //     }
+            //
+            //     let topics = await this.$axios.$get('/twitter-api/1.1/trends/place.json?id=1', {
+            //         headers: headers
+            //     }).catch(e => {
+            //         this.$toast.error("Error: " + e.message, {
+            //             icon: {name: "exclamation-triangle"}
+            //         });
+            //     });
+            //
+            //     console.log(topics)
             // },
             validate: function () {
                 // set default code to be english
                 let code = "en";
                 let selected = this.select;
-                
+
                 this.languages.forEach(function (lang) {
                     // if (lang.isActive) {
                     //     code = lang.code;
                     // }
-                    if(lang.desc == selected){
-                      code = lang.code;
+                    if (lang.desc === selected) {
+                        code = lang.code;
                     }
                 });
 
@@ -104,6 +121,7 @@
                 this.$router.replace({name: "login"});
             }
             this.fetchData()
+            // this.getTrendingTopics()
         }
     };
 </script>
@@ -112,7 +130,17 @@
   @import url('https://fonts.googleapis.com/css?family=Open%20Sans');
 
   body {
-    background-color: #272727;
+    font-family: "Open Sans", serif;
+  }
+
+  .news-info {
+    background-color: rgba(39, 39, 39, 0.5);
+    border-radius: 5px;
+    padding: 20px 20px;
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    width: 500px;
   }
 
   .box {
@@ -126,9 +154,9 @@
     left: -20px;
     z-index: -1;
     display: block;
-    filter: brightness(70%) saturate(140%) blur(8px);
+    filter: brightness(40%) saturate(140%) blur(8px);
     /* Add the blur effect */
-    -webkit-filter: brightness(70%) saturate(140%) blur(8px);
+    -webkit-filter: brightness(40%) saturate(140%) blur(8px);
     /* Full height */
     width: 110%;
     height: 110%;
@@ -139,11 +167,9 @@
     box-shadow: 0 0 800px rgba(0, 0, 0, 1) inset;
   }
 
-  * {
+  .title {
     font-family: "Open Sans", serif;
-  }
-
-  .title {    
+    display: block;
     font-weight: 400;
     font-size: 10vh;
     color: white;
@@ -177,29 +203,5 @@
   #language{
     width: auto;
     height: 100%;
-  }
-  
-  @media only screen and (max-width: 800px) {
-    #bufferCol{
-      display: none;
-    }
-    
-    .box {
-      margin-top: 30%;
-    }
-  }
-
-  @media only screen and (max-width: 450px) {
-    #_search {
-      width: 99%;
-    }
-
-    #language{
-      width: auto;
-      height: 55%;
-      margin-left: 5px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
   }
 </style>

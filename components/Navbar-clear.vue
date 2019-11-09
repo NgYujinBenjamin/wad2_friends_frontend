@@ -2,7 +2,6 @@
   <div id="nav-design">
     <b-navbar toggleable="lg">
       <b-navbar-brand href="#" class="navbar-brand">FRIENDS</b-navbar-brand>
-
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
@@ -11,8 +10,8 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
-              <i class="fas fa-user-circle fa-lg" style="color:white;"></i>
-              <span style="color:white;">{{username}}</span>
+              <i style="color: whitesmoke" class="fas fa-user-circle fa-lg"></i>
+              <span style="color: whitesmoke">{{username}}</span>
             </template>
             <b-dropdown-item href="/profile">Profile</b-dropdown-item>
             <b-dropdown-item href="#" @click="logout()">Sign Out</b-dropdown-item>
