@@ -59,7 +59,7 @@
 
           <v-card class="ml-3 my-3 overallCard" id="card-width">
             <!-- image -->
-            <v-img :aspect-ratio="16/9" :src="article.urlToImage">
+            <v-img :aspect-ratio="16/9" :src="article.urlToImage == null ? imgSet : article.urlToImage">
               <!-- hover effect -->
               <v-expand-transition>
                 <a v-if="hover" class="d-flex transition-fast-in-fast-out v-card--reveal card-link"
@@ -139,7 +139,8 @@
                     {code: "es", desc: "Spanish/español", isActive: false},
                     {code: "ar", desc: "Arabic/عربى", isActive: false},
                     {code: "zh", desc: "Chinese/中文", isActive: false}
-                ]
+                ],
+                imgSet: require('@/assets/noimageavailable.png')
             };
         },
         mounted: function () {
