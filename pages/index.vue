@@ -130,7 +130,6 @@
 
   body {
     font-family: "Open Sans", serif;
-    background-color: #272727;
   }
 
   .news-info {
@@ -169,10 +168,6 @@
 
   }
 
-  .logo {
-    margin: 2%;
-  }
-
   .title {
     font-family: "Open Sans", serif;
     display: block;
@@ -206,9 +201,5 @@
 
   .searchStyle {
     height: 100%;
-  }
-
-  select {
-    appearance: "caret";
   }
 </style>

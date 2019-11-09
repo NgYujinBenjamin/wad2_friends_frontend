@@ -6,10 +6,10 @@
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-        <input type="text" id="navbarSearch" width="200px" v-on:keyup="validateEnterkey" placeholder="Search">
+        <input type="text" id="navbarSearch" width="200px" v-on:keyup="validateEnterkey" placeholder="Search" v-if="username !== ''">
 
         <!-- Right aligned nav items -->
-        <b-collapse id="nav-collapse" is-nav>
+        <b-collapse id="nav-collapse" is-nav v-if="username !== ''">
           <b-navbar-nav class="ml-auto">
             <b-navbar-nav id="headerStyle">
               <b-nav-item href="/feed">Feed</b-nav-item>
@@ -48,8 +48,10 @@
             if (!localStorage.getItem("jwt")) {
                 this.$router.replace({name: "login"});
             }
-            const user = JSON.parse(localStorage.getItem("user"));
-            this.username = user.username;
+            if (localStorage.getItem("user")) {
+                const user = JSON.parse(localStorage.getItem("user"));
+                this.username = user.username;
+            }
         },
         methods: {
             logout() {
@@ -84,10 +86,8 @@
 
 <style scoped>
   #navbarSearch {
-    border: 1px solid
-    rgba(0,0,0,.06);
-    box-shadow: 0 1px 3px
-    rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.07);
+    border: 1px solid rgba(0, 0, 0, .06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .07);
     height: 42px;
 
     border-radius: 4px;
