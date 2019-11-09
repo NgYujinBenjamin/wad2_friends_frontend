@@ -1,56 +1,33 @@
 <template>
-  <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark" style="height: 6vh;">
-      <b-navbar-brand href="#">FRIENDS</b-navbar-brand>
+  <div style="height: 72px; border-bottom: 1px solid #efefef; z-index: 9999">
+    <div class="container">
+      <b-navbar toggleable="lg">
+        <b-navbar-brand href="/">FRIENDS</b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav id="headerStyle">
-          <b-nav-item href="/">Home</b-nav-item>
-          <b-nav-item href="/feed">News Feed</b-nav-item>
-          <b-nav-item href="/recommendations">Recommendation</b-nav-item>
-        </b-navbar-nav>
+        <input type="text" id="navbarSearch" width="200px" v-on:keyup="validateEnterkey" placeholder="Search">
 
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <i class="fas fa-search"></i>
-              </div>
-            </div>
-            <input type="text" id="navbarSearch" v-on:keyup="validateEnterkey" class="form-control" style="height:100%;"
-                   aria-label="Text input with checkbox">
-            <b-tooltip target="navbarSearch">Please ensure the search field is filled up!</b-tooltip>
-            <b-button size="sm" v-on:click="validate" class=" mx-2 my-2 my-sm-0" variant="outline-light" type="submit">
-              Search
-            </b-button>
-          </div>
-
-          <!--          <b-nav-item-dropdown right>-->
-          <!--            <template v-slot:button-content>-->
-          <!--              <i class="fas fa-globe-americas fa-lg"></i>-->
-          <!--              <span>Lang</span>-->
-          <!--            </template>-->
-          <!--            <b-dropdown-item href="#">EN</b-dropdown-item>-->
-          <!--            <b-dropdown-item href="#">ES</b-dropdown-item>-->
-          <!--            <b-dropdown-item href="#">RU</b-dropdown-item>-->
-          <!--            <b-dropdown-item href="#">FA</b-dropdown-item>-->
-          <!--          </b-nav-item-dropdown>-->
-
-          <b-nav-item-dropdown right>
-            <!-- Using 'button-content' slot -->
-            <template v-slot:button-content>
-              <i class="fas fa-user-circle fa-lg"></i>
-              <span>{{username}}</span>
-            </template>
-            <b-dropdown-item href="/profile">Profile</b-dropdown-item>
-            <b-dropdown-item href="#" @click="logout()">Sign Out</b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-navbar-nav id="headerStyle">
+              <b-nav-item href="/feed">News Feed</b-nav-item>
+              <b-nav-item href="/recommendations">Recommendation</b-nav-item>
+            </b-navbar-nav>
+            <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template v-slot:button-content>
+                <i class="fas fa-user-circle fa-lg"></i>
+                <span>{{username}}</span>
+              </template>
+              <b-dropdown-item href="/profile">Profile</b-dropdown-item>
+              <b-dropdown-item href="#" @click="logout()">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
   </div>
 </template>
 
@@ -106,4 +83,17 @@
 </script>
 
 <style scoped>
+  #navbarSearch {
+    border: 1px solid
+    rgba(0,0,0,.06);
+    box-shadow: 0 1px 3px
+    rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.07);
+    height: 42px;
+
+    border-radius: 4px;
+    font-size: 17px;
+    padding: 0 16px;
+    line-height: 2;
+    color: rgba(0, 0, 0, .6);
+  }
 </style>

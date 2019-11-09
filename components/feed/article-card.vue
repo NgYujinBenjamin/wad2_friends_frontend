@@ -7,11 +7,8 @@
       img-top
       :title="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"
     >
-      <div>
-        <em class="publisher"></em>
-        <em class="publisher"
-            v-text="article.source.name"></em>
-      </div>
+      <em class="publisher"
+          v-text="article.source.name"></em>
 
       <div class="f-card-footer">
         <hr>
@@ -159,6 +156,7 @@
 </script>
 
 <style scoped>
+
   .feed-card {
     height: 440px;
     margin-bottom: 20px;
@@ -173,6 +171,8 @@
 
   .card-title {
     font-weight: 700;
+    font-size: 22px;
+    height: 120px;
   }
 
   .card-text {

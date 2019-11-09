@@ -17,7 +17,7 @@
                         placeholder="Search for articles"></b-form-input>
         </div>
         <div class="col-md-3 text-left px-0">
-          <b-button v-on:click="validate" variant="info" class="searchStyle w-25 align-top">Search</b-button>
+          <b-button v-on:click="validate" variant="info" class="searchStyle">Search</b-button>
           <!--          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">-->
           <!--            <option disabled value="">Language</option>-->
           <!--            <option v-for="(language, index) in languages" v-bind:value="language['desc']">-->
@@ -64,21 +64,21 @@
                 const res = await this.$axios.$get(url);
                 this.article = res.articles[0];
             },
-            async getTrendingTopics() {
-                const headers = {
-                    'Authorization': 'OAuth oauth_consumer_key="WTS3meCTV0yuYVDGjXIO2Niaa",oauth_token="1168783151339933697-xgbQiWUTEZZ76k85aNNHaaYdGknuzl",oauth_signature_method="HMAC-SHA1",oauth_version="1.0"',
-                }
-
-                let topics = await this.$axios.$get('/twitter-api/1.1/trends/place.json?id=1', {
-                    headers: headers
-                }).catch(e => {
-                    this.$toast.error("Error: " + e.message, {
-                        icon: {name: "exclamation-triangle"}
-                    });
-                });
-
-                console.log(topics)
-            },
+            // async getTrendingTopics() {
+            //     const headers = {
+            //         'Authorization': 'OAuth oauth_consumer_key="WTS3meCTV0yuYVDGjXIO2Niaa",oauth_token="1168783151339933697-xgbQiWUTEZZ76k85aNNHaaYdGknuzl",oauth_signature_method="HMAC-SHA1",oauth_version="1.0"',
+            //     }
+            //
+            //     let topics = await this.$axios.$get('/twitter-api/1.1/trends/place.json?id=1', {
+            //         headers: headers
+            //     }).catch(e => {
+            //         this.$toast.error("Error: " + e.message, {
+            //             icon: {name: "exclamation-triangle"}
+            //         });
+            //     });
+            //
+            //     console.log(topics)
+            // },
             validate: function () {
                 // set default code to be english
                 let code = "en";
@@ -116,7 +116,7 @@
                 this.$router.replace({name: "login"});
             }
             this.fetchData()
-            this.getTrendingTopics()
+            // this.getTrendingTopics()
         }
     };
 </script>

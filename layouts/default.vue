@@ -1,7 +1,7 @@
 <template>
   <div>
-    <navbar-clear v-if="$route.path === '/' "></navbar-clear>
-    <navbar v-else></navbar>
+    <navbar-clear v-if="this.$route.fullPath === '/'"></navbar-clear>
+    <navbar style="margin-bottom: 20px" v-else></navbar>
     <div class="container">
       <nuxt/>
     </div>
