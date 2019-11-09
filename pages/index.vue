@@ -2,37 +2,32 @@
   <div class="container-fluid">
     <div class="main-container" v-bind:style="{ 'background-image': 'url(' + this.article.urlToImage + ')' }"></div>
     <!-- content -->
-    <div class="box">
+    <div class="box" style="padding-top: 80px">
       <h1 class="title text-center">FRIENDS</h1>
       <p class="text-center">Retrieve news articles from multiple platforms</p>
 
-      <!-- Error message -->
-<!--      <div v-bind:class="{'d-none':errStatus}" class="text-center">-->
-<!--        <i><b style="color: red;">Please enter your search term</b></i>-->
-<!--      </div>-->
-
-<!--      <div class="row">-->
-        <div class="col-md-12" style="display: flex; justify-content: center;">
-          <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
-                        placeholder="Search for articles"></b-form-input>
+      <div class="row">
+        <div class="col-lg-2" id="bufferCol"></div>
+        <!-- Search input field -->
+        <div class="col-lg-8 px-2">
+          <select v-model="select" class="form-control d-inline align-top float-left" id="language">
+            <option disabled value="">Article Language</option>
+            <option v-for="(language, index) in languages" v-bind:value="language['desc']">
+              {{ language['desc'] }}
+            </option>
+          </select>
+          <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg" placeholder="Search for articles"></b-form-input>
         </div>
-<!--        <div class="col-md-2 px-0">-->
-<!--          <b-button v-on:click="validate" variant="info" class="searchStyle">Search</b-button>-->
-<!--          &lt;!&ndash;          <select v-model="select" class="form-control d-inline" style="height: 100%; width:32%;">&ndash;&gt;-->
-<!--          &lt;!&ndash;            <option disabled value="">Language</option>&ndash;&gt;-->
-<!--          &lt;!&ndash;            <option v-for="(language, index) in languages" v-bind:value="language['desc']">&ndash;&gt;-->
-<!--          &lt;!&ndash;              {{ language['desc'] }}&ndash;&gt;-->
-<!--          &lt;!&ndash;            </option>&ndash;&gt;-->
-<!--          &lt;!&ndash;          </select>&ndash;&gt;-->
-<!--        </div>-->
-<!--      </div>-->
+      </div>
       <div class="col-md-12" style="display: flex; justify-content: center;">
-        <b-button class="align-self-center" variant="outline-info" style="width: 20%" href="/feed"><b>Latest News</b></b-button>
+        <b-button class="align-self-center" variant="outline-info" style="width: 20%" href="/feed"><b>Latest News</b>
+        </b-button>
       </div>
 
       <div class="news-info" v-if="Object.keys(this.article).length !== 0">
         <p style="color: whitesmoke">Latest Article</p>
-        <a :href="this.article.url" target="_blank"><p style="color: whitesmoke; font-weight: 700">{{this.article.title.lastIndexOf('-')
+        <a :href="this.article.url" target="_blank"><p style="color: whitesmoke; font-weight: 700">
+          {{this.article.title.lastIndexOf('-')
           === -1 ? this.article.title : this.article.title.substring(0, this.article.title.lastIndexOf(' - '))}}</p>
         </a>
       </div>
@@ -68,21 +63,6 @@
                 const res = await this.$axios.$get(url);
                 this.article = res.articles[0];
             },
-            // async getTrendingTopics() {
-            //     const headers = {
-            //         'Authorization': 'OAuth oauth_consumer_key="WTS3meCTV0yuYVDGjXIO2Niaa",oauth_token="1168783151339933697-xgbQiWUTEZZ76k85aNNHaaYdGknuzl",oauth_signature_method="HMAC-SHA1",oauth_version="1.0"',
-            //     }
-            //
-            //     let topics = await this.$axios.$get('/twitter-api/1.1/trends/place.json?id=1', {
-            //         headers: headers
-            //     }).catch(e => {
-            //         this.$toast.error("Error: " + e.message, {
-            //             icon: {name: "exclamation-triangle"}
-            //         });
-            //     });
-            //
-            //     console.log(topics)
-            // },
             validate: function () {
                 // set default code to be english
                 let code = "en";
@@ -167,8 +147,6 @@
   }
 
   .title {
-    font-family: "Open Sans", serif;
-    display: block;
     font-weight: 400;
     font-size: 10vh;
     color: white;
@@ -202,5 +180,29 @@
   #language{
     width: auto;
     height: 100%;
+  }
+
+  @media only screen and (max-width: 800px) {
+    #bufferCol{
+      display: none;
+    }
+
+    .box {
+      margin-top: 30%;
+    }
+  }
+
+  @media only screen and (max-width: 450px) {
+    #_search {
+      width: 99%;
+    }
+
+    #language{
+      width: auto;
+      height: 55%;
+      margin-left: 5px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
   }
 </style>
