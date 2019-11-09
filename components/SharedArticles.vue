@@ -16,6 +16,7 @@
           v-if="index%3 === 0"
         >
           <div class="row">
+            <div class="col" style="margin:auto; width:100%; position:relative;">
             <b-card
               class="card-shared d-inline"
               :img-src="article.urlToImage"
@@ -23,9 +24,14 @@
               img-height="100%"
               overlay
             >
-            <b-card-body v-text="article.title"></b-card-body>
-          </b-card>
-
+            <div style="margin:auto; display:flex;">
+              <button>Share</button>
+              <button>Bookmark</button>
+            </div>
+              <b-card-body style="width:100%; position: absolute;" v-text="article.title"></b-card-body>
+            </b-card>
+            </div>
+            <div class="col" style="position:relative;">
             <b-card
               class="card-shared d-inline"
               :img-src="articles[index+1].urlToImage"
@@ -33,9 +39,10 @@
               img-height="100%"
               overlay
             >
-            <b-card-body v-text="articles[index+1].title"></b-card-body>
-          </b-card>
-
+              <!-- <b-card-body v-text="articles[index+1].title"></b-card-body> -->
+            </b-card>
+            </div>
+            <div class="col" style="position:relative;">
             <b-card
               class="card-shared d-inline"
               :img-src="articles[index+2].urlToImage"
@@ -43,8 +50,9 @@
               img-height="100%"
               overlay
             >
-            <b-card-body v-text="articles[index+2].title"></b-card-body>
-          </b-card>
+              <!-- <b-card-body v-text="articles[index+2].title"></b-card-body> -->
+            </b-card>
+            </div>
           </div>
         </b-carousel-slide>
       </span>
@@ -329,6 +337,16 @@
       display: block !important;
     }
   }
-
+    
+  button {
+  background-color: #046307; /* Green */
+  border: none;
+  color: white;
+  padding: 4px 28px;
+  text-align: center;
+  font-size: 14px;
+  border-radius:32px;
+  margin-left: 35px;
+}
 
 </style>
