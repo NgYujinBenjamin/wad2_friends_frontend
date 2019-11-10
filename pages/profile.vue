@@ -105,13 +105,18 @@
                     headers: headers
                 });
 
+                // console.log(articles);
                 let _articles = articles;
 
                 for (let i = 0; i < articles.length; i++) {
                     let obj = {"name": articles[i].publisher}
                     _articles[i]["source"] = obj;
+                    _articles[i]["saved"] = true;
+                    _articles[i]["savedid"] = articles[i].id;
                     this.savedArticles.push(_articles[i]);
                 }
+
+                // console.log(this.savedArticles);
             },
         }
     };
