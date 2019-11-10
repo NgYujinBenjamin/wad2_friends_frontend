@@ -10,9 +10,9 @@
       <div class="row">
         <div class="col-lg-2" id="bufferCol"></div>
         <!-- Search input field -->
-        <div class="col-lg-8 px-2">
+        <div class="col-lg-8 px-2" id="search_div">
           <select v-model="select" class="form-control d-inline align-top float-left" id="language">
-            <option disabled value="">Article Language</option>
+            <option disabled value="">Language</option>
             <option v-for="(language, index) in languages" v-bind:value="language['desc']">
               {{ language['desc'] }}
             </option>
@@ -249,6 +249,7 @@
     width: auto;
     height: 100%;
   }
+
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
     .news-info {
@@ -265,6 +266,12 @@
 
     .box {
       margin-top: 30%;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    #language{
+      width: 20%;
     }
   }
 
