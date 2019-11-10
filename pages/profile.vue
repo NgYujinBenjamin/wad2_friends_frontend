@@ -1,8 +1,7 @@
 <template>
   <div id="profile" class="row">
-    <div class="col-lg-3 p-2"
-         style="background: #e9ecef; box-shadow:0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06)">
-      <div class="h3 mt-5" style="color:rgb(33, 33, 33); padding-left: 38px;">
+    <div class="col-xl-3 p-2 leftpanel">
+      <div class="h3 ml-4 paneltitle">
         <strong>Account Information</strong>
       </div>
 
@@ -23,6 +22,7 @@
             class="v-btn v-btn--contained v-btn--rounded theme--dark v-size--x-small float-right"
             size="x-small"
             id="emailVerification"
+            style="background-color:#48c9b0"
             disabled
           >
             <span class="v-btn__content text">
@@ -50,11 +50,11 @@
     </div>
 
     <div class="col">
-      <div class="h3 ml-3" style="color:rgb(33, 33, 33);">
+      <div class="h3 paneltitle">
         <strong>Bookmarked News</strong>
       </div>
 
-      <div v-if="this.savedArticles.length > 0" style="overflow: auto; height: 800px">
+      <div v-if="this.savedArticles.length > 0" class="row">
         <article-card v-for="article in savedArticles" v-bind:article="article" v-bind:key="article.url"></article-card>
       </div>
 
@@ -127,98 +127,20 @@
     font-size: 1rem;
   }
 
-  .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-    background-color: #48c9b0;
-    color: black;
-    font-weight: 700;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
+  .leftpanel{
+    background: whitesmoke; 
   }
 
-  .overallCard {
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
-    display: inline-block;
-    height: 400px;
-    max-width: 45%;
-  }
-
-  .card-title {
-    margin-top: 5px;
-    font-weight: 700;
-    font-size: 22px;
-    height: 140px;
-    overflow: hidden;
-    color: black;
-  }
-
-  .card-link {
-    height: 100%;
-    background-color: rgb(72, 201, 176);
-    color: black;
-    font-size: 4vh;
-    text-decoration: inherit;
-  }
-
-  .card-desc {
-    height: 150px;
-    font-size: 1.7vh;
-    line-height: 2.5vh;
-  }
-
-  .v-card--reveal {
-    align-items: center;
-    bottom: 0;
-    justify-content: center;
-    opacity: .7;
-    position: absolute;
-    width: 100%;
-  }
-
-  .publisher {
-    font-weight: 500;
-    text-transform: uppercase;
-  }
-
-  #noBookmark {
-    color: #e0e0e0;
-    margin-top: 50px;
+  .paneltitle{
+    color: rgb(33, 33, 33);
   }
 
   span.icon {
-    color: black;
+    color: white;
   }
 
   span.text {
     display: inline-block;
-  }
-
-  .articleButton {
-    right: 20%;
-  }
-
-  @media only screen and (max-width: 450px) {
-    .articleButton {
-      right: 25%;
-    }
-  }
-
-  @media only screen and (max-width: 800px) {
-    #card-width {
-      max-width: 100%;
-      margin-right: 1rem;
-    }
-
-    .articleButton {
-      right: 12%;
-    }
-  }
-
-  @media only screen and (max-width: 1500px) {
-    span.text {
-      display: none;
-    }
-
-    span.icon {
-      color: white;
-    }
+    padding-right: 3px;
   }
 </style>

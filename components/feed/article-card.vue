@@ -209,7 +209,7 @@
   }
 
   .articleButton {
-    right: 15%;
+    right: 16%;
   }
 
   .fa-heart {
@@ -227,24 +227,36 @@
     }
   }
 
-  @media only screen and (min-width: 700px) and (max-width: 1099px) {
-    #card-width {
-      max-width: 100%;
-      margin-right: 1rem;
-    }
-
+  @media only screen and (min-width: 700px) and (max-width: 999px) {
     .articleButton {
       right: 22%;
     }
+  }
 
+  @media only screen and (min-width: 700px) and (max-width: 1500px) {
     .overallCard {
       width: 47%;
     }
   }
 
-  @media only screen and (min-width: 1100px) and (max-width: 1500px) {
+  @media only screen and (min-width: 1000px) and (max-width: 1199px) {
     .articleButton {
-      right: 22%;
+      right: 18%;
     }
+  }
+</style>
+
+<style lang="scss">
+  .bg-primary{
+    background-color: #3b5998 !important;
+  }
+
+  .btn-primary{
+    background-color: #3b5998;
+    border-color: #3b5998;
+  }
+
+  .modal-content{
+    border: none;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 72px; border-bottom: 1px solid #efefef; z-index: 9999">
+  <div style="height: 72px; border-bottom: 1px solid #efefef; z-index: 1">
     <div class="container">
       <b-navbar id="navbar" toggleable="lg" style="background: white !important;" variant="light" type="light">
         <b-navbar-brand href="/">FRIENDS</b-navbar-brand>
