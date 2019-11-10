@@ -3,7 +3,7 @@
     <!--   previous b-carousel grey colour: #eceff1-->
     <div v-if="articles.length > 0">
       <b-carousel
-        :interval="100000"
+        :interval="4000"
         controls
         indicators
         background="#fffff"
@@ -17,22 +17,31 @@
           v-if="index%3 === 0"
         >
           <div class="row">
-            <feature-article-card class="d-inline halfCard" v-bind:article="article" v-bind:article-width="30"
-                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"
-                                 v-bind:key="article.url"></feature-article-card>
-            <feature-article-card class="d-inline halfCard" v-bind:article="articles[index+1]" v-bind:article-width="30"
-                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"
-                                 v-bind:key="articles[index+1].url"></feature-article-card>
-            <feature-article-card class="d-inline halfCard" v-bind:article="articles[index+2]" v-bind:article-width="30"
-                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"
-                                 v-bind:key="articles[index+2].url"></feature-article-card>
+<!--            <feature-article-card class="d-inline fullCard" v-bind:article="article" v-bind:article-width="30"-->
+            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"-->
+            <!--                                 v-bind:key="article.url"></feature-article-card>-->
+            <!--            <feature-article-card class="d-inline fullCard" v-bind:article="articles[index+1]" v-bind:article-width="30"-->
+            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"-->
+            <!--                                 v-bind:key="articles[index+1].url"></feature-article-card>-->
+            <!--            <feature-article-card class="d-inline fullCard" v-bind:article="articles[index+2]" v-bind:article-width="30"-->
+            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"-->
+            <!--                                 v-bind:key="articles[index+2].url"></feature-article-card>-->
+            <article-card class="fullCard" v-bind:article="article"
+                          v-bind:type="'full'" v-bind:key="article.url"></article-card>
+
+            <article-card class="fullCard" v-bind:article="articles[index+1]"
+                          v-bind:type="'full'" v-bind:key="articles[index+1].url"></article-card>
+
+            <article-card class="fullCard" v-bind:article="articles[index+2]"
+                          v-bind:type="'full'" v-bind:key="articles[index+2].url"></article-card>
+
           </div>
         </b-carousel-slide>
       </span>
       </b-carousel>
 
       <b-carousel
-        :interval="400000"
+        :interval="4000"
         controls
         indicators
         background="#ffffff"
@@ -45,12 +54,17 @@
           v-if="index%2 === 0"
         >
           <div class="row">
-            <feature-article-card class="d-inline halfCard" v-bind:article="article" v-bind:article-width="45"
-                                 v-bind:hover-text="'Read Article'" v-bind:type="'half'"
-                                 v-bind:key="article.url"></feature-article-card>
-            <feature-article-card class="d-inline halfCard" v-bind:article="articles[index+1]" v-bind:article-width="45"
-                                 v-bind:hover-text="'Read Article'" v-bind:type="'half'"
-                                 v-bind:key="articles[index+1].url"></feature-article-card>
+<!--            <feature-article-card class="d-inline halfCard" v-bind:article="article" v-bind:article-width="45"-->
+            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'half'"-->
+            <!--                                 v-bind:key="article.url"></feature-article-card>-->
+            <!--            <feature-article-card class="d-inline halfCard" v-bind:article="articles[index+1]" v-bind:article-width="45"-->
+            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'half'"-->
+            <!--                                 v-bind:key="articles[index+1].url"></feature-article-card>-->
+            <article-card class="halfCard" v-bind:article="article"
+                          v-bind:type="'half'" v-bind:key="article.url"></article-card>
+
+            <article-card class="halfCard" v-bind:article="articles[index+1]"
+                          v-bind:type="'half'" v-bind:key="articles[index+1].url"></article-card>
           </div>
         </b-carousel-slide>
       </span>
@@ -69,9 +83,12 @@
           v-for="(article,index) in articles"
           :key="index"
         >
-          <feature-article-card class="mobileCard" v-bind:article="article" v-bind:article-width="100"
-                               v-bind:hover-text="'Read Full Article'" v-bind:type="'mobile'"
-                               v-bind:key="article.url"></feature-article-card>
+          <!--          <feature-article-card class="mobileCard" v-bind:article="article" v-bind:article-width="100"-->
+          <!--                               v-bind:hover-text="'Read Full Article'" v-bind:type="'mobile'"-->
+          <!--                               v-bind:key="article.url"></feature-article-card>-->
+
+          <article-card class="mobileCard" v-bind:article="article"
+                        v-bind:type="'mobile'" v-bind:key="article.url"></article-card>
         </b-carousel-slide>
       </b-carousel>
     </div>
@@ -82,10 +99,11 @@
 <script>
     import "@fortawesome/fontawesome-free/css/all.css";
     import FeatureArticleCard from "./feature-article-card";
+    import ArticleCard from "~/components/feed/article-card";
 
     export default {
         name: "sharedArticles",
-        components: {FeatureArticleCard},
+        components: {FeatureArticleCard, ArticleCard},
         data: function () {
             return {
                 slides: 3,
@@ -151,8 +169,9 @@
                 let _articles = res;
 
                 for (let i = 0; i < _articles.length; i++) {
+                    _articles[i]["source"] = {"name": _articles[i].publisher};
                     _articles[i].language = res.language == null ? "en" : res.language;
-                    _articles[i].uniqueid = user.id + "|" + _articles[i].url
+                    _articles[i].uniqueid = user.id + "|" + _articles[i].url;
                     _articles[i].saved = false;
                 }
 
@@ -160,7 +179,7 @@
                     for (let i = 0; i < _articles.length; i++) {
                         if (_articles[i].uniqueid === savedArticles[y].uniqueid) {
                             _articles[i].saved = true;
-                            _articles[i].savedid = savedArticles[y].id
+                            _articles[i]["savedid"] = savedArticles[y].id;
                         }
                     }
                 }
@@ -273,44 +292,46 @@
     font-family: "Open Sans", serif;
   }
 
-  .image_sliders {
-    width: 100%;
-    height: 350px;
-    max-height: 350px !important;
-  }
-
-  /*#fullscreen .card-shared {*/
-  /*  width: 31%;*/
-  /*}*/
-
-  #fullscreen img.card-img {
-    width: 100%;
-    height: 211.19px;
-  }
-
-  #halfscreen .card-shared {
-    width: 48%;
-    margin-left: 1%;
-    margin-right: 1%;
-  }
-
-  #halfscreen img.card-img {
-    width: 100%;
-    height: 211.19px;
-  }
-
-  .halfCard.overallCard {
-    /*border: 1px solid red;*/
-    height: 250px;
-  }
-
-  .halfCard.overallCard.cardTextBlock.card-title {
-    border: 1px solid red !important;
-  }
-
   #mobile .image_sliders {
     height: 500px;
     max-height: 500px !important;
+  }
+
+  .mobileCard, .halfCard, .fullCard{
+    margin: 0 auto !important;
+  }
+
+  #halfscreen .image_sliders {
+    height: 400px;
+    max-height: 400px !important;
+  }
+
+  #fullscreen .image_sliders {
+    height: 450px;
+    max-height: 450px !important;
+  }
+
+  .halfCard.overallCard {
+    width: 46%;
+    overflow: hidden;
+  }
+
+  /* Updating fonts and margin from article-card */
+  .mobileCard.overallCard :nth-child(4) {
+    margin-top: 7%;
+    font-family: "Open Sans", serif;
+  }
+
+  .halfCard.overallCard :nth-child(4) {
+    font-size: 18px;
+    margin-top: 7%;
+    font-family: "Open Sans", serif;
+  }
+
+  .fullCard.overallCard :nth-child(4) {
+    margin-top: 7%;
+    font-weight: normal;
+    font-family: "Open Sans", serif;
   }
 
   @media only screen and (max-width: 4096px) {

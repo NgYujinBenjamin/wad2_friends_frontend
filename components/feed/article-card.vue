@@ -19,7 +19,7 @@
           <i :class="saved ? 'fas fa-heart fa-lg' : 'far fa-heart fa-lg'"></i>
         </v-btn>
         <!-- Share -->
-        <v-btn absolute color="whitesmoke" fab medium right top v-b-modal="article.url">
+        <v-btn absolute color="whitesmoke" fab medium right top v-b-modal="type+article.url">
           <i class="fas fa-share-alt fa-lg"></i>
         </v-btn>
         <!-- Details -->
@@ -29,7 +29,7 @@
       </v-card-text>
 
       <!-- Facebook Popup -->
-      <b-modal v-bind:id="article.url" header-bg-variant="primary"
+      <b-modal v-bind:id="type+article.url" header-bg-variant="primary"
                header-text-variant="light">
         <template v-slot:modal-header="{ close }">
           <h5><i class="fab fa-facebook-square fa-lg"></i> Share on Facebook</h5>
@@ -60,7 +60,7 @@
 <script>
     export default {
         name: "article-card",
-        props: ['article', 'index'],
+        props: ['article', 'index', 'type'],
         data() {
             return {
                 saved: this.article.saved,
@@ -241,7 +241,7 @@
     .overallCard {
       width: 47%;
     }
-    
+
     .articleButton {
       right: 25%;
     }

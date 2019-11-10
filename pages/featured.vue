@@ -52,25 +52,17 @@
     z-index: 1;
   }
 
-  @media only screen and (max-width: 1280px) {
+  @media only screen and (max-width: 4096px) {
     .backdrop_header {
-      position: absolute;
-      left: 13.5%;
+      left: 25%;
       top: 25%;
-      z-index: 2;
-      font-family: "Open Sans", serif;
-      display: block;
-      font-weight: 700;
       font-size: 90px;
-      color: whitesmoke;
-      letter-spacing: 1px;
-      text-shadow: 2px 2px 5px black;
     }
   }
 
   @media only screen and (max-width: 1000px) {
     .backdrop_header {
-      left: 7%;
+      left: 8%;
       top: 15%;
       font-size: 80px;
     }
@@ -80,6 +72,14 @@
   @media only screen and (max-width: 700px) {
     .backdrop_header {
       left: 7%;
+      top: 15%;
+      font-size: 60px;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .backdrop_header {
+      left: 4%;
       top: 15%;
       font-size: 60px;
     }
