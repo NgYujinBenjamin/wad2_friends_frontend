@@ -18,7 +18,10 @@
             </option>
           </select>
           <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
-                        placeholder="Search for articles"></b-form-input>
+                        placeholder="Search for articles" list="my-list-id"></b-form-input>
+          <datalist id="my-list-id">
+            <option v-for="trend in trends" v-bind:value="trend"  v-bind:label="trend"></option>
+          </datalist>
         </div>
       </div>
       <div class="col-md-12" style="display: flex; justify-content: center;">
@@ -59,7 +62,8 @@
                 articles: [],
                 article: {},
                 errStatus: true,
-                articleIndex: 0
+                articleIndex: 0,
+                trends: []
             };
         },
         methods: {
@@ -137,6 +141,10 @@
                       }
                   }, 10000);
               })
+            }
+            const trends_json = require('~/assets/trends.json')
+            for (let trend in trends_json[0].trends) {
+                this.trends.push(trends_json[0].trends[trend].name)
             }
         },
         updated: function () {

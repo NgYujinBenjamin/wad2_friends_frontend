@@ -42,7 +42,8 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
     '@nuxtjs/toast',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+    'modules/twitter'
   ],
 
   toast: {
@@ -68,14 +69,18 @@ export default {
     }
   },
   axios: {
-    proxy: true, // Can be also an object with default options,
-    proxyHeaders: true,
+    proxy: true,
   },
   proxy: {
     '/twitter-api/': {
       target: 'https://api.twitter.com',
       pathRewrite: {'^/twitter-api/': ''},
-      changeOrigin: true
+      onProxyReq(proxyReq, req, res) {
+        console.log(res);
+        proxyReq.setHeader('Authorization', req.headers['authorization'])
+      },
+      ws: true,
+      changeOrigin: true,
     },
     '/fb-api/': {target: 'https://graph.facebook.com', pathRewrite: {'^/fb-api/': ''}}
   }
