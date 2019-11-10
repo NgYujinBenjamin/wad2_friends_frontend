@@ -115,24 +115,29 @@
             }
         },
         mounted: function () {
-            this.fetchData()
-            // this.getTrendingTopics()
+            if (!localStorage.getItem("jwt")) {
+              this.$router.replace({ name: "login" });
+            }
+            else{
+              this.fetchData()
+              // this.getTrendingTopics()
 
-            this.changeCSS();
+              this.changeCSS();
 
-            this.$nextTick(function () {
-                window.setInterval(() => {
-                    if (this.articles.length > 0) {
-                        if (this.articleIndex < 2) {
-                            this.articleIndex += 1
-                            this.article = this.articles[this.articleIndex]
-                        } else {
-                            this.articleIndex = 0
-                            this.article = this.articles[this.articleIndex]
-                        }
-                    }
-                }, 10000);
-            })
+              this.$nextTick(function () {
+                  window.setInterval(() => {
+                      if (this.articles.length > 0) {
+                          if (this.articleIndex < 2) {
+                              this.articleIndex += 1
+                              this.article = this.articles[this.articleIndex]
+                          } else {
+                              this.articleIndex = 0
+                              this.article = this.articles[this.articleIndex]
+                          }
+                      }
+                  }, 10000);
+              })
+            }
         },
         updated: function () {
             if (this.article === null) {
