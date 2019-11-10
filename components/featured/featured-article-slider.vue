@@ -98,7 +98,6 @@
 
 <script>
     import "@fortawesome/fontawesome-free/css/all.css";
-    import FeatureArticleCard from "./feature-article-card";
     import ArticleCard from "~/components/feed/article-card";
 
     export default {
