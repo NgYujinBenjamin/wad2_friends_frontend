@@ -17,15 +17,6 @@
           v-if="index%3 === 0"
         >
           <div class="row">
-<!--            <feature-article-card class="d-inline fullCard" v-bind:article="article" v-bind:article-width="30"-->
-            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"-->
-            <!--                                 v-bind:key="article.url"></feature-article-card>-->
-            <!--            <feature-article-card class="d-inline fullCard" v-bind:article="articles[index+1]" v-bind:article-width="30"-->
-            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"-->
-            <!--                                 v-bind:key="articles[index+1].url"></feature-article-card>-->
-            <!--            <feature-article-card class="d-inline fullCard" v-bind:article="articles[index+2]" v-bind:article-width="30"-->
-            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'full'"-->
-            <!--                                 v-bind:key="articles[index+2].url"></feature-article-card>-->
             <article-card class="fullCard" v-bind:article="article"
                           v-bind:type="'full'" v-bind:key="article.url"></article-card>
 
@@ -34,7 +25,6 @@
 
             <article-card class="fullCard" v-bind:article="articles[index+2]"
                           v-bind:type="'full'" v-bind:key="articles[index+2].url"></article-card>
-
           </div>
         </b-carousel-slide>
       </span>
@@ -54,12 +44,6 @@
           v-if="index%2 === 0"
         >
           <div class="row">
-<!--            <feature-article-card class="d-inline halfCard" v-bind:article="article" v-bind:article-width="45"-->
-            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'half'"-->
-            <!--                                 v-bind:key="article.url"></feature-article-card>-->
-            <!--            <feature-article-card class="d-inline halfCard" v-bind:article="articles[index+1]" v-bind:article-width="45"-->
-            <!--                                 v-bind:hover-text="'Read Article'" v-bind:type="'half'"-->
-            <!--                                 v-bind:key="articles[index+1].url"></feature-article-card>-->
             <article-card class="halfCard" v-bind:article="article"
                           v-bind:type="'half'" v-bind:key="article.url"></article-card>
 
@@ -83,9 +67,6 @@
           v-for="(article,index) in articles"
           :key="index"
         >
-          <!--          <feature-article-card class="mobileCard" v-bind:article="article" v-bind:article-width="100"-->
-          <!--                               v-bind:hover-text="'Read Full Article'" v-bind:type="'mobile'"-->
-          <!--                               v-bind:key="article.url"></feature-article-card>-->
 
           <article-card class="mobileCard" v-bind:article="article"
                         v-bind:type="'mobile'" v-bind:key="article.url"></article-card>
@@ -93,30 +74,35 @@
       </b-carousel>
     </div>
 
+    <div v-else class="d-flex justify-content-center text-center" id="errorsearch">
+      <masonry :cols="1">:
+        <b-spinner v-if="pageLoader" style="width: 6rem; height: 6rem;" variant="secondary"
+                   label="Large Spinner"></b-spinner>
+        <div v-else>
+          <!--          <i class="far fa-frown fa-8x"></i>-->
+          <!--          Soeone help fix, if possible-->
+        </div>
+        <h1 v-text="msg"></h1>
+      </masonry>
+    </div>
+
   </div>
 </template>
 
 <script>
-    import "@fortawesome/fontawesome-free/css/all.css";
     import ArticleCard from "~/components/feed/article-card";
 
     export default {
-        name: "sharedArticles",
-        components: {FeatureArticleCard, ArticleCard},
+        name: "FeaturedArticleSlider",
+        components: {ArticleCard},
         data: function () {
             return {
                 slides: 3,
                 articles: [],
                 // get latest set of 12 articles shared
                 latest_shared_limit: 12,
-                savedMsg: "Bookmark news",
                 latest_sort_col: "id",
                 latest_sort_order: "DESC", // descending order;
-
-                model: 0,
-                showArrows: false,
-                hideDelimiters: false,
-                cycle: true,
 
                 // for profile
                 imgSet: require('@/assets/noimageavailable.png'),
@@ -124,13 +110,6 @@
                 saved: false,
                 pageLoader: true,
                 msg: "Loading...",
-                savedmsg: "Bookmark News",
-                languages: [
-                    {code: "en", desc: "English", isActive: false},
-                    {code: "es", desc: "Spanish/español", isActive: false},
-                    {code: "ar", desc: "Arabic/عربى", isActive: false},
-                    {code: "zh", desc: "Chinese/中文", isActive: false}
-                ],
             }
         },
         mounted: function () {
@@ -148,6 +127,7 @@
             };
 
             let url = "https://sa-api.eof.cx/articles?_limit=" + this.latest_shared_limit + "&_sort=" + this.latest_sort_col + ":" + this.latest_sort_order;
+            this.pageBuffer();
             this.fetchSharedArticles(url, config);
         },
         methods: {
@@ -206,9 +186,6 @@
                 };
 
                 if (article.saved) {
-                    this.savedMsg = "Bookmarked";
-                    article.saveMessage = "Bookmarked";
-
                     let data = {
                         "url": article.url,
                         "urlToImage": article.urlToImage,
@@ -232,8 +209,6 @@
                             {
                                 headers: headers
                             });
-                    this.savedMsg = "Bookmark";
-                    article.saveMessage = "Bookmark";
                 }
             },
             translate: function (index, language) {
@@ -279,6 +254,14 @@
                             icon: {name: "exclamation-triangle"}
                         });
                     });
+            },
+            pageBuffer: function () {
+                var set = this;
+                setTimeout(function () {
+                    // console.log("true");
+                    set.pageLoader = false;
+                    set.msg = "No results found";
+                }, 1000);
             }
         }
     }
@@ -291,12 +274,23 @@
     font-family: "Open Sans", serif;
   }
 
+  #errorsearch {
+    color: #e0e0e08d;
+    margin-top: 50px;
+  }
+
+  #errorsearch h1 {
+    color: #e0e0e0;
+    margin-top: 50px;
+    font-size: 3.5rem;
+  }
+
   #mobile .image_sliders {
     height: 500px;
     max-height: 500px !important;
   }
 
-  .mobileCard, .halfCard, .fullCard{
+  .mobileCard, .halfCard, .fullCard {
     margin: 0 auto !important;
   }
 
@@ -313,6 +307,10 @@
   .halfCard.overallCard {
     width: 46%;
     overflow: hidden;
+  }
+
+  .fa-10x {
+    font-size: 20em;
   }
 
   /* Updating fonts and margin from article-card */
