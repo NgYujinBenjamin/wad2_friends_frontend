@@ -144,6 +144,12 @@
     padding-right: 3px;
   }
 
+  @media only screen and (max-width: 700px) {
+    span.text {
+      display: none;
+    }
+  }
+
   /* Extra large devices (large laptops and desktops, 1200px and up) */
   @media only screen and (min-width: 1200px) {
 

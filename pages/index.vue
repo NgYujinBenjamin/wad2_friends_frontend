@@ -159,7 +159,7 @@
     border-radius: 5px;
     padding: 20px 20px;
     position: fixed;
-    bottom: 100px;
+    bottom: 50px;
     right: 100px;
     width: 500px;
   }
@@ -240,6 +240,14 @@
   #language {
     width: auto;
     height: 100%;
+  }
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    .news-info {
+      bottom: 0;
+      right: 0;
+      width: 100%;
+    }
   }
 
   @media only screen and (max-width: 800px) {

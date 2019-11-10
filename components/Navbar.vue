@@ -1,10 +1,10 @@
 <template>
-  <div style="height: 72px; border-bottom: 1px solid #efefef; z-index: 1">
+  <div style="height: 72px; z-index: 1">
     <div class="container">
       <b-navbar id="navbar" toggleable="lg" style="background: white !important;" variant="light" type="light">
-        <b-navbar-brand href="/">FRIENDS</b-navbar-brand>
+        <b-navbar-brand href="/" id="navtitle">FRIENDS</b-navbar-brand>
 
-        <input type="text" width="200px" id="navbarSearch" v-on:keyup="validateEnterkey" placeholder="Search"
+        <input type="text" id="navbarSearch" v-on:keyup="validateEnterkey" placeholder="Search"
                v-if="username !== ''">
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -30,6 +30,7 @@
         </b-collapse>
       </b-navbar>
     </div>
+    <div style="border-top: 1px solid #efefef;"></div>
   </div>
 </template>
 
@@ -93,7 +94,6 @@
 
   #navbar{
     position: relative;
-    top: -11px;
   }
 
   #navbarSearch {
@@ -105,6 +105,22 @@
     padding: 0 16px;
     line-height: 2;
     color: rgba(0, 0, 0, .6);
+    width: 400px;
+  }
+
+  .navbar{
+    padding: 0.5rem;
+  }
+
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    #navtitle{
+      display: none;
+    }
+        
+    #navbarSearch{
+      width: 200px;
+    } 
   }
 
 </style>
