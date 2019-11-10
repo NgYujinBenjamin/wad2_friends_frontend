@@ -106,7 +106,7 @@
                 });
 
                 // console.log(articles);
-                let _articles = articles;
+                let _articles = articles.reverse();
 
                 for (let i = 0; i < articles.length; i++) {
                     let obj = {"name": articles[i].publisher}
