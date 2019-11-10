@@ -55,57 +55,7 @@
       </div>
 
       <div v-if="this.savedArticles.length > 0" style="overflow: auto; height: 800px">
-        <v-hover v-slot:default="{ hover }" v-for="(article,index) in this.savedArticles" :key="index">
-          <v-card class="ml-3 my-3 overallCard" id="card-width">
-            <!-- image -->
-            <v-img :aspect-ratio="16/9" :src="article.urlToImage == null ? imgSet : article.urlToImage">
-              <!-- hover effect -->
-              <v-expand-transition>
-                <a v-if="hover" class="d-flex transition-fast-in-fast-out v-card--reveal card-link"
-                   :href="article.url" target="_blank">
-                  Read full article
-                </a>
-              </v-expand-transition>
-            </v-img>
-            <v-card-text style="position: relative;">
-              <!-- Bookmark -->
-              <v-btn absolute class="articleButton" color="rgb(72, 201, 176)" fab medium right top @click="deleteBookmark(index)" >
-                <i class="fas fa-heart fa-lg"></i>
-              </v-btn>
-              <!-- Share -->
-              <v-btn absolute color="rgb(72, 201, 176)" fab medium right top v-b-modal="'myModal' + index">
-                <i class="fa fa-share-alt fa-lg"></i>
-              </v-btn>
-              <!-- Details -->
-              <em class="font-weight-normal title mb-2 publisher" v-text="article.publisher"></em>
-              <h3 class="mb-2 card-title" v-text="article.title"></h3>
-<!--              <div class="font-weight-normal title mb-2 card-title card-desc" v-text="article.description"></div>-->
-            </v-card-text>
-            <!-- Facebook Popup -->
-            <b-modal v-bind:id="'myModal'+ index" :title="'Article '+index" header-bg-variant="primary" header-text-variant="light">
-              <template v-slot:modal-header="{ close }">
-                <h5><i class="fab fa-facebook-square fa-lg"></i> Share on Facebook</h5>
-              </template>
-
-              <template>
-                <textarea style="width: 100%; min-height: 150px;" v-text="article.description"></textarea>
-                <img alt="Article Image" :src="article.urlToImage" class="w-100"/>
-              </template>
-
-              <template v-slot:modal-footer="{ ok, cancel, hide }">
-                <b-dropdown id="dropdown-offset" variant="outline-info" offset="25" size="sm" text="Translate" class="m-2">
-                  <b-dropdown-item v-for="(language, index_lang) in languages" :key="index_lang" @click.prevent="translate(index,language.code)">
-                    {{language.desc}}
-                  </b-dropdown-item>
-                </b-dropdown>
-                <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancel</b-button>
-                <b-button size="sm" variant="primary" @click="postToFB(article.description, article.url)">
-                  Post to Facebook
-                </b-button>
-              </template>
-            </b-modal>
-          </v-card>
-        </v-hover>
+        <article-card v-for="article in savedArticles" v-bind:article="article" v-bind:key="article.url"></article-card>
       </div>
 
       <div v-else>
@@ -118,9 +68,10 @@
 
 <script>
     import changepassword from "~/components/changepassword.vue";
+    import ArticleCard from "~/components/feed/article-card";
 
     export default {
-        components: {changepassword},
+        components: {changepassword, ArticleCard},
         name: "profile",
         data() {
             return {
@@ -150,74 +101,17 @@
                 const headers = {
                     'Authorization': 'Bearer ' + jwt
                 };
-                this.savedArticles = await this.$axios.$get("https://sa-api.eof.cx/savedarticles?user=" + userId, {
+                const articles = await this.$axios.$get("https://sa-api.eof.cx/savedarticles?user=" + userId, {
                     headers: headers
                 });
-            },
-            translate: function (index, language) {
-                const config = {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Ocp-Apim-Subscription-Key": "d9e003958b7244daa92f6cd96ce39cdb"
-                    }
-                };
 
-                let currLanguage = this.savedArticles[index].language;
-                let url =
-                    "https://api-apc.cognitive.microsofttranslator.com/translate?api-version=3.0&from=" +
-                    currLanguage +
-                    "&to=" +
-                    language;
-                this.$axios
-                    .post(url, [{text: this.savedArticles[index].description}], config)
-                    .then(response => {
-                        let translated = response.data[0]["translations"];
-                        this.savedArticles[index].description = translated[0].text;
-                        // do not delete the line below, it is for user to change translation multiple times
-                        this.savedArticles[index].language = language;
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            },
-            deleteBookmark(i) {
-                let user = JSON.parse(localStorage.getItem("user"));
-                let jwt = localStorage.getItem("jwt");
+                let _articles = articles;
 
-                let article = this.savedArticles[i];
-                console.log(article);
-                article.isSaved = !article.isSaved;
-                this.$set(this.savedArticles, i, article)
-
-                const headers = {
-                    'Authorization': 'Bearer ' + jwt
+                for (let i = 0; i < articles.length; i++) {
+                    let obj = {"name": articles[i].publisher}
+                    _articles[i]["source"] = obj;
+                    this.savedArticles.push(_articles[i]);
                 }
-                this.$axios
-                    .delete(process.env.baseUrl + "/savedarticles/" + article.id,
-                        {
-                            headers: headers
-                        })
-                location.reload();
-            },
-            // Just FYI: Copied directly from feed without changing anything; assuming that it will work
-            postToFB: function (msg, link) {
-                let url = "fb-api/112606970182817/feed";
-                const token = "EAAHsGZAfkZA5MBAF3uRKqNZCxRZAMnKZAnHnNCnG8oe1aVTBBzjph3k51ELG4ziQkxqIrJWauL5WA22mwNfpLg7IoYRjJOJSJ3wFZAv8DnCbaWwiGNU1yt9Hi4goRsgt9DCHicqdr7dYar1vCQThI1TAaHBfqcYndBZC0y7xevV5zIL8VnFZANh8rD3OQcwz0ngZD";
-                let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
-                url += params;
-
-                this.$axios
-                    .post(url, [])
-                    .then(response => {
-                        this.$toast.success("Post Successfully Posted", {
-                            icon: {name: "check-circle"}
-                        });
-                    })
-                    .catch(e => {
-                        this.$toast.error("Error: " + e.message, {
-                            icon: {name: "exclamation-triangle"}
-                        });
-                    });
             },
         }
     };
@@ -251,16 +145,15 @@
     color: black;
   }
 
-  .card-link{
+  .card-link {
     height: 100%;
-    background-color:
-      rgb(72, 201, 176);
+    background-color: rgb(72, 201, 176);
     color: black;
     font-size: 4vh;
     text-decoration: inherit;
   }
 
-  .card-desc{
+  .card-desc {
     height: 150px;
     font-size: 1.7vh;
     line-height: 2.5vh;
@@ -275,7 +168,7 @@
     width: 100%;
   }
 
-  .publisher{
+  .publisher {
     font-weight: 500;
     text-transform: uppercase;
   }
@@ -293,22 +186,23 @@
     display: inline-block;
   }
 
-  .articleButton{
+  .articleButton {
     right: 20%;
   }
 
   @media only screen and (max-width: 450px) {
-    .articleButton{
+    .articleButton {
       right: 25%;
     }
   }
 
   @media only screen and (max-width: 800px) {
-    #card-width{
+    #card-width {
       max-width: 100%;
       margin-right: 1rem;
     }
-    .articleButton{
+
+    .articleButton {
       right: 12%;
     }
   }
@@ -317,6 +211,7 @@
     span.text {
       display: none;
     }
+
     span.icon {
       color: white;
     }
