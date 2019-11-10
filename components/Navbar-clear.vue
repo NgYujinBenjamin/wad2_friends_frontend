@@ -14,8 +14,7 @@
               <span style="color: whitesmoke">{{username}}</span>
             </template>
             <b-dropdown-item href="/profile">Profile</b-dropdown-item>
-            <b-dropdown-item href="#
-            " @click="logout()">Sign Out</b-dropdown-item>
+            <b-dropdown-item href="/login" @click="logout()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -49,7 +48,7 @@
             logout() {
                 localStorage.removeItem("jwt");
                 localStorage.removeItem("user");
-                this.$router.replace({name: "login"});
+                // this.$router.replace({name: "login"});
             },
             validate: function () {
                 // set default code to be english
