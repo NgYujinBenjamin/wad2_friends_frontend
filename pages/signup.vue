@@ -76,7 +76,13 @@
                             });
                         })
                         .catch(error => {
-                            this.$toast.error("Something has went wrong....", {
+                            let msg = error.response.data.message[0].messages[0].message
+
+                            if (!msg) {
+                                msg = "Unknown Error"
+                            }
+
+                            this.$toast.error(msg, {
                                 icon: {name: "bug"}
                             });
                         })
