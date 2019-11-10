@@ -18,13 +18,13 @@
         >
           <div class="row">
             <article-card class="fullCard" v-bind:article="article"
-                          v-bind:type="'full'" v-bind:key="article.url"></article-card>
+                          v-bind:type="'full'" v-bind:index="article.id" v-bind:key="article.url"></article-card>
 
             <article-card class="fullCard" v-bind:article="articles[index+1]"
-                          v-bind:type="'full'" v-bind:key="articles[index+1].url"></article-card>
+                          v-bind:type="'full'" v-bind:index="articles[index+1].id" v-bind:key="articles[index+1].url"></article-card>
 
             <article-card class="fullCard" v-bind:article="articles[index+2]"
-                          v-bind:type="'full'" v-bind:key="articles[index+2].url"></article-card>
+                          v-bind:type="'full'" v-bind:index="articles[index+2].id" v-bind:key="articles[index+2].url"></article-card>
           </div>
         </b-carousel-slide>
       </span>
@@ -45,10 +45,10 @@
         >
           <div class="row">
             <article-card class="halfCard" v-bind:article="article"
-                          v-bind:type="'half'" v-bind:key="article.url"></article-card>
+                          v-bind:type="'half'" v-bind:index="article.id" v-bind:key="article.url"></article-card>
 
             <article-card class="halfCard" v-bind:article="articles[index+1]"
-                          v-bind:type="'half'" v-bind:key="articles[index+1].url"></article-card>
+                          v-bind:type="'half'" v-bind:index="articles[index+1].id" v-bind:key="articles[index+1].url"></article-card>
           </div>
         </b-carousel-slide>
       </span>
@@ -69,7 +69,7 @@
         >
 
           <article-card class="mobileCard" v-bind:article="article"
-                        v-bind:type="'mobile'" v-bind:key="article.url"></article-card>
+                        v-bind:type="'mobile'" v-bind:index="article.id" v-bind:key="article.url"></article-card>
         </b-carousel-slide>
       </b-carousel>
     </div>

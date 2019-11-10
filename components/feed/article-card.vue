@@ -19,7 +19,7 @@
           <i :class="saved ? 'fas fa-heart fa-lg' : 'far fa-heart fa-lg'"></i>
         </v-btn>
         <!-- Share -->
-        <v-btn absolute color="whitesmoke" fab medium right top v-b-modal="type+article.url">
+        <v-btn absolute color="whitesmoke" fab medium right top v-b-modal="type+article.url+index">
           <i class="fas fa-share-alt fa-lg"></i>
         </v-btn>
         <!-- Details -->
@@ -30,7 +30,7 @@
       </v-card-text>
 
       <!-- Facebook Popup -->
-      <b-modal v-bind:id="type+article.url" header-bg-variant="primary"
+      <b-modal v-bind:id="type+article.url+index" header-bg-variant="primary"
                header-text-variant="light">
         <template v-slot:modal-header="{ close }">
           <h5><i class="fab fa-facebook-square fa-lg"></i> Share on Facebook</h5>
@@ -111,7 +111,7 @@
                 let sentences = [];
                 for (let i = 0; i < textSplit.length; i++) {
                     let currSentence = textSplit[i].trim();
-                    if(currSentence.length === 0){
+                    if (currSentence.length === 0) {
                         continue;
                     }
                     sentences.push(currSentence.charAt(0).toUpperCase() + currSentence.substring(1).toLowerCase() + ".");
@@ -130,7 +130,7 @@
                 };
 
                 if (!this.article.saved) {
-                    this.$set(this.article, 'saved', true)
+                    this.$set(this.article, 'saved', true);
                     let data = {
                         "url": this.article.url,
                         "urlToImage": this.article.urlToImage,
@@ -170,9 +170,10 @@
                 this.$axios
                     .post(url, [])
                     .then(response => {
-                        this.$toast.success("Post Successfully Posted", {
+                        this.$toast.success("Article Successfully Posted", {
                             icon: {name: "check-circle"}
                         });
+                        this.saveSharedArticle();
                     })
                     .catch(e => {
                         this.$toast.error("Error: " + e.message, {
@@ -180,6 +181,43 @@
                         });
                     });
             },
+            async saveSharedArticle() {
+                let user = JSON.parse(localStorage.getItem("user"));
+                let jwt = localStorage.getItem("jwt");
+
+                const headers = {
+                    'Authorization': 'Bearer ' + jwt
+                };
+
+                let data = {
+                    "url": this.article.url,
+                    "urlToImage": this.article.urlToImage,
+                    "title": this.article.title,
+                    "description": this.article.description,
+                    "user": user.id,
+                    "uniqueid": user.id + "|" + this.article.url,
+                    "language": "en",
+                    "publisher": this.article.source.name
+                };
+
+                await this.$axios.post(process.env.baseUrl + "/articles", data,
+                    {
+                        headers: headers
+                    });
+
+                // await this.$axios.post(process.env.baseUrl + "/articles", data,
+                //     {
+                //         headers: headers
+                //     }).then(response => {
+                //     this.$toast.success("Article has been saved in STRAPI", {
+                //         icon: {name: "check-circle"}
+                //     });
+                // }).catch(e => {
+                //     this.$toast.error("Error: " + e.message, {
+                //         icon: {name: "exclamation-triangle"}
+                //     });
+                // });
+            }
         }
     }
 </script>
