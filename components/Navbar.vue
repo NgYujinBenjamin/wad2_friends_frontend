@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 72px; z-index: 1">
+  <div style="height: 72px; z-index: 1" v-if="username !== null">
     <div class="container">
       <b-navbar id="navbar" toggleable="lg" style="background: white !important;" variant="light" type="light">
         <b-navbar-brand href="/" id="navtitle">FRIENDS</b-navbar-brand>
