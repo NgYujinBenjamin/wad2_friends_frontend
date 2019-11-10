@@ -209,7 +209,7 @@
   }
 
   .articleButton {
-    right: 16%;
+    right: 19%;
   }
 
   .fa-heart {
@@ -233,15 +233,15 @@
     }
   }
 
-  @media only screen and (min-width: 700px) and (max-width: 1500px) {
+  @media only screen and (min-width: 700px) and (max-width: 1900px) {
     .overallCard {
       width: 47%;
     }
   }
 
-  @media only screen and (min-width: 1000px) and (max-width: 1199px) {
+  @media only screen and (min-width: 1000px) and (max-width: 1900px) {
     .articleButton {
-      right: 18%;
+      right: 20%;
     }
   }
 </style>
