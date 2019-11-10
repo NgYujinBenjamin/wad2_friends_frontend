@@ -3,7 +3,7 @@
     <div v-if="articles.length > 0">
       <h1 class="f-h1" v-if="this.$route.fullPath === '/feed'">Top Stories</h1>
       <h1 class="f-h1" v-else v-text="this.$route.query.q"></h1>
-      <div>
+      <div class="row">
         <article-card v-for="article in articles" v-bind:article="article" v-bind:key="article.url"></article-card>
       </div>
 

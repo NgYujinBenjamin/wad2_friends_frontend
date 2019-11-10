@@ -165,18 +165,11 @@
 </script>
 
 <style scoped>
-  .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-    background-color: #48c9b0;
-    color: black;
-    font-weight: 700;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
-  }
-
   .overallCard {
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.02), 0px 2px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
     display: inline-block;
-    height: 400px;
-    max-width: 30%;
+    height: 100%;
+    width: 31%;
   }
 
   .card-title {
@@ -184,7 +177,6 @@
     font-weight: 700;
     font-size: 22px;
     height: 140px;
-    overflow: hidden;
     color: black;
   }
 
@@ -216,47 +208,43 @@
     text-transform: uppercase;
   }
 
-  #noBookmark {
-    color: #e0e0e0;
-    margin-top: 50px;
-  }
-
-  span.icon {
-    color: black;
-  }
-
-  span.text {
-    display: inline-block;
-  }
-
   .articleButton {
-    right: 20%;
+    right: 15%;
   }
 
-  @media only screen and (max-width: 450px) {
+  .fa-heart {
+    color: red;
+  }
+
+  @media only screen and (min-width: 300px) and (max-width: 699px) {
     .articleButton {
-      right: 25%;
+      right: 22%;
+    }
+    
+    .overallCard {
+      width: 100%;
+      margin-right: 1rem;
     }
   }
 
-  @media only screen and (max-width: 800px) {
+  @media only screen and (min-width: 700px) and (max-width: 1099px) {
     #card-width {
       max-width: 100%;
       margin-right: 1rem;
     }
 
     .articleButton {
-      right: 12%;
+      right: 22%;
+    }
+
+    .overallCard {
+      width: 47%;
     }
   }
 
-  @media only screen and (max-width: 1500px) {
-    span.text {
-      display: none;
-    }
-
-    span.icon {
-      color: white;
+  @media only screen and (min-width: 1100px) and (max-width: 1500px) {
+    .articleButton {
+      right: 22%;
     }
   }
 </style>
