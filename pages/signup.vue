@@ -95,18 +95,18 @@ export default {
         return false;
       }
       return true;
-    },
-    mounted: function() {
-      if (localStorage.getItem("jwt")) {
-        this.$router.replace({ name: "index" });
-      }
+    }
+  },
+  mounted: function() {
+    if (localStorage.getItem("jwt")) {
+      this.$router.replace({ name: "index" });
     }
   }
 };
 </script>
 
 <style scoped>
-  body {
-    background-color: white !important;
-  }
+body {
+  background-color: white !important;
+}
 </style>
