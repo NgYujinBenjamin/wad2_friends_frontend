@@ -6,18 +6,18 @@
         <img src="~/assets/feature_backdrop_v2.jpg" class="img-responsive w-100"/>
       </div>
 
-      <shared-articles></shared-articles>
+      <featured-article-slider></featured-article-slider>
     </div>
   </no-ssr>
 </template>
 
 <script>
-    import SharedArticles from "~/components/SharedArticles.vue";
+    import FeaturedArticleSlider from "../components/featured/featured-article-slider";
 
     export default {
         name: "recommendations",
         components: {
-            SharedArticles
+            FeaturedArticleSlider
         }
     };
 </script>
