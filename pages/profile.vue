@@ -2,7 +2,7 @@
   <div id="profile" class="row">
     <div class="col-xl-3 p-2 leftpanel">
       <div class="h3 ml-4 paneltitle">
-        <strong>Account Information</strong>
+        <strong>Account</strong>
       </div>
 
       <v-card
@@ -142,5 +142,30 @@
   span.text {
     display: inline-block;
     padding-right: 3px;
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+
+  }
+
+  @media only screen and (min-width: 1440px) {
+    .overallCard {
+      width: 47% !important;
+    }
+
+    .articleButton {
+      right: 20% !important;
+    }
+  }
+
+  @media only screen and (min-width: 1900px) {
+    .overallCard {
+      width: 32% !important;
+    }
+
+    .articleButton {
+      right: 19% !important;
+    }
   }
 </style>

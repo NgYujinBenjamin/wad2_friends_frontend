@@ -69,7 +69,8 @@
                     {code: "es", desc: "Spanish/español", isActive: false},
                     {code: "ar", desc: "Arabic/عربى", isActive: false},
                     {code: "zh", desc: "Chinese/中文", isActive: false}
-                ]
+                ],
+                imgSet: require('@/assets/noimageavailable.png')
             }
         },
         methods: {
@@ -209,39 +210,70 @@
   }
 
   .articleButton {
-    right: 19%;
+    right: 16%;
   }
 
   .fa-heart {
     color: red;
   }
 
-  @media only screen and (min-width: 300px) and (max-width: 699px) {
-    .articleButton {
-      right: 22%;
-    }
-    
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
     .overallCard {
       width: 100%;
       margin-right: 1rem;
     }
+
+    .articleButton {
+      right: 25%;
+    }
   }
 
-  @media only screen and (min-width: 700px) and (max-width: 999px) {
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  @media only screen and (min-width: 600px) {
+    .articleButton {
+      right: 16%;
+    }
+  }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .overallCard {
+      width: 47%;
+    }
+    
+    .articleButton {
+      right: 25%;
+    }
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .articleButton {
+      right: 20%;
+    }
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    .overallCard {
+      width: 31%;
+    }
+  }
+
+  @media only screen and (min-width: 1440px) {
     .articleButton {
       right: 22%;
     }
   }
 
-  @media only screen and (min-width: 700px) and (max-width: 1900px) {
+  @media only screen and (min-width: 1900px) {
     .overallCard {
-      width: 47%;
+      width: 32%;
     }
-  }
 
-  @media only screen and (min-width: 1000px) and (max-width: 1900px) {
     .articleButton {
-      right: 20%;
+      right: 15%;
     }
   }
 </style>
