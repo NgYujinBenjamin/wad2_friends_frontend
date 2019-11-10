@@ -24,8 +24,9 @@
         </v-btn>
         <!-- Details -->
         <em class="font-weight-normal title mb-2 publisher" v-text="article.source.name"></em>
-        <h3 class="mb-2 card-title" v-text="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"></h3>
-<!--        <div class="font-weight-normal title mb-2 card-title card-desc" v-text="article.description"></div>-->
+        <h3 class="mb-2 card-title"
+            v-text="article.title.lastIndexOf(' - ') === -1 ? article.title : article.title.substring(0, article.title.lastIndexOf(' - '))"></h3>
+        <!--        <div class="font-weight-normal title mb-2 card-title card-desc" v-text="article.description"></div>-->
       </v-card-text>
 
       <!-- Facebook Popup -->
@@ -36,7 +37,8 @@
         </template>
 
         <template>
-          <textarea style="width: 100%; min-height: 150px;" v-text="article.description"></textarea>
+          <textarea style="width: 100%; min-height: 150px;" v-model="article.description"
+                    v-text="article.description"></textarea>
           <img alt="Article Image" :src="article.urlToImage" class="w-100"/>
         </template>
 
@@ -88,17 +90,34 @@
                     currLanguage +
                     "&to=" +
                     language;
-                this.$axios
-                    .post(url, [{text: this.article.description}], config)
-                    .then(response => {
-                        let translated = response.data[0]["translations"];
-                        this.$set(this.article, 'description', translated[0].text)
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            },
 
+                if (currLanguage !== language) {
+                    this.$axios
+                        .post(url, [{text: this.article.description}], config)
+                        .then(response => {
+                            let translated = response.data[0]["translations"];
+                            let translatedText = translated[0].text;
+                            let text = language === "en" ? this.getProperText(translatedText) : translatedText;
+                            this.$set(this.article, 'description', text);
+                            this.$set(this.article, 'language', language);
+                        })
+                        .catch(e => {
+                            console.log(e);
+                        });
+                }
+            },
+            getProperText(text) {
+                let textSplit = text.split(".");
+                let sentences = [];
+                for (let i = 0; i < textSplit.length; i++) {
+                    let currSentence = textSplit[i].trim();
+                    if(currSentence.length === 0){
+                        continue;
+                    }
+                    sentences.push(currSentence.charAt(0).toUpperCase() + currSentence.substring(1).toLowerCase() + ".");
+                }
+                return sentences.join(" ");
+            },
             redirect(url) {
                 window.open(url, "_blank");
             },
@@ -108,7 +127,7 @@
 
                 const headers = {
                     'Authorization': 'Bearer ' + jwt
-                }
+                };
 
                 if (!this.article.saved) {
                     this.$set(this.article, 'saved', true)
@@ -122,13 +141,13 @@
                         "uniqueid": user.id + "|" + this.article.url,
                         "language": "en",
                         "publisher": this.article.source.name
-                    }
+                    };
 
                     this.$axios.post(process.env.baseUrl + "/savedarticles", data,
                         {
                             headers: headers
                         }).then(response => {
-                        this.$set(this.article, 'savedid', response.data.id)
+                        this.$set(this.article, 'savedid', response.data.id);
                         this.saved = true
                     })
 
@@ -137,8 +156,8 @@
                         .delete(process.env.baseUrl + "/savedarticles/" + this.article.savedid,
                             {
                                 headers: headers
-                            })
-                    this.$set(this.article, 'saved', false)
+                            });
+                    this.$set(this.article, 'saved', false);
                     this.saved = false
                 }
             },
@@ -279,16 +298,16 @@
 </style>
 
 <style lang="scss">
-  .bg-primary{
+  .bg-primary {
     background-color: #3b5998 !important;
   }
 
-  .btn-primary{
+  .btn-primary {
     background-color: #3b5998;
     border-color: #3b5998;
   }
 
-  .modal-content{
+  .modal-content {
     border: none;
   }
 </style>
