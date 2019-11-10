@@ -17,15 +17,15 @@
           v-if="index%3 === 0"
         >
           <div class="row">
-            <shared-article-card class="d-inline halfCard" v-bind:article="article" v-bind:article-width="30"
+            <feature-article-card class="d-inline halfCard" v-bind:article="article" v-bind:article-width="30"
                                  v-bind:hover-text="'Read Article'" v-bind:type="'full'"
-                                 v-bind:key="article.url"></shared-article-card>
-            <shared-article-card class="d-inline halfCard" v-bind:article="articles[index+1]" v-bind:article-width="30"
+                                 v-bind:key="article.url"></feature-article-card>
+            <feature-article-card class="d-inline halfCard" v-bind:article="articles[index+1]" v-bind:article-width="30"
                                  v-bind:hover-text="'Read Article'" v-bind:type="'full'"
-                                 v-bind:key="articles[index+1].url"></shared-article-card>
-            <shared-article-card class="d-inline halfCard" v-bind:article="articles[index+2]" v-bind:article-width="30"
+                                 v-bind:key="articles[index+1].url"></feature-article-card>
+            <feature-article-card class="d-inline halfCard" v-bind:article="articles[index+2]" v-bind:article-width="30"
                                  v-bind:hover-text="'Read Article'" v-bind:type="'full'"
-                                 v-bind:key="articles[index+2].url"></shared-article-card>
+                                 v-bind:key="articles[index+2].url"></feature-article-card>
           </div>
         </b-carousel-slide>
       </span>
@@ -45,12 +45,12 @@
           v-if="index%2 === 0"
         >
           <div class="row">
-            <shared-article-card class="d-inline halfCard" v-bind:article="article" v-bind:article-width="45"
+            <feature-article-card class="d-inline halfCard" v-bind:article="article" v-bind:article-width="45"
                                  v-bind:hover-text="'Read Article'" v-bind:type="'half'"
-                                 v-bind:key="article.url"></shared-article-card>
-            <shared-article-card class="d-inline halfCard" v-bind:article="articles[index+1]" v-bind:article-width="45"
+                                 v-bind:key="article.url"></feature-article-card>
+            <feature-article-card class="d-inline halfCard" v-bind:article="articles[index+1]" v-bind:article-width="45"
                                  v-bind:hover-text="'Read Article'" v-bind:type="'half'"
-                                 v-bind:key="articles[index+1].url"></shared-article-card>
+                                 v-bind:key="articles[index+1].url"></feature-article-card>
           </div>
         </b-carousel-slide>
       </span>
@@ -69,9 +69,9 @@
           v-for="(article,index) in articles"
           :key="index"
         >
-          <shared-article-card class="mobileCard" v-bind:article="article" v-bind:article-width="100"
+          <feature-article-card class="mobileCard" v-bind:article="article" v-bind:article-width="100"
                                v-bind:hover-text="'Read Full Article'" v-bind:type="'mobile'"
-                               v-bind:key="article.url"></shared-article-card>
+                               v-bind:key="article.url"></feature-article-card>
         </b-carousel-slide>
       </b-carousel>
     </div>
@@ -81,11 +81,11 @@
 
 <script>
     import "@fortawesome/fontawesome-free/css/all.css";
-    import SharedArticleCard from "../components/feed/shared-article-card";
+    import FeatureArticleCard from "./feature-article-card";
 
     export default {
         name: "sharedArticles",
-        components: {SharedArticleCard},
+        components: {FeatureArticleCard},
         data: function () {
             return {
                 slides: 3,
