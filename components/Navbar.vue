@@ -14,7 +14,7 @@
           <b-navbar-nav class="ml-auto">
             <b-navbar-nav id="headerStyle">
               <b-nav-item href="/feed">Feed</b-nav-item>
-              <b-nav-item href="/featured">Featured</b-nav-item>
+              <b-nav-item href="/shared">Shared</b-nav-item>
             </b-navbar-nav>
 
             <b-nav-item-dropdown right>
@@ -117,10 +117,10 @@
     #navtitle{
       display: none;
     }
-        
+
     #navbarSearch{
       width: 200px;
-    } 
+    }
   }
 
 </style>

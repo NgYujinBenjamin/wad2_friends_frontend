@@ -36,7 +36,7 @@ export default {
         },
     methods: {
         async fetchData() {
-            let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=4&domains=channelnewsasia.com,Yahoo.com";
+            let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=TOKEN&pageSize=4&domains=channelnewsasia.com,Yahoo.com";
             const res = await this.$axios.$get(url);
             let to_append = [];
             console.log(res.articles);

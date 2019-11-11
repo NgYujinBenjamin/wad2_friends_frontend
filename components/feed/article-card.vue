@@ -16,7 +16,7 @@
         <!-- Bookmark -->
         <v-btn absolute class="articleButton mr-2" color="whitesmoke" fab medium right top
                @click="saveNews()">
-          <i :class="saved ? 'fas fa-heart fa-lg' : 'far fa-heart fa-lg'"></i>
+          <i :class="saved ? 'fas fa-bookmark fa-lg' : 'far fa-bookmark fa-lg'"></i>
         </v-btn>
         <!-- Share -->
         <v-btn absolute color="whitesmoke" fab medium right top v-b-modal="type+article.url+index">
@@ -80,7 +80,7 @@
                 const config = {
                     headers: {
                         "Content-Type": "application/json",
-                        "Ocp-Apim-Subscription-Key": "d9e003958b7244daa92f6cd96ce39cdb"
+                        "Ocp-Apim-Subscription-Key": "TOKEN"
                     }
                 };
 
@@ -163,7 +163,7 @@
             },
             postToFB: function (msg, link) {
                 let url = "fb-api/112606970182817/feed";
-                const token = "EAAHsGZAfkZA5MBAF3uRKqNZCxRZAMnKZAnHnNCnG8oe1aVTBBzjph3k51ELG4ziQkxqIrJWauL5WA22mwNfpLg7IoYRjJOJSJ3wFZAv8DnCbaWwiGNU1yt9Hi4goRsgt9DCHicqdr7dYar1vCQThI1TAaHBfqcYndBZC0y7xevV5zIL8VnFZANh8rD3OQcwz0ngZD";
+                const token = "TOKEN";
                 let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
                 url += params;
 

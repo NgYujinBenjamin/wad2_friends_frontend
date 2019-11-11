@@ -215,7 +215,7 @@
                 const config = {
                     headers: {
                         "Content-Type": "application/json",
-                        "Ocp-Apim-Subscription-Key": "d9e003958b7244daa92f6cd96ce39cdb"
+                        "Ocp-Apim-Subscription-Key": "TOKEN"
                     }
                 };
 
@@ -238,7 +238,7 @@
             },
             postToFB: function (msg, link) {
                 let url = "https://graph.facebook.com/112606970182817/feed";
-                const token = "EAAHsGZAfkZA5MBAFQkVnEWb6bnS3lFRHMtLfvufQt9r2NJwAYspX6JBSZCA1WxZAMmh2QJZCJET4pZAA2kiDEsP8KM08jwAjnG26PZCdWNSybD75fO6dAGMZC7HX6yJSkVkgxr7uzYx1DmTUxWJzMsFLDPRElY8qZBy0QwdmfQFUYvdAWmE0LIBLovnThiLnPtmZBjGsb0MkaDFESkHgvc1mbZB";
+                const token = "TOKEN";
                 let params = "?message=" + msg + "&link=" + link + "&access_token=" + token;
                 url += params;
 

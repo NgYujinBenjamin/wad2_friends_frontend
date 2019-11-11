@@ -1,15 +1,15 @@
 <template>
   <no-ssr>
     <div v-if="articles.length > 0">
-      <h1 class="f-h1" v-if="this.$route.fullPath === '/feed'">Top Stories</h1>
+      <h1 class="f-h1" v-if="this.$route.fullPath === '/shared'">Shared Articles</h1>
       <h1 class="f-h1" v-else v-text="this.$route.query.q"></h1>
       <div class="row">
         <article-card v-for="article in articles" v-bind:article="article" v-bind:key="article.url"></article-card>
       </div>
 
-      <div style="display: flex; justify-content: center;">
-        <b-button class="align-self-center" variant="outline-primary" @click="loadMore()"><b>Load More</b></b-button>
-      </div>
+<!--      <div style="display: flex; justify-content: center;">-->
+<!--        <b-button class="align-self-center" variant="outline-primary" @click="loadMore()"><b>Load More</b></b-button>-->
+<!--      </div>-->
     </div>
 
     <div v-else class="d-flex justify-content-center text-center" id="errorsearch">
@@ -30,7 +30,7 @@
     import ArticleCard from "../components/feed/article-card";
 
     export default {
-        name: "feed",
+        name: "feedshared",
         components: {ArticleCard},
         data() {
             return {
@@ -41,32 +41,33 @@
                 articles: [],
                 page: 1,
                 url: "",
-                language: "en"
+                language: "en",
+                latest_shared_limit: 12,
+                latest_sort_col: "id",
+                latest_sort_order: "DESC"
             };
         },
         mounted: function () {
             if (!localStorage.getItem("jwt")) {
-              this.$router.replace({ name: "login" });
+                this.$router.replace({name: "login"});
             }
             // mounted will run functions after page is loaded
             let currURL = document.location.href;
-            let params = currURL.split("?");
-
-            if (params.length > 1) {
-                this.language = params[1].split("language=")[1];
-                params = params[1];
-                this.url = "https://newsapi.org/v2/everything?apiKey=TOKEN&" + params;
-            } else {
-                this.url = "https://newsapi.org/v2/top-headlines?country=sg&apiKey=TOKEN";
-            }
-
+            this.url = "https://sa-api.eof.cx/articles?_limit=12&_sort=id:DESC";
             this.pageBuffer();
             this.fetchData(this.url, this.language, this.page);
         },
         methods: {
             async fetchData(url, language, page) {
                 let user = JSON.parse(localStorage.getItem("user"));
-                const res = await this.$axios.$get(url + "&page=" + page);
+                let bearerToken = localStorage.getItem("jwt") ? localStorage.getItem("jwt") : this.$router.replace({name: "login"});
+                const config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + bearerToken
+                    }
+                };
+                const res = await this.$axios.$get(url, config);
 
                 let jwt = localStorage.getItem("jwt");
                 const headers = {
@@ -77,12 +78,13 @@
                     headers: headers
                 });
 
-                let _articles = res.articles
+                let _articles = res
 
                 for (let i = 0; i < _articles.length; i++) {
                     _articles[i].language = language;
                     _articles[i].uniqueid = user.id + "|" + _articles[i].url
                     _articles[i].saved = false;
+                    _articles[i].source = _articles[i].publisher || "";
                 }
 
                 for (let y = 0; y < savedArticles.length; y++) {

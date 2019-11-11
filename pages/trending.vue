@@ -59,12 +59,6 @@
                 </b-button>
               </template>
             </b-modal>
-
-            <!--          <div v-for="language in languages">-->
-            <!--            <button class="btn-outline-success" @click="translate(article.description,language.code)">-->
-            <!--              <span v-text="language.desc"></span>-->
-            <!--            </button>-->
-            <!--          </div>-->
           </b-card>
         </div>
       </masonry>
@@ -105,23 +99,13 @@
                 ]
             };
         },
-        // async asyncData({$axios}) {
-        // dont delete this asyncData first, it may be useful in the future
-        // asyncData is used to run function before a page is loaded
-        // let currURL = window.location.href;
-        // console.table(this.$route.query.page);
-        // console.log("Full path is " + params);
-        // console.log(currURL.split("?")[1]);
-        // const articles = await $axios.$get('https://newsapi.org/v2/top-headlines?country=sg&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&').then(res => res.articles)
-        // return {articles}
-        // },
         mounted: function () {
             // mounted will run functions after page is loaded
             let currURL = document.location.href;
             let params = currURL.split("?");
             // console.log("params", params, params.length);
             let language = "en";
-            let url = "https://newsapi.org/v2/top-headlines?country=sg&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=4";
+            let url = "https://newsapi.org/v2/top-headlines?country=sg&apiKey=TOKEN&pageSize=4";
 
             // console.log(params,language);
             this.pageBuffer();
@@ -132,7 +116,7 @@
                 const config = {
                     headers: {
                         "Content-Type": "application/json",
-                        "Ocp-Apim-Subscription-Key": "d9e003958b7244daa92f6cd96ce39cdb"
+                        "Ocp-Apim-Subscription-Key": "TOKEN"
                     }
                 };
 
@@ -185,7 +169,7 @@
             },
             postToBuffer: function (msg, link) {
                 let url = "https://graph.facebook.com/112606970182817/feed"
-                const token = "EAAHsGZAfkZA5MBAFQkVnEWb6bnS3lFRHMtLfvufQt9r2NJwAYspX6JBSZCA1WxZAMmh2QJZCJET4pZAA2kiDEsP8KM08jwAjnG26PZCdWNSybD75fO6dAGMZC7HX6yJSkVkgxr7uzYx1DmTUxWJzMsFLDPRElY8qZBy0QwdmfQFUYvdAWmE0LIBLovnThiLnPtmZBjGsb0MkaDFESkHgvc1mbZB"
+                const token = "TOKEN"
                 let params = "?message=" + msg + "&link=" + link + "&access_token=" + token
                 url += params
 

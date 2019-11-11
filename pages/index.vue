@@ -68,7 +68,7 @@
         },
         methods: {
             async fetchData() {
-                let url = "https://newsapi.org/v2/top-headlines?country=sg&apiKey=7b8d0f9048464a8fa74e3edf2c215b8d&pageSize=3";
+                let url = "https://newsapi.org/v2/top-headlines?country=sg&apiKey=TOKEN&pageSize=3";
 
                 const res = await this.$axios.$get(url);
                 this.articles = res.articles;

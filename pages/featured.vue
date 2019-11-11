@@ -2,7 +2,7 @@
   <no-ssr>
     <div>
       <div class="backdrop">
-        <h3 class="backdrop_header">Featured News</h3>
+        <h3 class="backdrop_header">Shared News</h3>
         <img src="~/assets/feature_backdrop_v2.jpg" class="img-responsive w-100"/>
       </div>
 

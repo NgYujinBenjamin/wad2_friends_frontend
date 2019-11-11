@@ -2,10 +2,10 @@ const Twitter = require('twitter')
 const fs = require('fs-extra')
 
 const client = new Twitter({
-  consumer_key: 'WTS3meCTV0yuYVDGjXIO2Niaa',
-  consumer_secret: '2ieA0TVp6QU5aFE6gxldRPITwMtQ08q3JDagcSL8kP3CI9nYyE',
-  access_token_key: '1168783151339933697-xgbQiWUTEZZ76k85aNNHaaYdGknuzl',
-  access_token_secret: 'WiaLIwJfFTGl7se6lpQyzIfLLiaS0rT2EmhivaIcgeWBe'
+  consumer_key: 'KEY',
+  consumer_secret: 'Secret',
+  access_token_key: 'TOKEN',
+  access_token_secret: 'Secret'
 })
 
 const endpoint = 'trends/place.json'
