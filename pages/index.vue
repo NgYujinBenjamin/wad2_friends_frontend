@@ -20,7 +20,7 @@
           <b-form-input id="_search" v-on:keyup="validateEnterkey" size="lg"
                         placeholder="Search for articles" list="my-list-id"></b-form-input>
           <datalist id="my-list-id">
-            <option v-for="trend in trends" v-bind:value="trend"  v-bind:label="trend"></option>
+            <option v-for="trend in trends" v-bind:value="trend" v-bind:label="trend"></option>
           </datalist>
         </div>
       </div>
@@ -47,7 +47,7 @@
     export default {
         components: {
             Logo,
-           // Carousel
+            // Carousel
         },
         name: "landing",
         data() {
@@ -120,31 +120,32 @@
         },
         mounted: function () {
             if (!localStorage.getItem("jwt")) {
-              this.$router.replace({ name: "login" });
-            }
-            else{
-              this.fetchData()
-              // this.getTrendingTopics()
+                this.$router.replace({name: "login"});
+            } else {
+                this.fetchData()
+                // this.getTrendingTopics()
 
-              this.changeCSS();
+                this.changeCSS();
 
-              this.$nextTick(function () {
-                  window.setInterval(() => {
-                      if (this.articles.length > 0) {
-                          if (this.articleIndex < 2) {
-                              this.articleIndex += 1
-                              this.article = this.articles[this.articleIndex]
-                          } else {
-                              this.articleIndex = 0
-                              this.article = this.articles[this.articleIndex]
-                          }
-                      }
-                  }, 10000);
-              })
+                this.$nextTick(function () {
+                    window.setInterval(() => {
+                        if (this.articles.length > 0) {
+                            if (this.articleIndex < 2) {
+                                this.articleIndex += 1
+                                this.article = this.articles[this.articleIndex]
+                            } else {
+                                this.articleIndex = 0
+                                this.article = this.articles[this.articleIndex]
+                            }
+                        }
+                    }, 10000);
+                })
             }
             const trends_json = require('~/assets/trends.json')
             for (let trend in trends_json[0].trends) {
-                this.trends.push(trends_json[0].trends[trend].name)
+                if (!trends_json[0].trends[trend].name.startsWith("#")) {
+                    this.trends.push(trends_json[0].trends[trend].name)
+                }
             }
         },
         updated: function () {
@@ -270,7 +271,7 @@
   }
 
   @media only screen and (max-width: 500px) {
-    #language{
+    #language {
       width: 20%;
     }
   }
