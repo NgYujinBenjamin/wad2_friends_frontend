@@ -6,7 +6,7 @@
         <p class="h1 text-center mb-4" style="color:#616161;">
           <strong>Sign in</strong>
         </p>
-        <label for="LoginUsername" class="font-weight-bold" style="color:#616161;">Your username</label>
+        <label for="LoginUsername" class="font-weight-bold" style="color:#616161;">Your Username/Email</label>
         <input type="username" v-model="username" id="LoginUsername" class="form-control" required />
         <div class="mt-2">
           <label
